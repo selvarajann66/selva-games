@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#05030b">
+<title>Selva Games</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section id="splash" class="screen active splash-screen">
+  <div class="splash-glow"></div>
+  <div class="splash-content">
+    <img src="assets/selva_logo.png" class="selva-logo" alt="Selva">
+    <h1>ANIME MUSIC</h1>
+    <div class="loading-line"><span></span></div>
+    <div class="splash-caption">GAME CENTER</div>
+  </div>
+</section>
+
+<section id="portal" class="screen portal-screen hidden">
+  <div class="portal-bg"></div>
+  <header class="portal-header">
+    <button id="portalBack" class="icon-btn" aria-label="Back">‹</button>
+    <div><div class="eyebrow">ANIME MUSIC</div><h1>GAME CENTER</h1></div>
+  </header>
+  <main class="game-list">
+    <article class="game-card">
+      <div class="game-icon">🚀</div>
+      <div class="game-info">
+        <h2>DOODLE JUMP</h2>
+        <p>Run • Jump • Survive</p>
+        <strong id="portalBest">BEST: 00000</strong>
+      </div>
+      <button id="portalPlay" class="play-btn">PLAY</button>
+    </article>
+  </main>
+</section>
+
+<section id="gameScreen" class="screen game-screen hidden">
+  <canvas id="gameCanvas"></canvas>
+  <div class="top-ui">
+    <button id="gameBack" class="round-ui">‹</button>
+    <div class="score-box"><b id="scoreText">00000</b><span id="hiText">HI 00000</span></div>
+    <button id="pauseBtn" class="round-ui pause-ui">Ⅱ</button>
+  </div>
+  <div class="inventory-ui">
+    <span>🛡 <b id="shieldCount">0</b></span>
+    <span>💎 <b id="gemCount">0</b></span>
+    <span>🚀 <b id="jetpackCount">0</b></span>
+  </div>
+  <div id="mobileControls" class="mobile-controls" aria-hidden="true">
+    <button id="leftControl">‹</button><button id="rightControl">›</button>
+  </div>
+  <div id="readyOverlay" class="overlay">
+    <div class="panel ready-panel">
+      <div class="panel-kicker">DOODLE JUMP</div><h2>SELECT DIFFICULTY</h2>
+      <div id="difficultyButtons" class="difficulty-grid">
+        <button data-difficulty="EASY">EASY</button><button data-difficulty="NORMAL">NORMAL</button>
+        <button data-difficulty="HARD">HARD</button><button data-difficulty="ULTRA HARD">ULTRA HARD</button>
+      </div>
+      <button id="shopOpen" class="primary-btn">SHOP</button>
+      <button id="startBtn" class="ghost-btn">TAP TO START</button>
+      <button id="devOpen" class="dev-link">DEV</button>
+    </div>
+  </div>
+  <div id="pauseOverlay" class="overlay hidden"><div class="panel small-panel"><div class="panel-kicker">PAUSED</div><h2>GAME PAUSED</h2><button id="resumeBtn" class="primary-btn">RESUME</button><button id="restartBtn" class="ghost-btn">RESTART</button><button id="pausePortalBtn" class="ghost-btn">BACK TO PORTAL</button></div></div>
+  <div id="gameOverOverlay" class="overlay hidden"><div class="panel small-panel"><div class="panel-kicker">RUN COMPLETE</div><h2>GAME OVER</h2><p id="finalScore">SCORE 0</p><button id="gameOverRestart" class="primary-btn">RESTART</button><button id="gameOverPortal" class="ghost-btn">BACK TO PORTAL</button></div></div>
+  <div id="shopOverlay" class="overlay hidden"><div class="panel shop-panel"><div class="shop-head"><div><div class="panel-kicker">UPGRADES</div><h2>SPACE SHOP</h2></div><button id="shopClose" class="close-btn">×</button></div><div class="shop-coins">🪙 <b id="shopCoins">0</b></div><div class="shop-grid"><button class="shop-item" data-buy="gem"><b>💎 GEM</b><span>100 coins</span></button><button class="shop-item" data-buy="heart"><b>❤️ HEART</b><span>150 coins</span></button><button class="shop-item" data-buy="shield"><b>🛡 SHIELD</b><span>200 coins</span></button><button class="shop-item" data-buy="jetpack"><b>🚀 JETPACK</b><span>250 coins</span></button></div></div></div>
+  <div id="devOverlay" class="overlay hidden"><div class="panel small-panel"><div class="panel-kicker">DEVELOPER</div><h2>DEV MODE</h2><button id="jetpackToggle" class="primary-btn">JETPACK MODE: OFF</button><button id="devClose" class="ghost-btn">CLOSE</button></div></div>
+</section>
+<script src="game.js"></script>
+</body>
+</html>
