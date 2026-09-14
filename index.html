@@ -1,404 +1,572 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#05030b">
-<title>Selva Games</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SELVA WEB</title>
+
+  <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        color: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: #000;
+    }
+
+    /* =====================================================
+       COMMON SCREEN
+    ===================================================== */
+
+    .screen {
+        width: 100%;
+        height: 100vh;
+        background: #000;
+    }
+
+    /* =====================================================
+       SPLASH
+    ===================================================== */
+
+    #splash {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+    }
+
+    #logoVideo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+    }
+
+    /* =====================================================
+       WELCOME
+    ===================================================== */
+
+    #welcomePage {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        background: #000;
+    }
+
+    #welcomePage h1 {
+        font-family:
+            Impact,
+            Haettenschweiler,
+            "Arial Black",
+            sans-serif;
+
+        font-size: clamp(60px, 12vw, 150px);
+        font-weight: 900;
+        letter-spacing: 12px;
+        text-transform: uppercase;
+
+        color: #000;
+
+        -webkit-text-stroke: 3px #fff;
+
+        text-shadow:
+            0 0 10px rgba(255,255,255,0.8),
+            0 0 30px rgba(255,255,255,0.4);
+    }
+
+    #welcomePage p {
+        margin-top: 15px;
+
+        color: #fff;
+
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 8px;
+    }
+
+    /* =====================================================
+       SELVA WEB PAGE
+    ===================================================== */
+
+    #selvaWebPage {
+        display: none;
+        flex-direction: column;
+        background: #000;
+        color: #fff;
+    }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .web-header {
+        width: 100%;
+        height: 90px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        border-bottom: 1px solid rgba(255,255,255,0.18);
+
+        flex-shrink: 0;
+    }
+
+    .web-header h1 {
+        font-family:
+            Impact,
+            Haettenschweiler,
+            "Arial Black",
+            sans-serif;
+
+        font-size: 30px;
+        font-weight: 900;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+
+        /*
+         * Border / outlined text
+         */
+        color: #000;
+
+        -webkit-text-stroke: 1.5px #fff;
+
+        text-shadow:
+            0 0 8px rgba(255,255,255,0.7),
+            0 0 18px rgba(255,255,255,0.35);
+    }
+
+    .header-line {
+        width: 90px;
+        height: 2px;
+
+        margin-top: 8px;
+
+        background: #fff;
+
+        box-shadow:
+            0 0 10px rgba(255,255,255,0.7);
+    }
+
+    /* =====================================================
+       MAIN MENU
+    ===================================================== */
+
+    .web-content {
+        flex: 1;
+
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 30px 20px;
+
+        overflow-y: auto;
+    }
+
+    .menu-container {
+        width: min(600px, 100%);
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 22px;
+    }
+
+    /* =====================================================
+       MENU SECTION
+    ===================================================== */
+
+    .menu-section {
+        position: relative;
+
+        width: 100%;
+
+        padding: 26px 28px;
+
+        border: 1px solid rgba(255,255,255,0.45);
+        border-radius: 8px;
+
+        background: rgba(255,255,255,0.03);
+
+        cursor: pointer;
+
+        transition:
+            transform 0.25s ease,
+            background 0.25s ease,
+            border-color 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    .menu-section:hover {
+        transform: translateY(-4px);
+
+        border-color: #fff;
+
+        background: rgba(255,255,255,0.08);
+
+        box-shadow:
+            0 0 20px rgba(255,255,255,0.18),
+            inset 0 0 18px rgba(255,255,255,0.03);
+    }
+
+    .menu-section:active {
+        transform: scale(0.98);
+    }
+
+    /* =====================================================
+       MENU TITLE
+    ===================================================== */
+
+    .menu-section h2 {
+        font-family:
+            Impact,
+            Haettenschweiler,
+            "Arial Black",
+            sans-serif;
+
+        font-size: 26px;
+        font-weight: 900;
+        letter-spacing: 3px;
+
+        text-transform: uppercase;
+
+        color: #000;
+
+        -webkit-text-stroke: 1px #fff;
+
+        text-shadow:
+            0 0 8px rgba(255,255,255,0.35);
+    }
+
+    .menu-section p {
+        margin-top: 9px;
+
+        color: #aaa;
+
+        font-size: 13px;
+        line-height: 1.5;
+        letter-spacing: 1px;
+    }
+
+    /* =====================================================
+       MENU ARROW
+    ===================================================== */
+
+    .menu-arrow {
+        position: absolute;
+
+        right: 25px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #fff;
+
+        font-size: 25px;
+
+        transition:
+            transform 0.25s ease;
+    }
+
+    .menu-section:hover .menu-arrow {
+        transform:
+            translateY(-50%)
+            translateX(5px);
+    }
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .web-header {
+            height: 80px;
+        }
+
+        .web-header h1 {
+            font-size: 23px;
+            letter-spacing: 4px;
+
+            -webkit-text-stroke: 1.2px #fff;
+        }
+
+        .header-line {
+            width: 70px;
+        }
+
+        .web-content {
+            padding: 20px 16px;
+        }
+
+        .menu-container {
+            gap: 16px;
+        }
+
+        .menu-section {
+            padding: 22px 20px;
+        }
+
+        .menu-section h2 {
+            font-size: 21px;
+            letter-spacing: 2px;
+        }
+
+        .menu-section p {
+            font-size: 12px;
+            padding-right: 30px;
+        }
+
+        .menu-arrow {
+            right: 17px;
+            font-size: 21px;
+        }
+    }
+
+    /* =====================================================
+       SMALL PHONES
+    ===================================================== */
+
+    @media (max-height: 600px) {
+
+        .web-header {
+            height: 70px;
+        }
+
+        .web-content {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .menu-section {
+            padding: 18px 20px;
+        }
+
+        .menu-section h2 {
+            font-size: 20px;
+        }
+
+        .menu-container {
+            gap: 12px;
+        }
+    }
+  </style>
 </head>
 
 <body>
 
-<section id="splash" class="screen active splash-screen">
-  <div class="splash-glow"></div>
+<!-- =====================================================
+     SELVA LOGO SPLASH
+===================================================== -->
 
-  <div class="splash-content">
-    <img
-      src="assets/selva_logo.png"
-      class="selva-logo"
-      alt="Selva"
-    >
+<section id="splash" class="screen">
 
-    <h1>ANIME MUSIC</h1>
+  <video
+          id="logoVideo"
+          autoplay
+          muted
+          playsinline
+          preload="auto"
+          poster="assets/selva_logo.png">
 
-    <div class="loading-line">
-      <span></span>
-    </div>
+    <source
+            src="assets/selva_logo.mp4"
+            type="video/mp4">
 
-    <div class="splash-caption">
-      GAME CENTER
-    </div>
-  </div>
+  </video>
+
 </section>
 
 
-<section id="portal" class="screen portal-screen hidden">
+<!-- =====================================================
+     WELCOME PAGE
+===================================================== -->
 
-  <div class="portal-bg"></div>
+<section id="welcomePage" class="screen">
 
-  <header class="portal-header">
-    <button
-      id="portalBack"
-      class="icon-btn"
-      aria-label="Back"
-    >‹</button>
+  <h1>WELCOME</h1>
 
-    <div>
-      <div class="eyebrow">ANIME MUSIC</div>
-      <h1>GAME CENTER</h1>
-    </div>
+  <p>TO SELVA WEB</p>
+
+</section>
+
+
+<!-- =====================================================
+     SELVA WEB HOME
+===================================================== -->
+
+<section id="selvaWebPage" class="screen">
+
+  <!-- HEADER -->
+
+  <header class="web-header">
+
+    <h1>SELVA WEB</h1>
+
+    <div class="header-line"></div>
+
   </header>
 
-  <main class="game-list">
 
-    <article class="game-card">
+  <!-- MENU -->
 
-      <div class="game-icon">🚀</div>
+  <main class="web-content">
 
-      <div class="game-info">
-        <h2>DOODLE JUMP</h2>
-        <p>Run • Jump • Survive</p>
-        <strong id="portalBest">BEST: 00000</strong>
+    <div class="menu-container">
+
+
+      <!-- =================================================
+           GAME CENTER
+      ================================================== -->
+
+      <div
+              class="menu-section"
+              id="gameCenterButton"
+              onclick="goToGameCenter()">
+
+        <h2>
+          GO TO GAME CENTER
+        </h2>
+
+        <p>
+          Play games and explore the SELVA Game Center.
+        </p>
+
+        <span class="menu-arrow">
+                        →
+                    </span>
+
       </div>
 
-      <button
-        id="portalPlay"
-        class="play-btn"
-      >
-        PLAY
-      </button>
 
-    </article>
+      <!-- =================================================
+           APPS
+      ================================================== -->
+
+      <div
+              class="menu-section"
+              id="appsButton"
+              onclick="goToApps()">
+
+        <h2>
+          GO TO APPS
+        </h2>
+
+        <p>
+          Explore SELVA apps and projects.
+        </p>
+
+        <span class="menu-arrow">
+                        →
+                    </span>
+
+      </div>
+
+
+    </div>
 
   </main>
 
 </section>
 
 
-<section id="gameScreen" class="screen game-screen hidden">
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
 
-  <canvas id="gameCanvas"></canvas>
+<script>
 
+  const logoVideo =
+      document.getElementById("logoVideo");
 
-  <!-- TOP GAME UI -->
-  <div class="top-ui">
+  const splash =
+      document.getElementById("splash");
 
-    <button
-      id="gameBack"
-      class="round-ui"
-    >‹</button>
+  const welcomePage =
+      document.getElementById("welcomePage");
 
-    <div class="score-box">
-      <b id="scoreText">00000</b>
-      <span id="hiText">HI 00000</span>
-    </div>
+  const selvaWebPage =
+      document.getElementById("selvaWebPage");
 
-    <button
-      id="pauseBtn"
-      class="round-ui pause-ui"
-    >Ⅱ</button>
 
-  </div>
+  /* =====================================================
+     SHOW WELCOME
+  ===================================================== */
 
+  function showWelcome() {
 
-  <!-- INVENTORY -->
-  <div class="inventory-ui">
+      splash.style.display = "none";
 
-    <span>
-      🛡 <b id="shieldCount">0</b>
-    </span>
+      welcomePage.style.display = "flex";
 
-    <span>
-      💎 <b id="gemCount">0</b>
-    </span>
+      setTimeout(function () {
 
-    <span>
-      🚀 <b id="jetpackCount">0</b>
-    </span>
+          welcomePage.style.display = "none";
 
-  </div>
+          selvaWebPage.style.display = "flex";
 
+      }, 2000);
+  }
 
-  <!-- MOBILE CONTROLS -->
-  <div
-    id="mobileControls"
-    class="mobile-controls"
-    aria-hidden="true"
-  >
 
-    <button id="leftControl">‹</button>
-    <button id="rightControl">›</button>
+  /* =====================================================
+     LOGO VIDEO EVENTS
+  ===================================================== */
 
-  </div>
+  logoVideo.addEventListener(
+      "ended",
+      showWelcome
+  );
 
 
-  <!-- READY / DIFFICULTY -->
-  <div id="readyOverlay" class="overlay">
+  logoVideo.addEventListener(
+      "error",
+      showWelcome
+  );
 
-    <div class="panel ready-panel">
 
-      <div class="panel-kicker">
-        DOODLE JUMP
-      </div>
+  /* =====================================================
+     GAME CENTER
+  ===================================================== */
 
-      <h2>
-        SELECT DIFFICULTY
-      </h2>
+  function goToGameCenter() {
 
+      window.location.href =
+          "game-center.html";
+  }
 
-      <div
-        id="difficultyButtons"
-        class="difficulty-grid"
-      >
 
-        <button data-difficulty="EASY">
-          EASY
-        </button>
+  /* =====================================================
+     APPS
+  ===================================================== */
 
-        <button data-difficulty="NORMAL">
-          NORMAL
-        </button>
+  function goToApps() {
 
-        <button data-difficulty="HARD">
-          HARD
-        </button>
+      window.location.href =
+          "apps.html";
+  }
 
-        <button data-difficulty="ULTRA HARD">
-          ULTRA HARD
-        </button>
-
-      </div>
-
-
-      <button
-        id="shopOpen"
-        class="primary-btn"
-      >
-        SHOP
-      </button>
-
-      <button
-        id="startBtn"
-        class="ghost-btn"
-      >
-        TAP TO START
-      </button>
-
-      <button
-        id="devOpen"
-        class="dev-link"
-      >
-        DEV
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- PAUSE -->
-  <div
-    id="pauseOverlay"
-    class="overlay hidden"
-  >
-
-    <div class="panel small-panel">
-
-      <div class="panel-kicker">
-        PAUSED
-      </div>
-
-      <h2>
-        GAME PAUSED
-      </h2>
-
-      <button
-        id="resumeBtn"
-        class="primary-btn"
-      >
-        RESUME
-      </button>
-
-      <button
-        id="restartBtn"
-        class="ghost-btn"
-      >
-        RESTART
-      </button>
-
-      <button
-        id="pausePortalBtn"
-        class="ghost-btn"
-      >
-        BACK TO PORTAL
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- GAME OVER -->
-  <div
-    id="gameOverOverlay"
-    class="overlay hidden"
-  >
-
-    <div class="panel small-panel">
-
-      <div class="panel-kicker">
-        RUN COMPLETE
-      </div>
-
-      <h2>
-        GAME OVER
-      </h2>
-
-      <p id="finalScore">
-        SCORE 0
-      </p>
-
-      <button
-        id="gameOverRestart"
-        class="primary-btn"
-      >
-        RESTART
-      </button>
-
-      <button
-        id="gameOverPortal"
-        class="ghost-btn"
-      >
-        BACK TO PORTAL
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- SHOP -->
-  <div
-    id="shopOverlay"
-    class="overlay hidden"
-  >
-
-    <div class="panel shop-panel">
-
-      <div class="shop-head">
-
-        <div>
-
-          <div class="panel-kicker">
-            UPGRADES
-          </div>
-
-          <h2>
-            SPACE SHOP
-          </h2>
-
-        </div>
-
-        <button
-          id="shopClose"
-          class="close-btn"
-        >
-          ×
-        </button>
-
-      </div>
-
-
-      <div class="shop-coins">
-        🪙 <b id="shopCoins">0</b>
-      </div>
-
-
-      <div class="shop-grid">
-
-        <button
-          class="shop-item"
-          data-buy="gem"
-        >
-          <b>💎 GEM</b>
-          <span>100 coins</span>
-        </button>
-
-
-        <button
-          class="shop-item"
-          data-buy="heart"
-        >
-          <b>❤️ HEART</b>
-          <span>150 coins</span>
-        </button>
-
-
-        <button
-          class="shop-item"
-          data-buy="shield"
-        >
-          <b>🛡 SHIELD</b>
-          <span>200 coins</span>
-        </button>
-
-
-        <button
-          class="shop-item"
-          data-buy="jetpack"
-        >
-          <b>🚀 JETPACK</b>
-          <span>250 coins</span>
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- DEVELOPER MODE -->
-  <div
-    id="devOverlay"
-    class="overlay hidden"
-  >
-
-    <div class="panel small-panel">
-
-      <div class="panel-kicker">
-        DEVELOPER
-      </div>
-
-      <h2>
-        DEV MODE
-      </h2>
-
-
-      <button
-        id="jetpackToggle"
-        class="primary-btn"
-      >
-        JETPACK MODE: OFF
-      </button>
-
-
-      <button
-        id="devClose"
-        class="ghost-btn"
-      >
-        CLOSE
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<script src="game.js"></script>
+</script>
 
 </body>
 </html>

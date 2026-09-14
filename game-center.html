@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SELVA GAME CENTER</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            background: #000;
+            color: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .header {
+            width: 100%;
+            height: 100px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            background: #000;
+
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header h1 {
+            font-family:
+                Impact,
+                Haettenschweiler,
+                "Arial Black",
+                sans-serif;
+
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+
+            color: #000;
+
+            -webkit-text-stroke: 1.5px #fff;
+
+            text-shadow:
+                0 0 8px rgba(255,255,255,0.8),
+                0 0 20px rgba(255,255,255,0.35);
+        }
+
+        .header-line {
+            width: 100px;
+            height: 2px;
+
+            margin-top: 9px;
+
+            background: #fff;
+
+            box-shadow:
+                0 0 10px rgba(255,255,255,0.7);
+        }
+
+        /* =====================================================
+           GAME LIST
+        ===================================================== */
+
+        .content {
+            width: 100%;
+            min-height: calc(100vh - 100px);
+
+            display: flex;
+            justify-content: center;
+
+            padding: 35px 20px 90px;
+        }
+
+        .games {
+            width: min(650px, 100%);
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 20px;
+        }
+
+        /* =====================================================
+           GAME CARD
+        ===================================================== */
+
+        .game-card {
+            position: relative;
+
+            width: 100%;
+            min-height: 175px;
+
+            padding: 26px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.035);
+
+            cursor: pointer;
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+
+            background: rgba(255,255,255,0.08);
+
+            border-color: #fff;
+
+            box-shadow:
+                0 0 20px rgba(255,255,255,0.2),
+                inset 0 0 20px rgba(255,255,255,0.04);
+        }
+
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        /* =====================================================
+           GAME NUMBER
+        ===================================================== */
+
+        .game-number {
+            position: absolute;
+
+            top: 15px;
+            right: 18px;
+
+            color: #777;
+
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        /* =====================================================
+           GAME TITLE
+        ===================================================== */
+
+        .game-card h2 {
+            font-family:
+                Impact,
+                Haettenschweiler,
+                "Arial Black",
+                sans-serif;
+
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 4px;
+
+            text-transform: uppercase;
+
+            color: #000;
+
+            -webkit-text-stroke: 1.3px #fff;
+
+            text-shadow:
+                0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* =====================================================
+           GAME DESCRIPTION
+        ===================================================== */
+
+        .game-card p {
+            margin-top: 10px;
+
+            color: #aaa;
+
+            font-size: 13px;
+            line-height: 1.5;
+            letter-spacing: 1px;
+
+            padding-right: 50px;
+        }
+
+        /* =====================================================
+           PLAY BUTTON
+        ===================================================== */
+
+        .play-button {
+            width: fit-content;
+
+            margin-top: 18px;
+
+            padding: 9px 23px;
+
+            border: 1px solid #fff;
+            border-radius: 4px;
+
+            background: transparent;
+
+            color: #fff;
+
+            font-family:
+                Impact,
+                Haettenschweiler,
+                "Arial Black",
+                sans-serif;
+
+            font-size: 14px;
+            letter-spacing: 2px;
+
+            text-transform: uppercase;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .game-card:hover .play-button {
+            background: #fff;
+            color: #000;
+        }
+
+        /* =====================================================
+           ARROW
+        ===================================================== */
+
+        .arrow {
+            position: absolute;
+
+            right: 22px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #fff;
+
+            font-size: 25px;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+        .game-card:hover .arrow {
+            transform:
+                translateY(-50%)
+                translateX(5px);
+        }
+
+        /* =====================================================
+           BACK BUTTON
+        ===================================================== */
+
+        .back-button {
+            position: fixed;
+
+            left: 20px;
+            bottom: 20px;
+
+            z-index: 20;
+
+            padding: 10px 18px;
+
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 4px;
+
+            background: #000;
+
+            color: #fff;
+
+            font-family: Arial, Helvetica, sans-serif;
+
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .back-button:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .header {
+                height: 85px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+                letter-spacing: 4px;
+
+                -webkit-text-stroke: 1.2px #fff;
+            }
+
+            .header-line {
+                width: 70px;
+            }
+
+            .content {
+                min-height: calc(100vh - 85px);
+
+                padding:
+                    25px
+                    15px
+                    85px;
+            }
+
+            .games {
+                gap: 16px;
+            }
+
+            .game-card {
+                min-height: 155px;
+
+                padding: 22px;
+            }
+
+            .game-card h2 {
+                font-size: 24px;
+                letter-spacing: 3px;
+
+                -webkit-text-stroke: 1px #fff;
+            }
+
+            .game-card p {
+                font-size: 12px;
+            }
+
+            .play-button {
+                padding: 8px 18px;
+                font-size: 13px;
+            }
+
+            .arrow {
+                right: 16px;
+                font-size: 21px;
+            }
+        }
+
+        /* =====================================================
+           SMALL PHONE
+        ===================================================== */
+
+        @media (max-height: 600px) {
+
+            .header {
+                height: 70px;
+            }
+
+            .content {
+                min-height: calc(100vh - 70px);
+                padding-top: 18px;
+            }
+
+            .game-card {
+                min-height: 140px;
+                padding: 18px;
+            }
+
+            .games {
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SELVA GAME CENTER HEADER
+===================================================== -->
+
+<header class="header">
+
+    <h1>SELVA GAME CENTER</h1>
+
+    <div class="header-line"></div>
+
+</header>
+
+
+<!-- =====================================================
+     GAME LIST
+===================================================== -->
+
+<main class="content">
+
+    <div class="games">
+
+        <!-- =================================================
+             GAME 01 - DOODLE JUMP
+        ================================================== -->
+
+        <div
+                class="game-card"
+                onclick="openGame('doodle-jump.html')">
+
+                <span class="game-number">
+                    GAME 01
+                </span>
+
+            <h2>
+                DOODLE JUMP
+            </h2>
+
+            <p>
+                Jump higher • Avoid obstacles • Beat your high score
+            </p>
+
+            <div class="play-button">
+                PLAY
+            </div>
+
+            <span class="arrow">
+                    →
+                </span>
+
+        </div>
+
+
+        <!-- =================================================
+             GAME 02 - DINO RUNNER
+        ================================================== -->
+
+        <div
+                class="game-card"
+                onclick="openGame('dino-runner.html')">
+
+                <span class="game-number">
+                    GAME 02
+                </span>
+
+            <h2>
+                DINO RUNNER
+            </h2>
+
+            <p>
+                Run • Jump • Survive • Beat your high score
+            </p>
+
+            <div class="play-button">
+                PLAY
+            </div>
+
+            <span class="arrow">
+                    →
+                </span>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+<!-- =====================================================
+     BACK TO SELVA WEB
+===================================================== -->
+
+<button
+        class="back-button"
+        onclick="goBack()">
+
+    ← BACK
+
+</button>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    function openGame(game) {
+
+        window.location.href = game;
+
+    }
+
+
+    function goBack() {
+
+        window.location.href = "index.html";
+
+    }
+
+</script>
+
+</body>
+</html>

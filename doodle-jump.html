@@ -1,0 +1,6170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,
+                   maximum-scale=1.0, user-scalable=no">
+
+    <title>Doodle Jump</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            font-family: Arial, Helvetica, sans-serif;
+            touch-action: none;
+        }
+
+        body {
+            position: fixed;
+            inset: 0;
+        }
+
+        #game {
+            position: fixed;
+            inset: 0;
+
+            width: 100vw;
+            height: 100vh;
+
+            display: block;
+
+            background: #a0d7fa;
+            touch-action: none;
+        }
+
+        /* =====================================================
+           TOP HUD
+        ===================================================== */
+
+        #hud {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .hud-row {
+            position: absolute;
+            top: 12px;
+
+            display: flex;
+            align-items: center;
+
+            color: #fff;
+
+            font-size: 19px;
+            font-weight: 900;
+
+            text-shadow:
+                2px 2px 4px #000,
+                0 0 6px #000;
+        }
+
+        #scoreHud {
+            left: 125px;
+        }
+
+        #highHud {
+            right: 125px;
+        }
+
+        #coinsHud {
+            left: 125px;
+            top: 55px;
+        }
+
+        #heartsHud {
+            right: 125px;
+            top: 55px;
+        }
+
+        /* =====================================================
+           TOP BUTTONS
+        ===================================================== */
+
+        .top-button {
+            position: absolute;
+
+            width: 90px;
+            height: 40px;
+
+            border: 2px solid #fff;
+            border-radius: 10px;
+
+            background: rgba(20, 25, 35, 0.65);
+
+            color: #fff;
+
+            font-size: 13px;
+            font-weight: 900;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+            pointer-events: auto;
+
+            box-shadow:
+                0 0 8px rgba(0,0,0,0.5);
+        }
+
+        .top-button:active {
+            transform: scale(0.95);
+        }
+
+        #backButton {
+            left: 20px;
+            top: 12px;
+        }
+
+        #devButton {
+            right: 20px;
+            top: 12px;
+        }
+
+        #pauseButton {
+            right: 20px;
+            top: 62px;
+            display: none;
+        }
+
+        /* =====================================================
+           INVENTORY
+        ===================================================== */
+
+        #inventory {
+            position: absolute;
+
+            left: 20px;
+            top: 112px;
+
+            width: 340px;
+            height: 50px;
+
+            display: flex;
+            align-items: center;
+
+            padding: 7px 12px;
+
+            border: 2px solid rgba(255,255,255,0.55);
+            border-radius: 15px;
+
+            background: rgba(20,30,50,0.55);
+
+            pointer-events: none;
+        }
+
+        .inventory-item {
+            width: 110px;
+            height: 100%;
+
+            display: flex;
+            align-items: center;
+
+            color: #fff;
+
+            font-size: 18px;
+            font-weight: 900;
+
+            text-shadow:
+                2px 2px 4px #000;
+        }
+
+        .inventory-item img {
+            width: 34px;
+            height: 34px;
+
+            object-fit: contain;
+
+            margin-right: 5px;
+        }
+
+        /* =====================================================
+           NOTIFICATION
+        ===================================================== */
+
+        #notification {
+            position: fixed;
+
+            left: 50%;
+            top: 205px;
+
+            transform: translateX(-50%);
+
+            color: #fff;
+
+            font-size: 25px;
+            font-weight: 900;
+
+            text-align: center;
+            white-space: nowrap;
+
+            text-shadow:
+                2px 2px 5px #000,
+                0 0 10px #000;
+
+            opacity: 0;
+            transition: opacity 0.15s ease;
+
+            pointer-events: none;
+            z-index: 30;
+        }
+
+        /* =====================================================
+           OVERLAYS
+        ===================================================== */
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(0,0,0,0.68);
+
+            z-index: 50;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .panel {
+            width: min(720px, 92vw);
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            padding: 30px;
+
+            border: 3px solid rgba(255,255,255,0.8);
+            border-radius: 25px;
+
+            background:
+                rgba(15,20,35,0.96);
+
+            color: #fff;
+
+            text-align: center;
+
+            box-shadow:
+                0 0 35px rgba(0,0,0,0.8);
+        }
+
+        .panel h1 {
+            font-family:
+                Impact,
+                Haettenschweiler,
+                "Arial Black",
+                sans-serif;
+
+            font-size: 48px;
+            letter-spacing: 4px;
+
+            color: #000;
+
+            -webkit-text-stroke: 1.5px #fff;
+
+            margin-bottom: 15px;
+        }
+
+        .panel p {
+            font-size: 18px;
+            margin: 8px 0;
+        }
+
+        /* =====================================================
+           READY SCREEN
+        ===================================================== */
+
+        #readyOverlay {
+            background: rgba(0,0,0,0.10);
+        }
+
+        #readyPanel {
+            width: min(650px, 92vw);
+
+            padding: 25px;
+
+            background: rgba(10,15,25,0.45);
+
+            border: 0;
+            box-shadow: none;
+        }
+
+        #readyTitle {
+            margin-bottom: 10px;
+        }
+
+        #readySubtitle {
+            font-size: 16px;
+            font-weight: 900;
+
+            margin-bottom: 18px;
+        }
+
+        .difficulty-list {
+            width: 68%;
+            margin: 0 auto;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 12px;
+        }
+
+        .difficulty-button {
+            width: 100%;
+            min-height: 54px;
+
+            border: 2px solid #fff;
+            border-radius: 20px;
+
+            background: rgba(20,25,35,0.70);
+
+            color: #fff;
+
+            font-size: 20px;
+            font-weight: 900;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+        }
+
+        .difficulty-button.selected {
+            background: #4caf50;
+            border-width: 4px;
+        }
+
+        .difficulty-button:active {
+            transform: scale(0.98);
+        }
+
+        #shopOpenButton {
+            position: absolute;
+
+            left: 20px;
+            top: 112px;
+
+            width: 130px;
+            height: 50px;
+
+            border: 2px solid #fff;
+            border-radius: 12px;
+
+            background: rgba(100,100,255,0.75);
+
+            color: #fff;
+
+            font-size: 17px;
+            font-weight: 900;
+
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           GAME OVER
+        ===================================================== */
+
+        #gameOverPanel h1,
+        #pausePanel h1 {
+            color: #000;
+        }
+
+        #newBest {
+            display: none;
+
+            color: #ffd700;
+
+            font-size: 25px;
+            font-weight: 900;
+
+            margin: 10px 0;
+        }
+
+        .big-button {
+            width: min(400px, 80%);
+
+            min-height: 58px;
+
+            margin: 15px auto 0;
+
+            border: 0;
+            border-radius: 18px;
+
+            background: #fff;
+
+            color: #222;
+
+            font-size: 22px;
+            font-weight: 900;
+
+            cursor: pointer;
+        }
+
+        .big-button.blue {
+            background: #2196f3;
+            color: #fff;
+        }
+
+        .big-button.green {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        .big-button.gray {
+            background: #666;
+            color: #fff;
+        }
+
+        /* =====================================================
+           SHOP
+        ===================================================== */
+
+        #shopPanel {
+            width: min(850px, 94vw);
+            text-align: left;
+        }
+
+        #shopTitle {
+            text-align: center;
+        }
+
+        #shopCoins {
+            text-align: center;
+
+            color: #ffd700;
+
+            font-size: 23px;
+            font-weight: 900;
+
+            margin-bottom: 18px;
+        }
+
+        .shop-card {
+            width: 100%;
+            min-height: 100px;
+
+            display: flex;
+            align-items: center;
+
+            margin: 12px 0;
+            padding: 12px 18px;
+
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 18px;
+
+            background: rgba(30,45,70,0.65);
+        }
+
+        .shop-card img {
+            width: 70px;
+            height: 70px;
+
+            object-fit: contain;
+
+            margin-right: 20px;
+        }
+
+        .shop-info {
+            flex: 1;
+        }
+
+        .shop-name {
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .shop-description {
+            color: #ddd;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .shop-price {
+            color: #ffd700;
+            font-weight: 900;
+            margin-top: 5px;
+        }
+
+        .buy-button {
+            min-width: 100px;
+            min-height: 55px;
+
+            border: 0;
+            border-radius: 15px;
+
+            background: #4caf50;
+
+            color: #fff;
+
+            font-size: 18px;
+            font-weight: 900;
+
+            cursor: pointer;
+        }
+
+        .buy-button.disabled {
+            background: #777;
+            cursor: default;
+        }
+
+        #shopClose {
+            display: block;
+            margin: 20px auto 0;
+
+            padding: 12px 30px;
+
+            border: 2px solid #fff;
+            border-radius: 12px;
+
+            background: transparent;
+
+            color: #fff;
+
+            font-weight: 900;
+
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           CONTINUE
+        ===================================================== */
+
+        #continuePanel h1 {
+            font-size: 45px;
+        }
+
+        #continueYes {
+            background: #4caf50;
+            color: #000;
+        }
+
+        /* =====================================================
+           PAUSE
+        ===================================================== */
+
+        #pausePanel {
+            width: min(550px, 90vw);
+        }
+
+        /* =====================================================
+           DEV
+        ===================================================== */
+
+        #devPanel {
+            width: min(500px, 90vw);
+        }
+
+        #devPassword {
+            width: 100%;
+
+            padding: 14px;
+
+            margin: 15px 0;
+
+            border: 1px solid #fff;
+            border-radius: 10px;
+
+            background: #111;
+
+            color: #fff;
+
+            font-size: 18px;
+        }
+
+        /* =====================================================
+           MOBILE CONTROLS
+        ===================================================== */
+
+        #mobileControls {
+            position: fixed;
+            inset: 0;
+
+            pointer-events: none;
+
+            z-index: 20;
+        }
+
+        .control-zone {
+            position: absolute;
+
+            top: 0;
+            bottom: 0;
+
+            width: 50%;
+
+            pointer-events: auto;
+        }
+
+        #leftZone {
+            left: 0;
+        }
+
+        #rightZone {
+            right: 0;
+        }
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        #loading {
+            position: fixed;
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #000;
+
+            color: #fff;
+
+            font-size: 22px;
+            font-weight: 900;
+
+            z-index: 100;
+        }
+
+        #loading.hidden {
+            display: none;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .hud-row {
+                font-size: 13px;
+            }
+
+            #scoreHud {
+                left: 110px;
+            }
+
+            #highHud {
+                right: 110px;
+            }
+
+            #coinsHud {
+                left: 110px;
+                top: 43px;
+            }
+
+            #heartsHud {
+                right: 110px;
+                top: 43px;
+            }
+
+            .top-button {
+                width: 80px;
+                height: 36px;
+
+                font-size: 10px;
+            }
+
+            #backButton {
+                left: 10px;
+                top: 10px;
+            }
+
+            #devButton {
+                right: 10px;
+                top: 10px;
+            }
+
+            #pauseButton {
+                right: 10px;
+                top: 55px;
+            }
+
+            #inventory {
+                left: 10px;
+                top: 90px;
+
+                width: 285px;
+                height: 44px;
+
+                padding: 5px 7px;
+            }
+
+            .inventory-item {
+                width: 95px;
+                font-size: 13px;
+            }
+
+            .inventory-item img {
+                width: 28px;
+                height: 28px;
+            }
+
+            #shopOpenButton {
+                left: 10px;
+                top: 142px;
+
+                width: 105px;
+                height: 42px;
+
+                font-size: 13px;
+            }
+
+            #notification {
+                top: 190px;
+                font-size: 18px;
+            }
+
+            .panel {
+                padding: 20px;
+                border-radius: 20px;
+            }
+
+            .panel h1 {
+                font-size: 34px;
+            }
+
+            .difficulty-list {
+                width: 90%;
+                gap: 8px;
+            }
+
+            .difficulty-button {
+                min-height: 48px;
+                font-size: 16px;
+            }
+
+            .shop-card {
+                padding: 10px;
+            }
+
+            .shop-card img {
+                width: 52px;
+                height: 52px;
+                margin-right: 10px;
+            }
+
+            .shop-name {
+                font-size: 16px;
+            }
+
+            .shop-description {
+                font-size: 11px;
+            }
+
+            .shop-price {
+                font-size: 12px;
+            }
+
+            .buy-button {
+                min-width: 65px;
+                min-height: 42px;
+                font-size: 14px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+
+            .panel {
+                max-height: 94vh;
+                padding: 12px;
+            }
+
+            .panel h1 {
+                font-size: 30px;
+                margin-bottom: 6px;
+            }
+
+            .difficulty-list {
+                gap: 6px;
+            }
+
+            .difficulty-button {
+                min-height: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOADING
+===================================================== -->
+
+<div id="loading">
+    LOADING DOODLE JUMP...
+</div>
+
+
+<!-- =====================================================
+     GAME CANVAS
+===================================================== -->
+
+<canvas id="game"></canvas>
+
+
+<!-- =====================================================
+     HUD
+===================================================== -->
+
+<div id="hud">
+
+    <div id="scoreHud" class="hud-row">
+        SCORE 0
+    </div>
+
+    <div id="highHud" class="hud-row">
+        HI 0
+    </div>
+
+    <div id="coinsHud" class="hud-row">
+        🪙 0
+    </div>
+
+    <div id="heartsHud" class="hud-row">
+        ❤️ x0
+    </div>
+
+
+    <button
+            id="backButton"
+            class="top-button">
+        BACK
+    </button>
+
+    <button
+            id="devButton"
+            class="top-button">
+        DEV
+    </button>
+
+    <button
+            id="pauseButton"
+            class="top-button">
+        PAUSE
+    </button>
+
+
+    <!-- INVENTORY -->
+
+    <div id="inventory">
+
+        <div class="inventory-item">
+            <img
+                    src="assets/doodle_jump/powerups/shield.png"
+                    alt="Shield">
+
+            <span id="shieldCount">
+                    x0
+                </span>
+        </div>
+
+        <div class="inventory-item">
+            <img
+                    src="assets/doodle_jump/collectibles/gem.png"
+                    alt="Gem">
+
+            <span id="gemCount">
+                    x0
+                </span>
+        </div>
+
+        <div class="inventory-item">
+            <img
+                    src="assets/doodle_jump/powerups/rocket_powerup.png"
+                    alt="Jetpack">
+
+            <span id="jetpackCount">
+                    x0
+                </span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     NOTIFICATION
+===================================================== -->
+
+<div id="notification"></div>
+
+
+<!-- =====================================================
+     MOBILE TOUCH AREAS
+===================================================== -->
+
+<div id="mobileControls">
+
+    <div
+            id="leftZone"
+            class="control-zone">
+    </div>
+
+    <div
+            id="rightZone"
+            class="control-zone">
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     READY OVERLAY
+===================================================== -->
+
+<div
+        id="readyOverlay"
+        class="overlay active">
+
+    <div id="readyPanel" class="panel">
+
+        <h1 id="readyTitle">
+            DOODLE JUMP
+        </h1>
+
+        <p id="readySubtitle">
+            SELECT DIFFICULTY &amp; TAP TO JUMP
+        </p>
+
+        <div class="difficulty-list">
+
+            <button
+                    class="difficulty-button"
+                    data-difficulty="EASY">
+                EASY
+            </button>
+
+            <button
+                    class="difficulty-button selected"
+                    data-difficulty="NORMAL">
+                NORMAL
+            </button>
+
+            <button
+                    class="difficulty-button"
+                    data-difficulty="HARD">
+                HARD
+            </button>
+
+            <button
+                    class="difficulty-button"
+                    data-difficulty="ULTRA_HARD">
+                ULTRA HARD
+            </button>
+
+        </div>
+
+    </div>
+
+    <button id="shopOpenButton">
+        SHOP
+    </button>
+
+</div>
+
+
+<!-- =====================================================
+     GAME OVER
+===================================================== -->
+
+<div
+        id="gameOverOverlay"
+        class="overlay">
+
+    <div id="gameOverPanel" class="panel">
+
+        <h1>
+            GAME OVER
+        </h1>
+
+        <div id="newBest">
+            ★ NEW BEST! ★
+        </div>
+
+        <p id="gameOverDifficulty">
+            Difficulty: NORMAL
+        </p>
+
+        <p id="finalScore">
+            Final Score: 0
+        </p>
+
+        <p id="bestScore">
+            Best: 0
+        </p>
+
+        <button
+                id="restartButton"
+                class="big-button">
+            RESTART
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     PAUSE
+===================================================== -->
+
+<div
+        id="pauseOverlay"
+        class="overlay">
+
+    <div id="pausePanel" class="panel">
+
+        <h1>
+            GAME PAUSED
+        </h1>
+
+        <button
+                id="resumeButton"
+                class="big-button green">
+            RESUME
+        </button>
+
+        <button
+                id="pauseRestartButton"
+                class="big-button blue">
+            RESTART
+        </button>
+
+        <button
+                id="pauseBackButton"
+                class="big-button gray">
+            BACK TO PORTAL
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SHOP
+===================================================== -->
+
+<div
+        id="shopOverlay"
+        class="overlay">
+
+    <div id="shopPanel" class="panel">
+
+        <h1 id="shopTitle">
+            SPACE SHOP
+        </h1>
+
+        <div id="shopCoins">
+            🪙 COINS: 0
+        </div>
+
+
+        <div class="shop-card">
+
+            <img
+                    src="assets/doodle_jump/collectibles/gem.png"
+                    alt="Gem">
+
+            <div class="shop-info">
+
+                <div class="shop-name">
+                    GEM
+                </div>
+
+                <div class="shop-description">
+                    Continue after game over
+                </div>
+
+                <div class="shop-price">
+                    100 Coins
+                </div>
+
+            </div>
+
+            <button
+                    class="buy-button"
+                    data-shop="gem">
+                BUY
+            </button>
+
+        </div>
+
+
+        <div class="shop-card">
+
+            <img
+                    src="assets/doodle_jump/collectibles/heart.png"
+                    alt="Heart">
+
+            <div class="shop-info">
+
+                <div class="shop-name">
+                    HEART
+                </div>
+
+                <div class="shop-description">
+                    Automatic extra life
+                </div>
+
+                <div class="shop-price">
+                    150 Coins
+                </div>
+
+            </div>
+
+            <button
+                    class="buy-button"
+                    data-shop="heart">
+                BUY
+            </button>
+
+        </div>
+
+
+        <div class="shop-card">
+
+            <img
+                    src="assets/doodle_jump/powerups/shield.png"
+                    alt="Shield">
+
+            <div class="shop-info">
+
+                <div class="shop-name">
+                    SHIELD
+                </div>
+
+                <div class="shop-description">
+                    Protection from enemies
+                </div>
+
+                <div class="shop-price">
+                    200 Coins
+                </div>
+
+            </div>
+
+            <button
+                    class="buy-button"
+                    data-shop="shield">
+                BUY
+            </button>
+
+        </div>
+
+
+        <div class="shop-card">
+
+            <img
+                    src="assets/doodle_jump/powerups/rocket_powerup.png"
+                    alt="Jetpack">
+
+            <div class="shop-info">
+
+                <div class="shop-name">
+                    JETPACK
+                </div>
+
+                <div class="shop-description">
+                    Powerful upward flight
+                </div>
+
+                <div class="shop-price">
+                    250 Coins
+                </div>
+
+            </div>
+
+            <button
+                    class="buy-button"
+                    data-shop="jetpack">
+                BUY
+            </button>
+
+        </div>
+
+
+        <button id="shopClose">
+            TAP TO CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CONTINUE
+===================================================== -->
+
+<div
+        id="continueOverlay"
+        class="overlay">
+
+    <div id="continuePanel" class="panel">
+
+        <h1>
+            CONTINUE?
+        </h1>
+
+        <p>
+            COST: 1 GEM
+        </p>
+
+        <p id="continueOwned">
+            Owned: 0
+        </p>
+
+        <button
+                id="continueYes"
+                class="big-button">
+            YES
+        </button>
+
+        <button
+                id="continueNo"
+                class="big-button gray">
+            EXIT
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     DEVELOPER AUTH
+===================================================== -->
+
+<div
+        id="devAuthOverlay"
+        class="overlay">
+
+    <div id="devPanel" class="panel">
+
+        <h1>
+            DEVELOPER MODE
+        </h1>
+
+        <p>
+            Enter developer password
+        </p>
+
+        <input
+                id="devPassword"
+                type="password"
+                autocomplete="off"
+                placeholder="Password">
+
+        <button
+                id="devAuthenticate"
+                class="big-button green">
+            AUTHENTICATE
+        </button>
+
+        <button
+                id="devCancel"
+                class="big-button gray">
+            CANCEL
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     DEVELOPER MENU
+===================================================== -->
+
+<div
+        id="devMenuOverlay"
+        class="overlay">
+
+    <div id="devMenuPanel" class="panel">
+
+        <h1>
+            DEVELOPER CONTROLS
+        </h1>
+
+        <button
+                id="jetpackDevButton"
+                class="big-button blue">
+            JETPACK MODE: OFF
+        </button>
+
+        <button
+                id="devClose"
+                class="big-button gray">
+            CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+    "use strict";
+
+    /* =====================================================
+       CANVAS
+    ===================================================== */
+
+    const canvas =
+        document.getElementById("game");
+
+    const ctx =
+        canvas.getContext("2d");
+
+
+    let W = 0;
+    let H = 0;
+
+    let lastTime = 0;
+
+
+    /* =====================================================
+       DIFFICULTIES
+    ===================================================== */
+
+    const DIFFICULTIES = {
+
+        EASY: {
+            key: "EASY",
+            displayName: "EASY",
+            gravity: 1800,
+            jumpVelocity: -850,
+            moveSpeed: 430,
+            minPlatformWidth: 140,
+            maxPlatformWidth: 200,
+            minVerticalGap: 85,
+            maxVerticalGap: 130,
+            scrollSpeedMultiplier: 0.85,
+            movingPlatformChance: 0.05,
+            prefKeyHighScore:
+                "doodle_jump_high_score_easy"
+        },
+
+        NORMAL: {
+            key: "NORMAL",
+            displayName: "NORMAL",
+            gravity: 2100,
+            jumpVelocity: -900,
+            moveSpeed: 520,
+            minPlatformWidth: 110,
+            maxPlatformWidth: 180,
+            minVerticalGap: 95,
+            maxVerticalGap: 150,
+            scrollSpeedMultiplier: 1.00,
+            movingPlatformChance: 0.20,
+            prefKeyHighScore:
+                "doodle_jump_high_score_normal"
+        },
+
+        HARD: {
+            key: "HARD",
+            displayName: "HARD",
+            gravity: 2300,
+            jumpVelocity: -930,
+            moveSpeed: 580,
+            minPlatformWidth: 95,
+            maxPlatformWidth: 150,
+            minVerticalGap: 110,
+            maxVerticalGap: 165,
+            scrollSpeedMultiplier: 1.20,
+            movingPlatformChance: 0.40,
+            prefKeyHighScore:
+                "doodle_jump_high_score_hard"
+        },
+
+        ULTRA_HARD: {
+            key: "ULTRA_HARD",
+            displayName: "ULTRA HARD",
+            gravity: 2500,
+            jumpVelocity: -960,
+            moveSpeed: 630,
+            minPlatformWidth: 80,
+            maxPlatformWidth: 130,
+            minVerticalGap: 120,
+            maxVerticalGap: 180,
+            scrollSpeedMultiplier: 1.40,
+            movingPlatformChance: 0.60,
+            prefKeyHighScore:
+                "doodle_jump_high_score_ultra_hard"
+        }
+
+    };
+
+
+    let selectedDifficulty =
+        localStorage.getItem(
+            "doodle_jump_difficulty"
+        ) || "NORMAL";
+
+    if (!DIFFICULTIES[selectedDifficulty]) {
+        selectedDifficulty = "NORMAL";
+    }
+
+
+    /* =====================================================
+       GAME STATE
+    ===================================================== */
+
+    const STATES = {
+        READY: "READY",
+        PLAYING: "PLAYING",
+        PAUSED: "PAUSED",
+        GAME_OVER: "GAME_OVER"
+    };
+
+    let gameState = STATES.READY;
+
+
+    /* =====================================================
+       PERSISTENT ECONOMY
+    ===================================================== */
+
+    let coinCount =
+        Number(localStorage.getItem("coin_balance")) || 0;
+
+    let gemCount =
+        Number(localStorage.getItem("gem_balance")) || 0;
+
+    let heartCount =
+        Number(localStorage.getItem("heart_balance")) || 0;
+
+    let shieldCount =
+        Number(localStorage.getItem("shield_balance")) || 0;
+
+    let jetpackCount =
+        Number(localStorage.getItem("jetpack_balance")) || 0;
+
+
+    /* =====================================================
+       SCORE
+    ===================================================== */
+
+    let score = 0;
+    let starBonusScore = 0;
+    let worldOffset = 0;
+    let maxHeightReached = 0;
+
+    let highScore =
+        Number(
+            localStorage.getItem(
+                DIFFICULTIES[selectedDifficulty]
+                    .prefKeyHighScore
+            )
+        ) || 0;
+
+
+    /* =====================================================
+       DEV
+    ===================================================== */
+
+    let isDeveloperModeActive = false;
+    let isJetpackModeActive = false;
+
+
+    /* =====================================================
+       PLAYER
+    ===================================================== */
+
+    const player = {
+
+        width: 64,
+        height: 64,
+
+        x: 0,
+        y: 0,
+
+        velocityX: 0,
+        velocityY: 0,
+
+        gravity: 2100,
+        jumpSpeed: -900,
+        moveSpeed: 520,
+
+        grounded: false,
+
+        landingTimer: 0,
+
+        jetpackTimer: 0,
+
+        invincibleTimer: 0,
+
+        hasShield: false,
+        shieldTimer: 0,
+
+        hasMagnet: false,
+        magnetTimer: 0,
+
+        frameTimer: 0,
+        animFrame: 0,
+
+        isJetpackFlightActive: false
+
+    };
+
+
+    /* =====================================================
+       INPUT
+    ===================================================== */
+
+    let leftPressed = false;
+    let rightPressed = false;
+
+
+    /* =====================================================
+       ENTITIES
+    ===================================================== */
+
+    const platforms = [];
+    const items = [];
+    const enemies = [];
+    const decorations = [];
+
+
+    /* =====================================================
+       PLATFORM TYPES
+    ===================================================== */
+
+    const PLATFORM_TYPES = [
+
+        "GRASS_01",
+        "GRASS_02",
+        "GRASS_03",
+        "GRASS_04",
+
+        "WOOD_01",
+        "WOOD_02",
+        "WOOD_03",
+        "WOOD_04",
+
+        "STONE_01",
+        "STONE_02",
+        "STONE_03",
+        "STONE_04",
+
+        "CLOUD_01",
+        "CLOUD_02",
+
+        "ICE_01",
+        "ICE_02",
+
+        "METAL_01",
+        "METAL_02",
+
+        "LAVA_01",
+        "LAVA_02",
+
+        "ALIEN_01",
+        "ALIEN_02"
+
+    ];
+
+
+    /* =====================================================
+       ENEMIES
+    ===================================================== */
+
+    const ENEMY_TYPES = [
+        "ALIEN",
+        "BAT",
+        "BAT_PURPLE",
+        "BEE",
+        "MONSTER",
+        "SPIKE",
+        "UFO"
+    ];
+
+
+    /* =====================================================
+       ASSETS
+    ===================================================== */
+
+    const assets = {};
+
+    const assetPaths = [
+
+        /* Environment */
+
+        "environment/space_city.png",
+        "environment/mountain.png",
+        "environment/moon.png",
+        "environment/cloud_large.png",
+        "environment/cloud_medium.png",
+        "environment/cloud_small_01.png",
+        "environment/cloud_small_02.png",
+        "environment/floating_island_large.png",
+        "environment/floating_island_small_01.png",
+        "environment/floating_island_small_02.png",
+        "environment/floating_island_small_03.png",
+
+        /* Decoration */
+
+        "decoration/blue_star.png",
+        "decoration/pink_star.png",
+        "decoration/purple_star.png",
+
+        /* Powerups */
+
+        "powerups/spring.png",
+        "powerups/rocket_powerup.png",
+        "powerups/shield.png",
+        "powerups/magnet.png",
+
+        /* Collectibles */
+
+        "collectibles/coin_01.png",
+        "collectibles/coin_02.png",
+        "collectibles/coin_03.png",
+        "collectibles/coin_04.png",
+        "collectibles/gem.png",
+        "collectibles/heart.png",
+        "collectibles/star.png",
+        "collectibles/star_2.png",
+        "collectibles/star_special.png",
+
+        /* Enemies */
+
+        "enemies/enemy_alien.png",
+        "enemies/enemy_bat.png",
+        "enemies/enemy_bat_purple.png",
+        "enemies/enemy_bee.png",
+        "enemies/enemy_monster.png",
+        "enemies/enemy_spike.png",
+        "enemies/enemy_ufo.png",
+
+        /* Effects */
+
+        "effects/explosion.png",
+        "effects/enemy_projectile.png",
+
+        /* Player */
+
+        "player/player_idle.png",
+        "player/player_idle2.png",
+        "player/player_rise.png",
+        "player/player_rise2.png",
+        "player/player_fall.png",
+        "player/player_fall2.png",
+        "player/player_boost.png",
+        "player/player_jetpack.png"
+
+    ];
+
+
+    for (const type of PLATFORM_TYPES) {
+
+        assetPaths.push(
+            "platforms/platform_" +
+            type.toLowerCase() +
+            ".png"
+        );
+
+    }
+
+
+    let assetsLoaded = 0;
+
+
+    function loadAssets() {
+
+        return new Promise(resolve => {
+
+            if (assetPaths.length === 0) {
+                resolve();
+                return;
+            }
+
+            for (const path of assetPaths) {
+
+                const image =
+                    new Image();
+
+                image.onload = () => {
+
+                    assets[path] = image;
+
+                    assetsLoaded++;
+
+                    if (
+                        assetsLoaded >=
+                        assetPaths.length
+                    ) {
+                        resolve();
+                    }
+
+                };
+
+                image.onerror = () => {
+
+                    assets[path] = null;
+
+                    assetsLoaded++;
+
+                    if (
+                        assetsLoaded >=
+                        assetPaths.length
+                    ) {
+                        resolve();
+                    }
+
+                };
+
+                image.src =
+                    "assets/doodle_jump/" +
+                    path;
+            }
+
+        });
+
+    }
+
+
+    function asset(path) {
+
+        return assets[path] || null;
+
+    }
+
+
+    /* =====================================================
+       SAVE
+    ===================================================== */
+
+    function saveData() {
+
+        localStorage.setItem(
+            "coin_balance",
+            coinCount
+        );
+
+        localStorage.setItem(
+            "gem_balance",
+            gemCount
+        );
+
+        localStorage.setItem(
+            "heart_balance",
+            heartCount
+        );
+
+        localStorage.setItem(
+            "shield_balance",
+            shieldCount
+        );
+
+        localStorage.setItem(
+            "jetpack_balance",
+            jetpackCount
+        );
+
+        localStorage.setItem(
+            "doodle_jump_difficulty",
+            selectedDifficulty
+        );
+
+        localStorage.setItem(
+            DIFFICULTIES[selectedDifficulty]
+                .prefKeyHighScore,
+            highScore
+        );
+
+        const oldHigh =
+            Number(
+                localStorage.getItem(
+                    "high_score"
+                )
+            ) || 0;
+
+        if (highScore > oldHigh) {
+
+            localStorage.setItem(
+                "high_score",
+                highScore
+            );
+
+        }
+
+        updateHUD();
+
+    }
+
+
+    /* =====================================================
+       RESIZE
+    ===================================================== */
+
+    function resizeCanvas() {
+
+        const dpr =
+            Math.min(
+                window.devicePixelRatio || 1,
+                2
+            );
+
+        W = window.innerWidth;
+        H = window.innerHeight;
+
+        canvas.width =
+            Math.floor(W * dpr);
+
+        canvas.height =
+            Math.floor(H * dpr);
+
+        canvas.style.width =
+            W + "px";
+
+        canvas.style.height =
+            H + "px";
+
+        ctx.setTransform(
+            dpr,
+            0,
+            0,
+            dpr,
+            0,
+            0
+        );
+
+        positionUI();
+
+        if (player.x === 0 && player.y === 0) {
+            startNewGame();
+        }
+
+    }
+
+
+    function positionUI() {
+
+        /* CSS handles the main responsive UI. */
+
+    }
+
+
+    window.addEventListener(
+        "resize",
+        resizeCanvas
+    );
+
+
+    /* =====================================================
+       PLAYER DIFFICULTY
+    ===================================================== */
+
+    function applyDifficulty() {
+
+        const diff =
+            DIFFICULTIES[selectedDifficulty];
+
+        player.gravity =
+            diff.gravity;
+
+        player.jumpSpeed =
+            diff.jumpVelocity;
+
+        player.moveSpeed =
+            diff.moveSpeed;
+
+    }
+
+
+    /* =====================================================
+       START NEW GAME
+    ===================================================== */
+
+    function startNewGame() {
+
+        score = 0;
+        starBonusScore = 0;
+        worldOffset = 0;
+        maxHeightReached = 0;
+
+        platforms.length = 0;
+        items.length = 0;
+        enemies.length = 0;
+        decorations.length = 0;
+
+        applyDifficulty();
+
+        player.x =
+            W / 2 -
+            player.width / 2;
+
+        player.y =
+            H * 0.70;
+
+        player.velocityX = 0;
+        player.velocityY =
+            DIFFICULTIES[selectedDifficulty]
+                .jumpVelocity;
+
+        player.grounded = false;
+
+        player.landingTimer = 0;
+
+        player.jetpackTimer = 0;
+
+        player.invincibleTimer = 0;
+
+        player.hasShield = false;
+        player.shieldTimer = 0;
+
+        player.hasMagnet = false;
+        player.magnetTimer = 0;
+
+        player.isJetpackFlightActive =
+            isJetpackModeActive;
+
+        generateInitialPlatforms();
+
+        generateInitialDecorations();
+
+        gameState =
+            STATES.READY;
+
+        updateHUD();
+
+    }
+
+
+    /* =====================================================
+       INITIAL PLATFORMS
+    ===================================================== */
+
+    function generateInitialPlatforms() {
+
+        platforms.push({
+
+            x: W / 2 - 90,
+            y: H * 0.86,
+            width: 180,
+            height: 28,
+
+            type: "GRASS_01",
+
+            isMoving: false,
+            moveSpeed: 0,
+
+            minX: 0,
+            maxX: W,
+
+            active: true
+
+        });
+
+
+        for (
+            let i = 0;
+            i < 12;
+            i++
+        ) {
+
+            generateNextReachablePlatform(
+                platforms[platforms.length - 1]
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       GENERATE PLATFORM
+    ===================================================== */
+
+    function generateNextReachablePlatform(prev) {
+
+        const diff =
+            DIFFICULTIES[selectedDifficulty];
+
+        const progress =
+            Math.min(
+                maxHeightReached / 5000,
+                1
+            );
+
+        const v0 =
+            Math.abs(
+                diff.jumpVelocity
+            );
+
+        const g =
+            diff.gravity;
+
+        const maxH =
+            (v0 * v0) /
+            (2 * g);
+
+        const upperGap =
+            Math.min(
+                diff.maxVerticalGap +
+                progress * 20,
+                maxH * 0.85
+            );
+
+        const gap =
+            diff.minVerticalGap +
+            Math.random() *
+            Math.max(
+                1,
+                upperGap -
+                diff.minVerticalGap
+            );
+
+        const newY =
+            prev.y - gap;
+
+
+        const inside =
+            Math.max(
+                0,
+                v0 * v0 -
+                2 * g * gap
+            );
+
+        const flightT =
+            (
+                v0 +
+                Math.sqrt(inside)
+            ) / g;
+
+
+        const reach =
+            diff.moveSpeed *
+            flightT *
+            0.8;
+
+
+        const pw =
+            clamp(
+                diff.minPlatformWidth +
+                Math.random() *
+                (
+                    diff.maxPlatformWidth -
+                    diff.minPlatformWidth
+                ),
+                80,
+                W * 0.5
+            );
+
+
+        const minX =
+            Math.max(
+                0,
+                prev.x +
+                prev.width / 2 -
+                reach -
+                pw
+            );
+
+        const maxX =
+            Math.min(
+                W - pw,
+                prev.x +
+                prev.width / 2 +
+                reach
+            );
+
+
+        const newX =
+            minX < maxX
+                ? minX +
+                  Math.random() *
+                  (maxX - minX)
+                : (W - pw) / 2;
+
+
+        let typeIndex;
+
+        if (maxHeightReached < 1000) {
+
+            typeIndex =
+                randomInt(0, 3);
+
+        } else if (maxHeightReached < 2000) {
+
+            typeIndex =
+                4 +
+                randomInt(0, 3);
+
+        } else if (maxHeightReached < 3000) {
+
+            typeIndex =
+                8 +
+                randomInt(0, 3);
+
+        } else if (maxHeightReached < 4000) {
+
+            typeIndex =
+                12 +
+                randomInt(0, 5);
+
+        } else {
+
+            typeIndex =
+                randomInt(
+                    0,
+                    PLATFORM_TYPES.length - 1
+                );
+
+        }
+
+
+        const type =
+            PLATFORM_TYPES[
+                clamp(
+                    typeIndex,
+                    0,
+                    PLATFORM_TYPES.length - 1
+                )
+            ];
+
+
+        const isMoving =
+            type === "METAL_01" ||
+            type === "METAL_02" ||
+            Math.random() <
+            (
+                diff.movingPlatformChance +
+                progress * 0.15
+            );
+
+
+        const moveSpeed =
+            isMoving
+                ? (
+                    80 +
+                    Math.random() * 100
+                ) *
+                diff.scrollSpeedMultiplier *
+                (
+                    Math.random() < 0.5
+                        ? 1
+                        : -1
+                )
+                : 0;
+
+
+        const platform = {
+
+            x: newX,
+            y: newY,
+
+            width: pw,
+            height: 26,
+
+            type,
+
+            isMoving,
+            moveSpeed,
+
+            minX: 0,
+            maxX: W,
+
+            active: true
+
+        };
+
+
+        platforms.push(platform);
+
+
+        if (!isMoving) {
+
+            const r =
+                Math.random();
+
+
+            if (r < 0.08) {
+
+                items.push({
+
+                    x:
+                        newX +
+                        (pw - 32) / 2,
+
+                    y:
+                        newY - 28,
+
+                    width: 32,
+                    height: 32,
+
+                    type: "SPRING",
+
+                    active: true,
+                    collected: false,
+
+                    frame: 0,
+                    timer: 0
+
+                });
+
+            } else if (r < 0.12) {
+
+                items.push({
+
+                    x:
+                        newX +
+                        (pw - 36) / 2,
+
+                    y:
+                        newY - 36,
+
+                    width: 36,
+                    height: 40,
+
+                    type: "ROCKET",
+
+                    active: true,
+                    collected: false,
+
+                    frame: 0,
+                    timer: 0
+
+                });
+
+            } else if (r < 0.15) {
+
+                items.push({
+
+                    x:
+                        newX +
+                        (pw - 34) / 2,
+
+                    y:
+                        newY - 30,
+
+                    width: 34,
+                    height: 34,
+
+                    type: "SHIELD",
+
+                    active: true,
+                    collected: false,
+
+                    frame: 0,
+                    timer: 0
+
+                });
+
+            } else if (r < 0.18) {
+
+                items.push({
+
+                    x:
+                        newX +
+                        (pw - 34) / 2,
+
+                    y:
+                        newY - 30,
+
+                    width: 34,
+                    height: 34,
+
+                    type: "MAGNET",
+
+                    active: true,
+                    collected: false,
+
+                    frame: 0,
+                    timer: 0
+
+                });
+
+            } else if (r < 0.45) {
+
+                spawnCollectible(
+                    platform
+                );
+
+            }
+
+        }
+
+
+        if (
+            maxHeightReached > 1000 &&
+            Math.random() <
+            0.08 +
+            progress * 0.12
+        ) {
+
+            spawnEnemy(platform);
+
+        }
+
+    }
+
+
+    /* =====================================================
+       COLLECTIBLES
+    ===================================================== */
+
+    function spawnCollectible(platform) {
+
+        const r =
+            Math.random();
+
+        let type;
+
+        if (r < 0.5) {
+
+            type = "COIN";
+
+        } else if (r < 0.65) {
+
+            type = "GEM";
+
+        } else if (r < 0.8) {
+
+            type = "HEART";
+
+        } else if (r < 0.9) {
+
+            type = "STAR";
+
+        } else if (r < 0.96) {
+
+            type = "STAR_2";
+
+        } else {
+
+            type = "STAR_SPECIAL";
+
+        }
+
+
+        items.push({
+
+            x:
+                platform.x +
+                (platform.width - 32) / 2,
+
+            y:
+                platform.y - 36,
+
+            width: 32,
+            height: 32,
+
+            type,
+
+            active: true,
+            collected: false,
+
+            frame: 0,
+            timer: 0
+
+        });
+
+    }
+
+
+    /* =====================================================
+       ENEMY
+    ===================================================== */
+
+    function spawnEnemy(platform) {
+
+        const type =
+            ENEMY_TYPES[
+                randomInt(
+                    0,
+                    ENEMY_TYPES.length - 1
+                )
+            ];
+
+
+        const enemy = {
+
+            x:
+                clamp(
+                    platform.x +
+                    platform.width / 2 -
+                    30,
+                    10,
+                    W - 70
+                ),
+
+            y:
+                platform.y - 150,
+
+            width: 60,
+            height: 60,
+
+            type,
+
+            initialX:
+                clamp(
+                    platform.x +
+                    platform.width / 2 -
+                    30,
+                    10,
+                    W - 70
+                ),
+
+            timeAlive: 0,
+
+            active: true,
+            isDefeated: false,
+
+            explosionTimer: 0,
+
+            projectileX: -100,
+            projectileY: -100,
+            projectileActive: false
+
+        };
+
+
+        enemies.push(enemy);
+
+    }
+
+
+    /* =====================================================
+       DECORATIONS
+    ===================================================== */
+
+    function generateInitialDecorations() {
+
+        const stars = [
+            "decoration/blue_star.png",
+            "decoration/pink_star.png",
+            "decoration/purple_star.png"
+        ];
+
+
+        for (let i = 0; i < 12; i++) {
+
+            decorations.push({
+
+                x: Math.random() * W,
+                y: Math.random() * H,
+
+                width: 24,
+                height: 24,
+
+                path:
+                    stars[
+                        randomInt(0, 2)
+                    ],
+
+                scrollSpeed: 0.08
+
+            });
+
+        }
+
+
+        const smallClouds = [
+            "environment/cloud_small_01.png",
+            "environment/cloud_small_02.png"
+        ];
+
+
+        for (let i = 0; i < 4; i++) {
+
+            decorations.push({
+
+                x: Math.random() * W,
+                y: Math.random() * H,
+
+                width: 90,
+                height: 60,
+
+                path:
+                    smallClouds[
+                        randomInt(0, 1)
+                    ],
+
+                scrollSpeed: 0.25
+
+            });
+
+        }
+
+
+        for (let i = 0; i < 3; i++) {
+
+            decorations.push({
+
+                x: Math.random() * W,
+                y: Math.random() * H,
+
+                width: 100,
+                height: 70,
+
+                path:
+                    "environment/cloud_medium.png",
+
+                scrollSpeed: 0.35
+
+            });
+
+        }
+
+
+        const islands = [
+            "environment/floating_island_small_01.png",
+            "environment/floating_island_small_02.png",
+            "environment/floating_island_small_03.png"
+        ];
+
+
+        for (let i = 0; i < 2; i++) {
+
+            decorations.push({
+
+                x: Math.random() * W,
+                y: Math.random() * H,
+
+                width: 110,
+                height: 70,
+
+                path:
+                    islands[
+                        randomInt(0, 2)
+                    ],
+
+                scrollSpeed: 0.15
+
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PLAYER UPDATE
+    ===================================================== */
+
+    function updatePlayer(dt) {
+
+        const maxDt =
+            Math.min(
+                dt,
+                0.033
+            );
+
+
+        player.frameTimer +=
+            maxDt;
+
+
+        if (
+            player.frameTimer >
+            0.15
+        ) {
+
+            player.animFrame =
+                (
+                    player.animFrame + 1
+                ) % 2;
+
+            player.frameTimer = 0;
+
+        }
+
+
+        if (leftPressed) {
+
+            player.velocityX -=
+                player.moveSpeed *
+                5 *
+                maxDt;
+
+        }
+
+
+        if (rightPressed) {
+
+            player.velocityX +=
+                player.moveSpeed *
+                5 *
+                maxDt;
+
+        }
+
+
+        if (
+            !leftPressed &&
+            !rightPressed
+        ) {
+
+            player.velocityX *=
+                0.85;
+
+        }
+
+
+        player.velocityX =
+            clamp(
+                player.velocityX,
+                -player.moveSpeed,
+                player.moveSpeed
+            );
+
+
+        player.x +=
+            player.velocityX *
+            maxDt;
+
+
+        if (player.x < 0) {
+
+            player.x = 0;
+            player.velocityX = 0;
+
+        }
+
+
+        if (
+            player.x +
+            player.width >
+            W
+        ) {
+
+            player.x =
+                W -
+                player.width;
+
+            player.velocityX = 0;
+
+        }
+
+
+        if (
+            player.isJetpackFlightActive
+        ) {
+
+            player.velocityY =
+                -1300;
+
+        } else if (
+            player.jetpackTimer > 0
+        ) {
+
+            player.jetpackTimer -=
+                maxDt;
+
+            player.velocityY =
+                -1500;
+
+        } else {
+
+            player.velocityY +=
+                player.gravity *
+                maxDt;
+
+        }
+
+
+        player.y +=
+            player.velocityY *
+            maxDt;
+
+
+        if (
+            player.landingTimer > 0
+        ) {
+
+            player.landingTimer -=
+                maxDt;
+
+        }
+
+
+        if (
+            player.invincibleTimer > 0
+        ) {
+
+            player.invincibleTimer -=
+                maxDt;
+
+        }
+
+
+        if (
+            player.shieldTimer > 0
+        ) {
+
+            player.shieldTimer -=
+                maxDt;
+
+            if (
+                player.shieldTimer <= 0
+            ) {
+
+                player.hasShield = false;
+
+            }
+
+        }
+
+
+        if (
+            player.magnetTimer > 0
+        ) {
+
+            player.magnetTimer -=
+                maxDt;
+
+            if (
+                player.magnetTimer <= 0
+            ) {
+
+                player.hasMagnet = false;
+
+            }
+
+        }
+
+    }
+
+
+    function playerRect() {
+
+        return {
+
+            left:
+                player.x +
+                player.width *
+                0.16,
+
+            top:
+                player.y +
+                player.height *
+                0.12,
+
+            right:
+                player.x +
+                player.width *
+                0.84,
+
+            bottom:
+                player.y +
+                player.height *
+                0.95
+
+        };
+
+    }
+
+
+    function playerIsFalling() {
+
+        return (
+            player.velocityY > 0 &&
+            player.jetpackTimer <= 0 &&
+            !player.isJetpackFlightActive
+        );
+
+    }
+
+
+    function bounce() {
+
+        if (
+            player.jetpackTimer <= 0 &&
+            !player.isJetpackFlightActive
+        ) {
+
+            player.velocityY =
+                player.jumpSpeed;
+
+            player.grounded = true;
+
+            player.landingTimer =
+                0.12;
+
+        }
+
+    }
+
+
+    function springBounce() {
+
+        if (
+            player.jetpackTimer <= 0 &&
+            !player.isJetpackFlightActive
+        ) {
+
+            player.velocityY =
+                player.jumpSpeed *
+                1.5;
+
+            player.grounded = true;
+
+            player.landingTimer =
+                0.18;
+
+        }
+
+    }
+
+
+    function activateJetpack(
+        duration = 2.5
+    ) {
+
+        player.jetpackTimer =
+            duration;
+
+        player.velocityY =
+            -1500;
+
+    }
+
+
+    function activateShield(
+        duration = 8
+    ) {
+
+        player.hasShield = true;
+
+        player.shieldTimer =
+            duration;
+
+    }
+
+
+    function activateMagnet(
+        duration = 8
+    ) {
+
+        player.hasMagnet = true;
+
+        player.magnetTimer =
+            duration;
+
+    }
+
+
+    /* =====================================================
+       ENEMY UPDATE
+    ===================================================== */
+
+    function updateEnemies(dt) {
+
+        for (const enemy of enemies) {
+
+            if (!enemy.active) {
+                continue;
+            }
+
+
+            if (enemy.isDefeated) {
+
+                enemy.explosionTimer +=
+                    dt;
+
+                if (
+                    enemy.explosionTimer >
+                    0.35
+                ) {
+
+                    enemy.active = false;
+
+                }
+
+                continue;
+
+            }
+
+
+            enemy.timeAlive +=
+                dt;
+
+
+            if (
+                enemy.type === "BAT" ||
+                enemy.type === "BAT_PURPLE"
+            ) {
+
+                enemy.x =
+                    enemy.initialX +
+                    Math.sin(
+                        enemy.timeAlive * 3
+                    ) *
+                    120;
+
+            }
+
+
+            if (
+                enemy.type === "BEE"
+            ) {
+
+                enemy.x =
+                    enemy.initialX +
+                    Math.sin(
+                        enemy.timeAlive * 2.5
+                    ) *
+                    90;
+
+                enemy.y +=
+                    Math.sin(
+                        enemy.timeAlive * 5
+                    ) *
+                    1.5;
+
+            }
+
+
+            if (
+                enemy.type === "UFO"
+            ) {
+
+                if (
+                    !enemy.projectileActive &&
+                    enemy.timeAlive > 1.5 &&
+                    (
+                        enemy.timeAlive %
+                        3 <
+                        0.05
+                    )
+                ) {
+
+                    enemy.projectileActive =
+                        true;
+
+                    enemy.projectileX =
+                        enemy.x +
+                        enemy.width / 2 -
+                        12;
+
+                    enemy.projectileY =
+                        enemy.y +
+                        enemy.height;
+
+                }
+
+            }
+
+
+            if (
+                enemy.projectileActive
+            ) {
+
+                enemy.projectileY +=
+                    280 *
+                    dt;
+
+
+                if (
+                    enemy.projectileY >
+                    enemy.y +
+                    1000
+                ) {
+
+                    enemy.projectileActive =
+                        false;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PLATFORM UPDATE
+    ===================================================== */
+
+    function updatePlatforms(dt) {
+
+        for (const platform of platforms) {
+
+            if (
+                !platform.active
+            ) {
+                continue;
+            }
+
+
+            if (
+                platform.isMoving &&
+                platform.moveSpeed !== 0
+            ) {
+
+                platform.x +=
+                    platform.moveSpeed *
+                    dt;
+
+
+                if (
+                    platform.x <
+                    platform.minX
+                ) {
+
+                    platform.x =
+                        platform.minX;
+
+                    platform.moveSpeed =
+                        -platform.moveSpeed;
+
+                } else if (
+                    platform.x +
+                    platform.width >
+                    platform.maxX
+                ) {
+
+                    platform.x =
+                        platform.maxX -
+                        platform.width;
+
+                    platform.moveSpeed =
+                        -platform.moveSpeed;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ITEM UPDATE
+    ===================================================== */
+
+    function updateItems(dt) {
+
+        for (const item of items) {
+
+            if (
+                !item.active ||
+                item.collected
+            ) {
+                continue;
+            }
+
+
+            item.timer += dt;
+
+            if (
+                item.timer >
+                0.12
+            ) {
+
+                item.frame =
+                    (
+                        item.frame + 1
+                    ) % 4;
+
+                item.timer = 0;
+
+            }
+
+
+            if (
+                player.hasMagnet
+            ) {
+
+                const dx =
+                    (
+                        player.x +
+                        32
+                    ) -
+                    (
+                        item.x +
+                        16
+                    );
+
+
+                const dy =
+                    (
+                        player.y +
+                        32
+                    ) -
+                    (
+                        item.y +
+                        16
+                    );
+
+
+                if (
+                    Math.abs(dx) < 300 &&
+                    Math.abs(dy) < 300
+                ) {
+
+                    item.x +=
+                        dx * 0.1;
+
+                    item.y +=
+                        dy * 0.1;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       COLLISION
+    ===================================================== */
+
+    function checkCollisions(
+        oldBottom
+    ) {
+
+        const p =
+            playerRect();
+
+
+        const currentBottom =
+            p.bottom;
+
+
+        const isInvincible =
+            player.invincibleTimer > 0;
+
+
+        /* ITEMS */
+
+        for (const item of items) {
+
+            if (
+                !item.active ||
+                item.collected
+            ) {
+                continue;
+            }
+
+
+            if (
+                intersects(
+                    p,
+                    rectOf(item)
+                )
+            ) {
+
+                item.collected = true;
+                item.active = false;
+
+
+                collectItem(
+                    item.type
+                );
+
+            }
+
+        }
+
+
+        /* ENEMIES */
+
+        if (
+            !player.isJetpackFlightActive &&
+            player.jetpackTimer <= 0 &&
+            !isInvincible
+        ) {
+
+            if (
+                playerIsFalling() &&
+                jetpackCount > 0 &&
+                !isJetpackModeActive
+            ) {
+
+                jetpackCount--;
+
+                saveData();
+
+                activateJetpack(4);
+
+                showNotification(
+                    "JETPACK ACTIVATED! 🚀",
+                    true
+                );
+
+            }
+
+
+            for (const enemy of enemies) {
+
+                if (
+                    !enemy.active ||
+                    enemy.isDefeated
+                ) {
+                    continue;
+                }
+
+
+                const er =
+                    rectOf(enemy);
+
+
+                if (
+                    intersects(
+                        p,
+                        er
+                    )
+                ) {
+
+                    if (
+                        playerIsFalling() &&
+                        p.bottom <
+                        enemy.y +
+                        enemy.height *
+                        0.5
+                    ) {
+
+                        defeatEnemy(
+                            enemy
+                        );
+
+                        bounce();
+
+                    } else if (
+                        player.hasShield
+                    ) {
+
+                        defeatEnemy(
+                            enemy
+                        );
+
+                        player.hasShield =
+                            false;
+
+                    } else if (
+                        shieldCount > 0
+                    ) {
+
+                        shieldCount--;
+
+                        saveData();
+
+                        defeatEnemy(
+                            enemy
+                        );
+
+                        activateShield(
+                            10
+                        );
+
+                        showNotification(
+                            "SHIELD DEPLOYED! 🛡️",
+                            true
+                        );
+
+                    } else {
+
+                        triggerDeath();
+
+                    }
+
+                } else if (
+                    enemy.projectileActive &&
+                    intersects(
+                        p,
+                        {
+                            left:
+                                enemy.projectileX,
+
+                            top:
+                                enemy.projectileY,
+
+                            right:
+                                enemy.projectileX +
+                                24,
+
+                            bottom:
+                                enemy.projectileY +
+                                24
+                        }
+                    )
+                ) {
+
+                    enemy.projectileActive =
+                        false;
+
+
+                    if (
+                        player.hasShield
+                    ) {
+
+                        player.hasShield =
+                            false;
+
+                    } else if (
+                        shieldCount > 0
+                    ) {
+
+                        shieldCount--;
+
+                        saveData();
+
+                        activateShield(
+                            10
+                        );
+
+                        showNotification(
+                            "SHIELD DEPLOYED! 🛡️",
+                            true
+                        );
+
+                    } else {
+
+                        triggerDeath();
+
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        /* PLATFORMS */
+
+        if (
+            playerIsFalling()
+        ) {
+
+            for (const platform of platforms) {
+
+                if (
+                    !platform.active
+                ) {
+                    continue;
+                }
+
+
+                const intersectsHorizontal =
+                    p.right >
+                    platform.x &&
+                    p.left <
+                    platform.x +
+                    platform.width;
+
+
+                if (
+                    intersectsHorizontal &&
+                    oldBottom <=
+                    platform.y &&
+                    currentBottom >=
+                    platform.y
+                ) {
+
+                    player.y =
+                        platform.y -
+                        player.height *
+                        0.95;
+
+
+                    bounce();
+
+
+                    if (
+                        platform.type ===
+                        "CLOUD_01" ||
+                        platform.type ===
+                        "CLOUD_02"
+                    ) {
+
+                        platform.active =
+                            false;
+
+                    }
+
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       COLLECT ITEM
+    ===================================================== */
+
+    function collectItem(type) {
+
+        switch (type) {
+
+            case "COIN":
+
+                coinCount++;
+
+                saveData();
+
+                showNotification(
+                    "+1 COIN 🪙"
+                );
+
+                break;
+
+
+            case "GEM":
+
+                gemCount++;
+
+                saveData();
+
+                showNotification(
+                    "+1 GEM 💎",
+                    true
+                );
+
+                break;
+
+
+            case "HEART":
+
+                heartCount++;
+
+                saveData();
+
+                showNotification(
+                    "+1 HEART ❤️",
+                    true
+                );
+
+                break;
+
+
+            case "STAR":
+
+                starBonusScore +=
+                    100;
+
+                showNotification(
+                    "+100 ⭐"
+                );
+
+                break;
+
+
+            case "STAR_2":
+
+                starBonusScore +=
+                    250;
+
+                showNotification(
+                    "+250 ⭐"
+                );
+
+                break;
+
+
+            case "STAR_SPECIAL":
+
+                starBonusScore +=
+                    500;
+
+                showNotification(
+                    "+500 ⭐",
+                    true
+                );
+
+                break;
+
+
+            case "SPRING":
+
+                springBounce();
+
+                break;
+
+
+            case "ROCKET":
+
+                if (
+                    isJetpackModeActive
+                ) {
+
+                    activateJetpack(3);
+
+                } else {
+
+                    jetpackCount++;
+
+                    saveData();
+
+                    showNotification(
+                        "JETPACK STORED 🚀",
+                        true
+                    );
+
+                }
+
+                break;
+
+
+            case "SHIELD":
+
+                if (
+                    isJetpackModeActive
+                ) {
+
+                    activateShield(10);
+
+                } else {
+
+                    shieldCount++;
+
+                    saveData();
+
+                    showNotification(
+                        "SHIELD STORED 🛡️",
+                        true
+                    );
+
+                }
+
+                break;
+
+
+            case "MAGNET":
+
+                activateMagnet(10);
+
+                showNotification(
+                    "MAGNET ACQUIRED 🧲",
+                    true
+                );
+
+                break;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ENEMY DEFEAT
+    ===================================================== */
+
+    function defeatEnemy(enemy) {
+
+        enemy.isDefeated = true;
+
+        enemy.explosionTimer = 0;
+
+    }
+
+
+    /* =====================================================
+       DEATH
+    ===================================================== */
+
+    function triggerDeath() {
+
+        if (
+            gameState !== STATES.PLAYING
+        ) {
+            return;
+        }
+
+
+        if (
+            player.invincibleTimer >
+            0
+        ) {
+
+            if (
+                player.y >
+                H
+            ) {
+
+                findSafeRevivePlatform();
+
+            }
+
+            return;
+
+        }
+
+
+        if (
+            heartCount > 0
+        ) {
+
+            heartCount--;
+
+            saveData();
+
+            findSafeRevivePlatform();
+
+            player.invincibleTimer =
+                3;
+
+            return;
+
+        }
+
+
+        if (
+            gemCount > 0
+        ) {
+
+            openContinuePrompt();
+
+            return;
+
+        }
+
+
+        gameState =
+            STATES.GAME_OVER;
+
+
+        if (
+            score >
+            highScore
+        ) {
+
+            highScore =
+                score;
+
+            saveData();
+
+        }
+
+
+        showGameOver();
+
+    }
+
+
+    /* =====================================================
+       SAFE REVIVE
+    ===================================================== */
+
+    function findSafeRevivePlatform() {
+
+        const targetY =
+            H * 0.5;
+
+
+        let safe =
+            null;
+
+        let bestDistance =
+            Infinity;
+
+
+        for (
+            const platform
+            of platforms
+        ) {
+
+            if (
+                !platform.active
+            ) {
+                continue;
+            }
+
+
+            const distance =
+                Math.abs(
+                    platform.y -
+                    targetY
+                );
+
+
+            if (
+                distance <
+                bestDistance
+            ) {
+
+                bestDistance =
+                    distance;
+
+                safe =
+                    platform;
+
+            }
+
+        }
+
+
+        if (safe) {
+
+            player.x =
+                safe.x +
+                (
+                    safe.width -
+                    player.width
+                ) / 2;
+
+
+            player.y =
+                safe.y -
+                player.height;
+
+
+            player.velocityY =
+                -600;
+
+        } else {
+
+            player.y =
+                H * 0.4;
+
+            player.velocityY =
+                -800;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CAMERA
+    ===================================================== */
+
+    function updateCamera() {
+
+        const cameraLine =
+            H * 0.38;
+
+
+        if (
+            player.y <
+            cameraLine
+        ) {
+
+            const difference =
+                cameraLine -
+                player.y;
+
+
+            player.y +=
+                difference;
+
+
+            for (
+                const platform
+                of platforms
+            ) {
+
+                platform.y +=
+                    difference;
+
+            }
+
+
+            for (
+                const item
+                of items
+            ) {
+
+                item.y +=
+                    difference;
+
+            }
+
+
+            for (
+                const enemy
+                of enemies
+            ) {
+
+                enemy.y +=
+                    difference;
+
+
+                if (
+                    enemy.projectileActive
+                ) {
+
+                    enemy.projectileY +=
+                        difference;
+
+                }
+
+            }
+
+
+            for (
+                const decoration
+                of decorations
+            ) {
+
+                decoration.y +=
+                    difference *
+                    decoration.scrollSpeed;
+
+
+                if (
+                    decoration.y >
+                    H + 200
+                ) {
+
+                    decoration.y =
+                        -200;
+
+                    decoration.x =
+                        Math.random() *
+                        W;
+
+                }
+
+            }
+
+
+            worldOffset +=
+                difference;
+
+
+            if (
+                worldOffset >
+                maxHeightReached
+            ) {
+
+                maxHeightReached =
+                    worldOffset;
+
+
+                score =
+                    Math.floor(
+                        maxHeightReached /
+                        10 *
+                        DIFFICULTIES[
+                            selectedDifficulty
+                        ]
+                            .scrollSpeedMultiplier
+                    ) +
+                    starBonusScore;
+
+
+                if (
+                    score >
+                    highScore
+                ) {
+
+                    highScore =
+                        score;
+
+                }
+
+                saveData();
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       GENERATE ABOVE
+    ===================================================== */
+
+    function generatePlatformsAbove() {
+
+        if (
+            platforms.length === 0
+        ) {
+            return;
+        }
+
+
+        let highest =
+            platforms.reduce(
+                (a, b) =>
+                    a.y < b.y
+                        ? a
+                        : b
+            );
+
+
+        while (
+            highest.y >
+            -H
+        ) {
+
+            generateNextReachablePlatform(
+                highest
+            );
+
+
+            highest =
+                platforms.reduce(
+                    (a, b) =>
+                        a.y < b.y
+                            ? a
+                            : b
+                );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       REMOVE OLD
+    ===================================================== */
+
+    function removeOldEntities() {
+
+        for (
+            let i =
+                platforms.length - 1;
+            i >= 0;
+            i--
+        ) {
+
+            if (
+                platforms[i].y >
+                H + 200
+            ) {
+
+                platforms.splice(i, 1);
+
+            }
+
+        }
+
+
+        for (
+            let i =
+                items.length - 1;
+            i >= 0;
+            i--
+        ) {
+
+            if (
+                items[i].y >
+                H + 200 ||
+                !items[i].active
+            ) {
+
+                items.splice(i, 1);
+
+            }
+
+        }
+
+
+        for (
+            let i =
+                enemies.length - 1;
+            i >= 0;
+            i--
+        ) {
+
+            if (
+                enemies[i].y >
+                H + 300 ||
+                !enemies[i].active
+            ) {
+
+                enemies.splice(i, 1);
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MAIN UPDATE
+    ===================================================== */
+
+    let notificationTimer = 0;
+
+
+    function update(dt) {
+
+        if (
+            gameState !==
+            STATES.PLAYING
+        ) {
+
+            return;
+
+        }
+
+
+        const oldBottom =
+            player.y +
+            player.height *
+            0.95;
+
+
+        updatePlayer(dt);
+
+        updatePlatforms(dt);
+
+        updateItems(dt);
+
+        updateEnemies(dt);
+
+        checkCollisions(
+            oldBottom
+        );
+
+        updateCamera();
+
+        generatePlatformsAbove();
+
+        removeOldEntities();
+
+
+        if (
+            player.y >
+            H + 100
+        ) {
+
+            triggerDeath();
+
+        }
+
+
+        if (
+            notificationTimer >
+            0
+        ) {
+
+            notificationTimer -=
+                dt;
+
+            if (
+                notificationTimer <=
+                0
+            ) {
+
+                hideNotification();
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DRAW BACKGROUND
+    ===================================================== */
+
+    function drawBackground() {
+
+        ctx.fillStyle =
+            "rgb(160,215,250)";
+
+        ctx.fillRect(
+            0,
+            0,
+            W,
+            H
+        );
+
+
+        const backgrounds = [
+
+            {
+                path:
+                    "environment/mountain.png",
+                parallax:
+                    0.05
+            },
+
+            {
+                path:
+                    "environment/space_city.png",
+                parallax:
+                    0.15
+            }
+
+        ];
+
+
+        for (
+            const background
+            of backgrounds
+        ) {
+
+            const image =
+                asset(
+                    background.path
+                );
+
+
+            if (!image) {
+                continue;
+            }
+
+
+            const ratio =
+                image.width /
+                image.height;
+
+
+            const width =
+                W;
+
+            const height =
+                W / ratio;
+
+
+            const scroll =
+                (
+                    worldOffset *
+                    background.parallax
+                ) %
+                height;
+
+
+            ctx.drawImage(
+                image,
+                0,
+                Math.max(
+                    0,
+                    H -
+                    height +
+                    scroll
+                ),
+                width,
+                height
+            );
+
+        }
+
+
+        const moon =
+            asset(
+                "environment/moon.png"
+            );
+
+
+        if (moon) {
+
+            const offset =
+                (
+                    worldOffset *
+                    0.02
+                ) %
+                (
+                    H + 200
+                );
+
+
+            ctx.drawImage(
+                moon,
+                W - 140,
+                40 + offset,
+                120,
+                120
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DRAW DECORATIONS
+    ===================================================== */
+
+    function drawDecorations() {
+
+        for (
+            const decoration
+            of decorations
+        ) {
+
+            const image =
+                asset(
+                    decoration.path
+                );
+
+
+            if (!image) {
+                continue;
+            }
+
+
+            ctx.drawImage(
+                image,
+                decoration.x,
+                decoration.y,
+                decoration.width,
+                decoration.height
+            );
+
+        }
+
+
+        const cloudLarge =
+            asset(
+                "environment/cloud_large.png"
+            );
+
+
+        if (cloudLarge) {
+
+            const x =
+                (
+                    worldOffset *
+                    0.1
+                ) %
+                W -
+                200;
+
+
+            ctx.drawImage(
+                cloudLarge,
+                x,
+                H * 0.15,
+                300,
+                120
+            );
+
+        }
+
+
+        const cloudMedium =
+            asset(
+                "environment/cloud_medium.png"
+            );
+
+
+        if (cloudMedium) {
+
+            const x =
+                (
+                    worldOffset *
+                    0.18
+                ) %
+                W -
+                150;
+
+
+            ctx.drawImage(
+                cloudMedium,
+                x,
+                H * 0.32,
+                230,
+                90
+            );
+
+        }
+
+
+        const islandLarge =
+            asset(
+                "environment/floating_island_large.png"
+            );
+
+
+        if (islandLarge) {
+
+            ctx.drawImage(
+                islandLarge,
+                30,
+                H * 0.22,
+                150,
+                100
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DRAW PLATFORM
+    ===================================================== */
+
+    function drawPlatforms() {
+
+        for (
+            const platform
+            of platforms
+        ) {
+
+            if (
+                !platform.active
+            ) {
+                continue;
+            }
+
+
+            const image =
+                asset(
+                    "platforms/platform_" +
+                    platform.type.toLowerCase() +
+                    ".png"
+                );
+
+
+            if (image) {
+
+                ctx.drawImage(
+                    image,
+                    platform.x,
+                    platform.y,
+                    platform.width,
+                    platform.height
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ITEM ASSET
+    ===================================================== */
+
+    function getItemImage(item) {
+
+        switch (item.type) {
+
+            case "COIN":
+
+                return asset(
+                    "collectibles/coin_0" +
+                    (
+                        item.frame + 1
+                    ) +
+                    ".png"
+                );
+
+            case "GEM":
+
+                return asset(
+                    "collectibles/gem.png"
+                );
+
+            case "HEART":
+
+                return asset(
+                    "collectibles/heart.png"
+                );
+
+            case "STAR":
+
+                return asset(
+                    "collectibles/star.png"
+                );
+
+            case "STAR_2":
+
+                return asset(
+                    "collectibles/star_2.png"
+                );
+
+            case "STAR_SPECIAL":
+
+                return asset(
+                    "collectibles/star_special.png"
+                );
+
+            case "SPRING":
+
+                return asset(
+                    "powerups/spring.png"
+                );
+
+            case "ROCKET":
+
+                return asset(
+                    "powerups/rocket_powerup.png"
+                );
+
+            case "SHIELD":
+
+                return asset(
+                    "powerups/shield.png"
+                );
+
+            case "MAGNET":
+
+                return asset(
+                    "powerups/magnet.png"
+                );
+
+            default:
+
+                return null;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DRAW ITEMS
+    ===================================================== */
+
+    function drawItems() {
+
+        for (
+            const item
+            of items
+        ) {
+
+            if (
+                !item.active ||
+                item.collected
+            ) {
+                continue;
+            }
+
+
+            const image =
+                getItemImage(item);
+
+
+            if (!image) {
+                continue;
+            }
+
+
+            ctx.drawImage(
+                image,
+                item.x,
+                item.y,
+                item.width,
+                item.height
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       ENEMY IMAGE
+    ===================================================== */
+
+    function getEnemyImage(type) {
+
+        const names = {
+
+            ALIEN:
+                "enemy_alien.png",
+
+            BAT:
+                "enemy_bat.png",
+
+            BAT_PURPLE:
+                "enemy_bat_purple.png",
+
+            BEE:
+                "enemy_bee.png",
+
+            MONSTER:
+                "enemy_monster.png",
+
+            SPIKE:
+                "enemy_spike.png",
+
+            UFO:
+                "enemy_ufo.png"
+
+        };
+
+
+        return asset(
+            "enemies/" +
+            names[type]
+        );
+
+    }
+
+
+    /* =====================================================
+       DRAW ENEMIES
+    ===================================================== */
+
+    function drawEnemies() {
+
+        for (
+            const enemy
+            of enemies
+        ) {
+
+            if (
+                !enemy.active
+            ) {
+                continue;
+            }
+
+
+            if (
+                enemy.isDefeated
+            ) {
+
+                const explosion =
+                    asset(
+                        "effects/explosion.png"
+                    );
+
+
+                if (explosion) {
+
+                    ctx.drawImage(
+                        explosion,
+                        enemy.x,
+                        enemy.y,
+                        enemy.width,
+                        enemy.height
+                    );
+
+                }
+
+                continue;
+
+            }
+
+
+            const image =
+                getEnemyImage(
+                    enemy.type
+                );
+
+
+            if (image) {
+
+                ctx.drawImage(
+                    image,
+                    enemy.x,
+                    enemy.y,
+                    enemy.width,
+                    enemy.height
+                );
+
+            }
+
+
+            if (
+                enemy.projectileActive
+            ) {
+
+                const projectile =
+                    asset(
+                        "effects/enemy_projectile.png"
+                    );
+
+
+                if (projectile) {
+
+                    ctx.drawImage(
+                        projectile,
+                        enemy.projectileX,
+                        enemy.projectileY,
+                        24,
+                        24
+                    );
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    /* =====================================================
+       PLAYER IMAGE
+    ===================================================== */
+
+    function getPlayerImage() {
+
+        let path;
+
+
+        if (
+            player.isJetpackFlightActive ||
+            player.jetpackTimer > 0
+        ) {
+
+            path =
+                player.animFrame === 0
+                    ? "player/player_jetpack.png"
+                    : "player/player_boost.png";
+
+        } else if (
+            player.landingTimer > 0
+        ) {
+
+            path =
+                player.animFrame === 0
+                    ? "player/player_idle2.png"
+                    : "player/player_idle.png";
+
+        } else if (
+            player.velocityY < -100
+        ) {
+
+            path =
+                player.animFrame === 0
+                    ? "player/player_rise.png"
+                    : "player/player_rise2.png";
+
+        } else if (
+            player.velocityY > 100
+        ) {
+
+            path =
+                player.animFrame === 0
+                    ? "player/player_fall.png"
+                    : "player/player_fall2.png";
+
+        } else {
+
+            path =
+                player.animFrame === 0
+                    ? "player/player_idle.png"
+                    : "player/player_idle2.png";
+
+        }
+
+
+        return asset(path);
+
+    }
+
+
+    /* =====================================================
+       DRAW PLAYER
+    ===================================================== */
+
+    function drawPlayer() {
+
+        if (
+            player.invincibleTimer >
+            0
+        ) {
+
+            const flicker =
+                Math.floor(
+                    performance.now() /
+                    100
+                ) % 2 === 0;
+
+
+            if (flicker) {
+                return;
+            }
+
+        }
+
+
+        const image =
+            getPlayerImage();
+
+
+        if (!image) {
+            return;
+        }
+
+
+        ctx.save();
+
+
+        if (
+            player.velocityX <
+            -20
+        ) {
+
+            ctx.translate(
+                player.x +
+                player.width / 2,
+                player.y +
+                player.height / 2
+            );
+
+            ctx.scale(
+                -1,
+                1
+            );
+
+            ctx.translate(
+                -(
+                    player.x +
+                    player.width / 2
+                ),
+                -(
+                    player.y +
+                    player.height / 2
+                )
+            );
+
+        }
+
+
+        ctx.drawImage(
+            image,
+            player.x,
+            player.y,
+            player.width,
+            player.height
+        );
+
+
+        ctx.restore();
+
+
+        if (
+            player.hasShield
+        ) {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                player.x +
+                player.width / 2,
+                player.y +
+                player.height / 2,
+                42,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.strokeStyle =
+                "rgba(0,255,255,0.8)";
+
+            ctx.lineWidth = 3;
+
+            ctx.stroke();
+
+        }
+
+
+        if (
+            player.hasMagnet
+        ) {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                player.x +
+                player.width / 2,
+                player.y +
+                player.height / 2,
+                47,
+                0,
+                Math.PI * 2
+            );
+
+            ctx.strokeStyle =
+                "rgba(255,80,255,0.45)";
+
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       DRAW
+    ===================================================== */
+
+    function draw() {
+
+        drawBackground();
+
+        drawDecorations();
+
+        drawPlatforms();
+
+        drawItems();
+
+        drawEnemies();
+
+        drawPlayer();
+
+    }
+
+
+    /* =====================================================
+       GAME LOOP
+    ===================================================== */
+
+    function gameLoop(time) {
+
+        if (!lastTime) {
+            lastTime = time;
+        }
+
+
+        let dt =
+            (
+                time -
+                lastTime
+            ) / 1000;
+
+
+        lastTime = time;
+
+
+        dt =
+            Math.min(
+                dt,
+                0.033
+            );
+
+
+        update(dt);
+
+        draw();
+
+        updateHUD();
+
+        requestAnimationFrame(
+            gameLoop
+        );
+
+    }
+
+
+    /* =====================================================
+       HUD
+    ===================================================== */
+
+    function updateHUD() {
+
+        document.getElementById(
+            "scoreHud"
+        ).textContent =
+            "SCORE " +
+            score;
+
+
+        document.getElementById(
+            "highHud"
+        ).textContent =
+            "HI " +
+            highScore;
+
+
+        document.getElementById(
+            "coinsHud"
+        ).textContent =
+            "🪙 " +
+            coinCount;
+
+
+        document.getElementById(
+            "heartsHud"
+        ).textContent =
+            "❤️ x" +
+            heartCount;
+
+
+        document.getElementById(
+            "shieldCount"
+        ).textContent =
+            "x" +
+            shieldCount;
+
+
+        document.getElementById(
+            "gemCount"
+        ).textContent =
+            "x" +
+            gemCount;
+
+
+        document.getElementById(
+            "jetpackCount"
+        ).textContent =
+            isJetpackModeActive
+                ? "∞"
+                : "x" +
+                  jetpackCount;
+
+
+        document.getElementById(
+            "pauseButton"
+        ).style.display =
+            gameState === STATES.PLAYING
+                ? "block"
+                : "none";
+
+
+        const devButton =
+            document.getElementById(
+                "devButton"
+            );
+
+
+        if (
+            isJetpackModeActive
+        ) {
+
+            devButton.textContent =
+                "JETPACK ON";
+
+            devButton.style.background =
+                "#ff9800";
+
+        } else if (
+            isDeveloperModeActive
+        ) {
+
+            devButton.textContent =
+                "DEV ON";
+
+            devButton.style.background =
+                "#4caf50";
+
+        } else {
+
+            devButton.textContent =
+                "DEV";
+
+            devButton.style.background =
+                "rgba(20,25,35,0.65)";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       NOTIFICATION
+    ===================================================== */
+
+    function showNotification(
+        text,
+        important = false
+    ) {
+
+        if (
+            important ||
+            notificationTimer <
+            0.5
+        ) {
+
+            const element =
+                document.getElementById(
+                    "notification"
+                );
+
+
+            element.textContent =
+                text;
+
+
+            element.style.opacity =
+                "1";
+
+
+            notificationTimer =
+                2.5;
+
+        }
+
+    }
+
+
+    function hideNotification() {
+
+        document.getElementById(
+            "notification"
+        ).style.opacity =
+            "0";
+
+    }
+
+
+    /* =====================================================
+       READY
+    ===================================================== */
+
+    function showReady() {
+
+        document.getElementById(
+            "readyOverlay"
+        ).classList.add("active");
+
+    }
+
+
+    function hideReady() {
+
+        document.getElementById(
+            "readyOverlay"
+        ).classList.remove("active");
+
+    }
+
+
+    /* =====================================================
+       DIFFICULTY
+    ===================================================== */
+
+    document
+        .querySelectorAll(
+            ".difficulty-button"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                event => {
+
+                    selectedDifficulty =
+                        event.currentTarget
+                            .dataset
+                            .difficulty;
+
+
+                    document
+                        .querySelectorAll(
+                            ".difficulty-button"
+                        )
+                        .forEach(
+                            b =>
+                                b.classList.remove(
+                                    "selected"
+                                )
+                        );
+
+
+                    event.currentTarget
+                        .classList.add(
+                            "selected"
+                        );
+
+
+                    highScore =
+                        Number(
+                            localStorage.getItem(
+                                DIFFICULTIES[
+                                    selectedDifficulty
+                                ]
+                                    .prefKeyHighScore
+                            )
+                        ) || 0;
+
+
+                    saveData();
+
+                    applyDifficulty();
+
+                }
+            );
+
+        });
+
+
+    /* =====================================================
+       START GAME
+    ===================================================== */
+
+    function beginGame() {
+
+        startNewGame();
+
+        gameState =
+            STATES.PLAYING;
+
+        hideReady();
+
+        lastTime =
+            performance.now();
+
+    }
+
+
+    document
+        .getElementById(
+            "readyOverlay"
+        )
+        .addEventListener(
+            "pointerdown",
+            event => {
+
+                if (
+                    event.target.closest(
+                        ".difficulty-button"
+                    ) ||
+                    event.target.closest(
+                        "#shopOpenButton"
+                    )
+                ) {
+                    return;
+                }
+
+
+                beginGame();
+
+            }
+        );
+
+
+    /* =====================================================
+       SHOP
+    ===================================================== */
+
+    document
+        .getElementById(
+            "shopOpenButton"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "shopOverlay"
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+                updateShop();
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "shopClose"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "shopOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+            }
+        );
+
+
+    function updateShop() {
+
+        document.getElementById(
+            "shopCoins"
+        ).textContent =
+            "🪙 COINS: " +
+            coinCount;
+
+
+        document
+            .querySelectorAll(
+                ".buy-button"
+            )
+            .forEach(button => {
+
+                const prices = {
+
+                    gem: 100,
+                    heart: 150,
+                    shield: 200,
+                    jetpack: 250
+
+                };
+
+
+                const price =
+                    prices[
+                        button.dataset.shop
+                    ];
+
+
+                button.classList.toggle(
+                    "disabled",
+                    coinCount <
+                    price
+                );
+
+            });
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".buy-button"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const type =
+                        button.dataset.shop;
+
+
+                    const prices = {
+
+                        gem: 100,
+                        heart: 150,
+                        shield: 200,
+                        jetpack: 250
+
+                    };
+
+
+                    const names = {
+
+                        gem: "Gem 💎",
+                        heart: "Heart ❤️",
+                        shield: "Shield 🛡️",
+                        jetpack: "Jetpack 🚀"
+
+                    };
+
+
+                    const price =
+                        prices[type];
+
+
+                    if (
+                        coinCount <
+                        price
+                    ) {
+
+                        showNotification(
+                            "NOT ENOUGH COINS! 🪙",
+                            true
+                        );
+
+                        return;
+
+                    }
+
+
+                    coinCount -=
+                        price;
+
+
+                    if (
+                        type === "gem"
+                    ) {
+
+                        gemCount++;
+
+                    } else if (
+                        type === "heart"
+                    ) {
+
+                        heartCount++;
+
+                    } else if (
+                        type === "shield"
+                    ) {
+
+                        shieldCount++;
+
+                    } else if (
+                        type === "jetpack"
+                    ) {
+
+                        jetpackCount++;
+
+                    }
+
+
+                    saveData();
+
+                    updateShop();
+
+                    showNotification(
+                        names[type] +
+                        " PURCHASED!",
+                        true
+                    );
+
+                }
+            );
+
+        });
+
+
+    /* =====================================================
+       GAME OVER
+    ===================================================== */
+
+    function showGameOver() {
+
+        document.getElementById(
+            "gameOverDifficulty"
+        ).textContent =
+            "Difficulty: " +
+            DIFFICULTIES[
+                selectedDifficulty
+            ].displayName;
+
+
+        document.getElementById(
+            "finalScore"
+        ).textContent =
+            "Final Score: " +
+            score;
+
+
+        document.getElementById(
+            "bestScore"
+        ).textContent =
+            "Best: " +
+            highScore;
+
+
+        document.getElementById(
+            "newBest"
+        ).style.display =
+            score > 0 &&
+            score >= highScore
+                ? "block"
+                : "none";
+
+
+        document
+            .getElementById(
+                "gameOverOverlay"
+            )
+            .classList.add(
+                "active"
+            );
+
+    }
+
+
+    document
+        .getElementById(
+            "restartButton"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "gameOverOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+                startNewGame();
+
+                gameState =
+                    STATES.PLAYING;
+
+            }
+        );
+
+
+    /* =====================================================
+       PAUSE
+    ===================================================== */
+
+    function pauseGame() {
+
+        if (
+            gameState !==
+            STATES.PLAYING
+        ) {
+            return;
+        }
+
+
+        gameState =
+            STATES.PAUSED;
+
+
+        leftPressed = false;
+        rightPressed = false;
+
+
+        document
+            .getElementById(
+                "pauseOverlay"
+            )
+            .classList.add(
+                "active"
+            );
+
+    }
+
+
+    function resumeGame() {
+
+        if (
+            gameState ===
+            STATES.PAUSED
+        ) {
+
+            gameState =
+                STATES.PLAYING;
+
+        }
+
+
+        lastTime =
+            performance.now();
+
+
+        document
+            .getElementById(
+                "pauseOverlay"
+            )
+            .classList.remove(
+                "active"
+            );
+
+    }
+
+
+    document
+        .getElementById(
+            "pauseButton"
+        )
+        .addEventListener(
+            "click",
+            pauseGame
+        );
+
+
+    document
+        .getElementById(
+            "resumeButton"
+        )
+        .addEventListener(
+            "click",
+            resumeGame
+        );
+
+
+    document
+        .getElementById(
+            "pauseRestartButton"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "pauseOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+                startNewGame();
+
+                gameState =
+                    STATES.PLAYING;
+
+            }
+        );
+
+
+    /* =====================================================
+       BACK
+    ===================================================== */
+
+    function goBack() {
+
+        window.location.href =
+            "game-center.html";
+
+    }
+
+
+    document
+        .getElementById(
+            "backButton"
+        )
+        .addEventListener(
+            "click",
+            goBack
+        );
+
+
+    document
+        .getElementById(
+            "pauseBackButton"
+        )
+        .addEventListener(
+            "click",
+            goBack
+        );
+
+
+    /* =====================================================
+       CONTINUE PROMPT
+    ===================================================== */
+
+    function openContinuePrompt() {
+
+        document.getElementById(
+            "continueOwned"
+        ).textContent =
+            "Owned: " +
+            gemCount;
+
+
+        document
+            .getElementById(
+                "continueOverlay"
+            )
+            .classList.add(
+                "active"
+            );
+
+    }
+
+
+    document
+        .getElementById(
+            "continueYes"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                if (
+                    gemCount <= 0
+                ) {
+                    return;
+                }
+
+
+                gemCount--;
+
+                saveData();
+
+
+                document
+                    .getElementById(
+                        "continueOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+
+                findSafeRevivePlatform();
+
+                player.invincibleTimer =
+                    3;
+
+
+                gameState =
+                    STATES.PLAYING;
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "continueNo"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "continueOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+
+                gameState =
+                    STATES.GAME_OVER;
+
+                showGameOver();
+
+            }
+        );
+
+
+    /* =====================================================
+       DEV AUTH
+    ===================================================== */
+
+    document
+        .getElementById(
+            "devButton"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                if (
+                    isDeveloperModeActive
+                ) {
+
+                    document
+                        .getElementById(
+                            "devMenuOverlay"
+                        )
+                        .classList.add(
+                            "active"
+                        );
+
+                } else {
+
+                    document
+                        .getElementById(
+                            "devAuthOverlay"
+                        )
+                        .classList.add(
+                            "active"
+                        );
+
+                    document
+                        .getElementById(
+                            "devPassword"
+                        )
+                        .focus();
+
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "devCancel"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "devAuthOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "devAuthenticate"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                const password =
+                    document
+                        .getElementById(
+                            "devPassword"
+                        )
+                        .value
+                        .trim();
+
+
+                if (
+                    password ===
+                    "dev_selvarajan"
+                ) {
+
+                    isDeveloperModeActive =
+                        true;
+
+
+                    document
+                        .getElementById(
+                            "devAuthOverlay"
+                        )
+                        .classList.remove(
+                            "active"
+                        );
+
+
+                    document
+                        .getElementById(
+                            "devMenuOverlay"
+                        )
+                        .classList.add(
+                            "active"
+                        );
+
+
+                    showNotification(
+                        "DEVELOPER MODE ON",
+                        true
+                    );
+
+                } else {
+
+                    showNotification(
+                        "INVALID PASSWORD",
+                        true
+                    );
+
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "devClose"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                document
+                    .getElementById(
+                        "devMenuOverlay"
+                    )
+                    .classList.remove(
+                        "active"
+                    );
+
+            }
+        );
+
+
+    /* =====================================================
+       JETPACK DEV MODE
+    ===================================================== */
+
+    function updateJetpackDevButton() {
+
+        document
+            .getElementById(
+                "jetpackDevButton"
+            )
+            .textContent =
+            isJetpackModeActive
+                ? "JETPACK MODE: ON"
+                : "JETPACK MODE: OFF";
+
+    }
+
+
+    document
+        .getElementById(
+            "jetpackDevButton"
+        )
+        .addEventListener(
+            "click",
+            () => {
+
+                isJetpackModeActive =
+                    !isJetpackModeActive;
+
+
+                player.isJetpackFlightActive =
+                    isJetpackModeActive;
+
+
+                updateJetpackDevButton();
+
+
+                if (
+                    isJetpackModeActive &&
+                    gameState ===
+                    STATES.READY
+                ) {
+
+                    beginGame();
+
+                }
+
+
+                showNotification(
+                    isJetpackModeActive
+                        ? "JETPACK MODE ON 🚀"
+                        : "JETPACK MODE OFF",
+                    true
+                );
+
+            }
+        );
+
+
+    /* =====================================================
+       TOUCH / POINTER CONTROL
+    ===================================================== */
+
+    function pointerStart(
+        event,
+        side
+    ) {
+
+        if (
+            gameState !==
+            STATES.PLAYING
+        ) {
+            return;
+        }
+
+
+        event.preventDefault();
+
+
+        if (
+            side === "left"
+        ) {
+
+            leftPressed = true;
+            rightPressed = false;
+
+        } else {
+
+            rightPressed = true;
+            leftPressed = false;
+
+        }
+
+    }
+
+
+    function pointerEnd(
+        event
+    ) {
+
+        event.preventDefault();
+
+        leftPressed = false;
+        rightPressed = false;
+
+    }
+
+
+    const leftZone =
+        document.getElementById(
+            "leftZone"
+        );
+
+
+    const rightZone =
+        document.getElementById(
+            "rightZone"
+        );
+
+
+    leftZone.addEventListener(
+        "pointerdown",
+        event =>
+            pointerStart(
+                event,
+                "left"
+            )
+    );
+
+
+    rightZone.addEventListener(
+        "pointerdown",
+        event =>
+            pointerStart(
+                event,
+                "right"
+            )
+    );
+
+
+    leftZone.addEventListener(
+        "pointerup",
+        pointerEnd
+    );
+
+
+    rightZone.addEventListener(
+        "pointerup",
+        pointerEnd
+    );
+
+
+    leftZone.addEventListener(
+        "pointercancel",
+        pointerEnd
+    );
+
+
+    rightZone.addEventListener(
+        "pointercancel",
+        pointerEnd
+    );
+
+
+    leftZone.addEventListener(
+        "pointerleave",
+        pointerEnd
+    );
+
+
+    rightZone.addEventListener(
+        "pointerleave",
+        pointerEnd
+    );
+
+
+    /* =====================================================
+       KEYBOARD
+    ===================================================== */
+
+    window.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "ArrowLeft" ||
+                event.key.toLowerCase() === "a"
+            ) {
+
+                leftPressed = true;
+
+            }
+
+
+            if (
+                event.key === "ArrowRight" ||
+                event.key.toLowerCase() === "d"
+            ) {
+
+                rightPressed = true;
+
+            }
+
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                if (
+                    gameState ===
+                    STATES.PLAYING
+                ) {
+
+                    pauseGame();
+
+                } else if (
+                    gameState ===
+                    STATES.PAUSED
+                ) {
+
+                    resumeGame();
+
+                }
+
+            }
+
+        }
+    );
+
+
+    window.addEventListener(
+        "keyup",
+        event => {
+
+            if (
+                event.key === "ArrowLeft" ||
+                event.key.toLowerCase() === "a"
+            ) {
+
+                leftPressed = false;
+
+            }
+
+
+            if (
+                event.key === "ArrowRight" ||
+                event.key.toLowerCase() === "d"
+            ) {
+
+                rightPressed = false;
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       BACK BUTTON / ANDROID BROWSER
+    ===================================================== */
+
+    window.addEventListener(
+        "popstate",
+        () => {
+
+            if (
+                gameState ===
+                STATES.PLAYING
+            ) {
+
+                pauseGame();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       UTILITY
+    ===================================================== */
+
+    function clamp(
+        value,
+        minValue,
+        maxValue
+    ) {
+
+        return Math.max(
+            minValue,
+            Math.min(
+                maxValue,
+                value
+            )
+        );
+
+    }
+
+
+    function randomInt(
+        minValue,
+        maxValue
+    ) {
+
+        return Math.floor(
+            Math.random() *
+            (
+                maxValue -
+                minValue +
+                1
+            )
+        ) +
+        minValue;
+
+    }
+
+
+    function intersects(
+        a,
+        b
+    ) {
+
+        return (
+            a.left <
+            b.right &&
+            a.right >
+            b.left &&
+            a.top <
+            b.bottom &&
+            a.bottom >
+            b.top
+        );
+
+    }
+
+
+    function rectOf(
+        object
+    ) {
+
+        return {
+
+            left:
+                object.x,
+
+            top:
+                object.y,
+
+            right:
+                object.x +
+                object.width,
+
+            bottom:
+                object.y +
+                object.height
+
+        };
+
+    }
+
+
+    /* =====================================================
+       STARTUP
+    ===================================================== */
+
+    async function initialize() {
+
+        resizeCanvas();
+
+        await loadAssets();
+
+        resizeCanvas();
+
+        startNewGame();
+
+        document
+            .getElementById(
+                "loading"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+
+        requestAnimationFrame(
+            gameLoop
+        );
+
+    }
+
+
+    initialize();
+
+</script>
+
+</body>
+</html>
