@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WELCOME - SELVA WEB</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;color:#fff}
+body{display:flex;align-items:center;justify-content:center;text-align:center;font-family:Arial,Helvetica,sans-serif}
+.welcome h1{font-family:Impact,Haettenschweiler,"Arial Black",sans-serif;font-size:clamp(60px,12vw,150px);font-weight:900;letter-spacing:12px;color:#000;-webkit-text-stroke:3px #fff;text-shadow:0 0 10px rgba(255,255,255,.8),0 0 30px rgba(255,255,255,.4)}
+.welcome p{margin-top:15px;color:#fff;font-size:15px;font-weight:bold;letter-spacing:8px}
+@media(max-width:600px){.welcome h1{font-size:clamp(48px,15vw,90px);letter-spacing:7px;-webkit-text-stroke:2px #fff}.welcome p{font-size:12px;letter-spacing:5px}}
+</style>
+</head>
+<body>
+<div class="welcome">
+<h1>WELCOME</h1>
+<p>TO SELVA WEB</p>
+</div>
+<script>
+setTimeout(()=>window.location.replace('home.html'),2000);
+</script>
+</body>
+</html>
