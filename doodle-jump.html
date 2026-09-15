@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,7 +37,9 @@
             inset: 0;
 
             width: 100vw;
+            width: 100dvw;
             height: 100vh;
+            height: 100dvh;
 
             display: block;
 
@@ -647,6 +650,26 @@
            MOBILE
         ===================================================== */
 
+
+        /* Phone-safe viewport and controls */
+        @media (max-width: 600px) {
+            html, body {
+                width: 100%;
+                height: 100%;
+                height: 100dvh;
+                overflow: hidden;
+                overscroll-behavior: none;
+            }
+
+            body {
+                padding: 0;
+            }
+
+            #hud {
+                padding-top: env(safe-area-inset-top, 0px);
+            }
+        }
+
         @media (max-width: 600px) {
 
             .hud-row {
@@ -773,6 +796,14 @@
                 min-width: 65px;
                 min-height: 42px;
                 font-size: 14px;
+            }
+
+            #mobileControls {
+                height: min(27dvh, 180px);
+            }
+
+            .control-zone {
+                padding-bottom: max(14px, env(safe-area-inset-bottom, 0px));
             }
         }
 
@@ -1431,6 +1462,7 @@
         READY: "READY",
         PLAYING: "PLAYING",
         PAUSED: "PAUSED",
+        CONTINUE_PROMPT: "CONTINUE_PROMPT",
         GAME_OVER: "GAME_OVER"
     };
 
@@ -2553,6 +2585,16 @@
 
         }
 
+        /* ISLAND LARGE SCROLLING FIX - Move to decorations array */
+        decorations.push({
+            x: 30,
+            y: H * 0.22,
+            width: 150,
+            height: 100,
+            path: "environment/floating_island_large.png",
+            scrollSpeed: 0.15
+        });
+
     }
 
 
@@ -2874,6 +2916,29 @@
                 continue;
             }
 
+            /* UFO PROJECTILES - Update even if source UFO is defeated */
+            if (
+                enemy.projectileActive
+            ) {
+
+                enemy.projectileY +=
+                    280 *
+                    dt;
+
+
+                if (
+                    enemy.projectileY >
+                    enemy.y +
+                    1000
+                ) {
+
+                    enemy.projectileActive =
+                        false;
+
+                }
+
+            }
+
 
             if (enemy.isDefeated) {
 
@@ -2882,7 +2947,7 @@
 
                 if (
                     enemy.explosionTimer >
-                    0.35
+                    0.35 && !enemy.projectileActive
                 ) {
 
                     enemy.active = false;
@@ -2958,29 +3023,6 @@
                     enemy.projectileY =
                         enemy.y +
                         enemy.height;
-
-                }
-
-            }
-
-
-            if (
-                enemy.projectileActive
-            ) {
-
-                enemy.projectileY +=
-                    280 *
-                    dt;
-
-
-                if (
-                    enemy.projectileY >
-                    enemy.y +
-                    1000
-                ) {
-
-                    enemy.projectileActive =
-                        false;
 
                 }
 
@@ -3188,10 +3230,12 @@
             !isInvincible
         ) {
 
+            /* JETPACK AUTO-USE BUG FIX - Trigger only when falling off boundary */
             if (
                 playerIsFalling() &&
                 jetpackCount > 0 &&
-                !isJetpackModeActive
+                !isJetpackModeActive &&
+                player.y > H - 100
             ) {
 
                 jetpackCount--;
@@ -3584,6 +3628,7 @@
 
     function triggerDeath() {
 
+        /* CONTINUE PROMPT LOOP FIX - Immediately stop processing */
         if (
             gameState !== STATES.PLAYING
         ) {
@@ -3632,6 +3677,8 @@
             gemCount > 0
         ) {
 
+            gameState = STATES.CONTINUE_PROMPT; /* Stop gameplay updates */
+
             openContinuePrompt();
 
             return;
@@ -3640,7 +3687,7 @@
 
 
         gameState =
-            STATES.GAME_OVER;
+            STATES.GAME_OVER; /* Stop gameplay updates */
 
 
         if (
@@ -3651,9 +3698,9 @@
             highScore =
                 score;
 
-            saveData();
-
         }
+
+        saveData();
 
 
         showGameOver();
@@ -3873,7 +3920,7 @@
 
                 }
 
-                saveData();
+                /* PERFORMANCE FIX - Remove per-frame saveData() call from here */
 
             }
 
@@ -4003,6 +4050,7 @@
 
     function update(dt) {
 
+        /* GAME OVER STABILITY - Only update in PLAYING state */
         if (
             gameState !==
             STATES.PLAYING
@@ -4277,24 +4325,7 @@
 
         }
 
-
-        const islandLarge =
-            asset(
-                "environment/floating_island_large.png"
-            );
-
-
-        if (islandLarge) {
-
-            ctx.drawImage(
-                islandLarge,
-                30,
-                H * 0.22,
-                150,
-                100
-            );
-
-        }
+        /* ISLAND LARGE SCROLLING - Handled by decorations array */
 
     }
 
@@ -4544,30 +4575,29 @@
 
                 }
 
-                continue;
+            } else {
+
+                const image =
+                    getEnemyImage(
+                        enemy.type
+                    );
+
+
+                if (image) {
+
+                    ctx.drawImage(
+                        image,
+                        enemy.x,
+                        enemy.y,
+                        enemy.width,
+                        enemy.height
+                    );
+
+                }
 
             }
 
-
-            const image =
-                getEnemyImage(
-                    enemy.type
-                );
-
-
-            if (image) {
-
-                ctx.drawImage(
-                    image,
-                    enemy.x,
-                    enemy.y,
-                    enemy.width,
-                    enemy.height
-                );
-
-            }
-
-
+            /* UFO PROJECTILES - Draw even if source UFO is defeated */
             if (
                 enemy.projectileActive
             ) {
@@ -5617,6 +5647,8 @@
                 gameState =
                     STATES.GAME_OVER;
 
+                saveData();
+
                 showGameOver();
 
             }
@@ -5916,12 +5948,22 @@
         pointerEnd
     );
 
+    leftZone.addEventListener(
+        "lostpointercapture",
+        pointerEnd
+    );
+
 
     rightZone.addEventListener(
         "pointerup",
         pointerEnd
     );
 
+    rightZone.addEventListener(
+        "lostpointercapture",
+        pointerEnd
+    );
+
 
     leftZone.addEventListener(
         "pointercancel",
@@ -5935,17 +5977,11 @@
     );
 
 
-    leftZone.addEventListener(
-        "pointerleave",
-        pointerEnd
-    );
+    /* Pointer capture keeps held movement active while the finger slides. */
 
 
-    rightZone.addEventListener(
-        "pointerleave",
-        pointerEnd
-    );
-
+    document.addEventListener("contextmenu", event => event.preventDefault());
+    document.addEventListener("gesturestart", event => event.preventDefault(), { passive: false });
 
     /* =====================================================
        KEYBOARD

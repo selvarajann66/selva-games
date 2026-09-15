@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="073f3cfe-908d-4cbb-81a2-0639a9e89405" name="Changes" comment="Update style.css">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/live_wallpaper_gamecenter.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/live_wallpaper_home.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doodle-jump.html" beforeDir="false" afterPath="$PROJECT_DIR$/doodle-jump.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-center.html" beforeDir="false" afterPath="$PROJECT_DIR$/game-center.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,8 +62,9 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "Base",
+    "implementationPlan.dismissed.f5ab1601-723b-4706-82f8-262ae08a9070": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/selva-games/assets",
+    "last_opened_file_path": "D:/selva-games",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -72,6 +78,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\selva-games" />
       <recent name="D:\selva-games\assets" />
     </key>
   </component>
@@ -115,7 +122,23 @@
       <option name="project" value="LOCAL" />
       <updated>1789396181042</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Update style.css">
+      <option name="closed" value="true" />
+      <created>1789396442418</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1789396442418</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Update style.css">
+      <option name="closed" value="true" />
+      <created>1789396460076</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1789396460076</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
