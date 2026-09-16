@@ -610,23 +610,48 @@
 
         .control-zone {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 50%;
+            bottom: max(14px, env(safe-area-inset-bottom, 0px));
+
+            width: 76px;
+            height: 58px;
+            padding: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid rgba(255, 255, 255, 0.72);
+            border-radius: 18px;
+            background: rgba(10, 10, 18, 0.72);
+            color: #fff;
+
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 34px;
+            font-weight: 900;
+            line-height: 1;
 
             pointer-events: auto;
             touch-action: none;
             user-select: none;
             -webkit-user-select: none;
             -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .control-zone:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.22);
         }
 
         #leftZone {
-            left: 0;
+            left: 22px;
         }
 
         #rightZone {
-            right: 0;
+            right: 22px;
         }
 
         /* =====================================================
@@ -817,7 +842,19 @@
             }
 
             .control-zone {
-                padding-bottom: max(14px, env(safe-area-inset-bottom, 0px));
+                width: 68px;
+                height: 52px;
+                font-size: 30px;
+                bottom: max(10px, env(safe-area-inset-bottom, 0px));
+                border-radius: 16px;
+            }
+
+            #leftZone {
+                left: 14px;
+            }
+
+            #rightZone {
+                right: 14px;
             }
         }
 
@@ -956,15 +993,21 @@
 
 <div id="mobileControls">
 
-    <div
+    <button
             id="leftZone"
-            class="control-zone">
-    </div>
+            class="control-zone"
+            type="button"
+            aria-label="Move left">
+        ←
+    </button>
 
-    <div
+    <button
             id="rightZone"
-            class="control-zone">
-    </div>
+            class="control-zone"
+            type="button"
+            aria-label="Move right">
+        →
+    </button>
 
 </div>
 
