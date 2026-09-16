@@ -681,11 +681,22 @@
         }
 
         /* =====================================================
-           MOBILE
+           MOBILE / JETPACK UI
         ===================================================== */
 
 
-        /* Phone-safe viewport and controls */
+        .jetpack-inventory {
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            pointer-events: auto;
+        }
+
+        .jetpack-inventory:active {
+            transform: scale(0.94);
+        }
+
         @media (max-width: 600px) {
             html, body {
                 width: 100%;
@@ -965,7 +976,13 @@
                 </span>
         </div>
 
-        <div class="inventory-item">
+        <div
+                class="inventory-item jetpack-inventory"
+                id="jetpackInventory"
+                role="button"
+                tabindex="0"
+                aria-label="Use Jetpack">
+
             <img
                     src="assets/doodle_jump/powerups/rocket_powerup.png"
                     alt="Jetpack">
@@ -2462,6 +2479,7 @@
             collected: false,
 
             frame: 0,
+
             timer: 0
 
         });
@@ -2696,7 +2714,6 @@
                     : 0;
 
         // Frame-rate independent horizontal smoothing.
-        // This keeps movement responsive while avoiding jerky jumps.
         const response = 1 - Math.exp(-12 * maxDt);
         player.velocityX +=
             (targetVelocity - player.velocityX) *
@@ -3277,27 +3294,8 @@
             !isInvincible
         ) {
 
-            /* JETPACK AUTO-USE BUG FIX - Trigger only when falling off boundary */
-            if (
-                playerIsFalling() &&
-                jetpackCount > 0 &&
-                !isJetpackModeActive &&
-                player.y > H - 100
-            ) {
-
-                jetpackCount--;
-
-                saveData();
-
-                activateJetpack(4);
-
-                showNotification(
-                    "JETPACK ACTIVATED! 🚀",
-                    true
-                );
-
-            }
-
+            /* JETPACK AUTO-SAFETY REMOVED per requirements.
+               Stored jetpacks are now triggered manually. */
 
             for (const enemy of enemies) {
 
@@ -3600,8 +3598,28 @@
 
                     activateJetpack(3);
 
+                    showNotification(
+                        "JETPACK ACTIVATED! 🚀",
+                        true
+                    );
+
+                } else if (
+                    jetpackCount === 0
+                ) {
+
+                    // Requirement 1: If 0 stored, activate immediately.
+                    activateJetpack(4);
+
+                    saveData();
+
+                    showNotification(
+                        "JETPACK ACTIVATED! 🚀",
+                        true
+                    );
+
                 } else {
 
+                    // Requirement 1: If > 0 stored, add to inventory.
                     jetpackCount++;
 
                     saveData();
@@ -3967,7 +3985,7 @@
 
                 }
 
-                /* PERFORMANCE FIX - Remove per-frame saveData() call from here */
+                /* PERFORMANCE FIX - saveData() removed from frame path */
 
             }
 
@@ -4372,7 +4390,7 @@
 
         }
 
-        /* ISLAND LARGE SCROLLING - Handled by decorations array */
+        /* ISLAND LARGE Handled by decorations array */
 
     }
 
@@ -5910,6 +5928,70 @@
 
 
     /* =====================================================
+       MANUAL JETPACK INVENTORY USE
+    ===================================================== */
+
+    function useStoredJetpack() {
+
+        if (
+            gameState !== STATES.PLAYING ||
+            isJetpackModeActive ||
+            jetpackCount <= 0 ||
+            player.jetpackTimer > 0
+        ) {
+            return;
+        }
+
+        jetpackCount--;
+
+        saveData();
+
+        activateJetpack(4);
+
+        showNotification(
+            "JETPACK ACTIVATED! 🚀",
+            true
+        );
+
+        updateHUD();
+
+    }
+
+
+    const jetpackInventory =
+        document.getElementById(
+            "jetpackInventory"
+        );
+
+
+    jetpackInventory.addEventListener(
+        "click",
+        event => {
+            event.preventDefault();
+            useStoredJetpack();
+        }
+    );
+
+
+    jetpackInventory.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+
+                event.preventDefault();
+                useStoredJetpack();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
        TOUCH / POINTER CONTROL
     ===================================================== */
 
@@ -5917,6 +5999,7 @@
         event,
         side
     ) {
+
         if (gameState !== STATES.PLAYING) {
             return;
         }
@@ -6031,19 +6114,7 @@
     );
 
 
-    leftZone.addEventListener(
-        "lostpointercapture",
-        pointerEnd
-    );
-
-
-    rightZone.addEventListener(
-        "lostpointercapture",
-        pointerEnd
-    );
-
-
-    /* Pointer capture keeps held movement active while the finger slides. */
+    /* Pointer capture keeps movement active while sliding. */
 
 
     document.addEventListener("contextmenu", event => event.preventDefault());
