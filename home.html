@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SELVA WEB</title>
+
+  <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        color: #fff;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: #000;
+    }
+
+    /* =====================================================
+       COMMON SCREEN
+    ===================================================== */
+
+    .screen {
+        width: 100%;
+        height: 100vh;
+        background: #000;
+    }
+
+    /* =====================================================
+       SPLASH
+    ===================================================== */
+
+    #splash {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #000;
+    }
+
+    #logoVideo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #000;
+    }
+
+    /* =====================================================
+       WELCOME
+    ===================================================== */
+
+    #welcomePage {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        background: #000;
+    }
+
+    #welcomePage h1 {
+        font-family:
+            Impact,
+            Haettenschweiler,
+            "Arial Black",
+            sans-serif;
+
+        font-size: clamp(60px, 12vw, 150px);
+        font-weight: 900;
+        letter-spacing: 12px;
+        text-transform: uppercase;
+
+        color: #000;
+
+        -webkit-text-stroke: 3px #fff;
+
+        text-shadow:
+            0 0 10px rgba(255,255,255,0.8),
+            0 0 30px rgba(255,255,255,0.4);
+    }
+
+    #welcomePage p {
+        margin-top: 15px;
+
+        color: #fff;
+
+        font-size: 15px;
+        font-weight: bold;
+        letter-spacing: 8px;
+    }
+
+    /* =====================================================
+       SELVA WEB PAGE
+    ===================================================== */
+
+    #selvaWebPage {
+        display: flex;
+        flex-direction: column;
+        background: transparent;
+        color: #fff;
+        position: relative;
+        z-index: 2;
+    }
+
+    #liveWallpaper { position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; background: #000; pointer-events: none; }
+    #liveWallpaperOverlay { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.60), rgba(0,0,0,.35) 45%, rgba(0,0,0,.72)); }
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .web-header {
+        width: 100%;
+        height: 90px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+
+        border-bottom: 1px solid rgba(255,255,255,0.18);
+
+        flex-shrink: 0;
+    }
+
+    .web-header h1 {
+        font-family:
+            Impact,
+            Haettenschweiler,
+            "Arial Black",
+            sans-serif;
+
+        font-size: 30px;
+        font-weight: 900;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+
+        /*
+         * Border / outlined text
+         */
+        color: #000;
+
+        -webkit-text-stroke: 1.5px #fff;
+
+        text-shadow:
+            0 0 8px rgba(255,255,255,0.7),
+            0 0 18px rgba(255,255,255,0.35);
+    }
+
+    .header-line {
+        width: 90px;
+        height: 2px;
+
+        margin-top: 8px;
+
+        background: #fff;
+
+        box-shadow:
+            0 0 10px rgba(255,255,255,0.7);
+    }
+
+    /* =====================================================
+       MAIN MENU
+    ===================================================== */
+
+    .web-content {
+        flex: 1;
+
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 30px 20px;
+
+        overflow-y: auto;
+    }
+
+    .menu-container {
+        width: min(600px, 100%);
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 22px;
+    }
+
+    /* =====================================================
+       MENU SECTION
+    ===================================================== */
+
+    .menu-section {
+        position: relative;
+
+        width: 100%;
+
+        padding: 26px 28px;
+
+        border: 1px solid rgba(255,255,255,0.45);
+        border-radius: 8px;
+
+        background: rgba(255,255,255,0.03);
+
+        cursor: pointer;
+
+        transition:
+            transform 0.25s ease,
+            background 0.25s ease,
+            border-color 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+    .menu-section:hover {
+        transform: translateY(-4px);
+
+        border-color: #fff;
+
+        background: rgba(255,255,255,0.08);
+
+        box-shadow:
+            0 0 20px rgba(255,255,255,0.18),
+            inset 0 0 18px rgba(255,255,255,0.03);
+    }
+
+    .menu-section:active {
+        transform: scale(0.98);
+    }
+
+    /* =====================================================
+       MENU TITLE
+    ===================================================== */
+
+    .menu-section h2 {
+        font-family:
+            Impact,
+            Haettenschweiler,
+            "Arial Black",
+            sans-serif;
+
+        font-size: 26px;
+        font-weight: 900;
+        letter-spacing: 3px;
+
+        text-transform: uppercase;
+
+        color: #000;
+
+        -webkit-text-stroke: 1px #fff;
+
+        text-shadow:
+            0 0 8px rgba(255,255,255,0.35);
+    }
+
+    .menu-section p {
+        margin-top: 9px;
+
+        color: #aaa;
+
+        font-size: 13px;
+        line-height: 1.5;
+        letter-spacing: 1px;
+    }
+
+    /* =====================================================
+       MENU ARROW
+    ===================================================== */
+
+    .menu-arrow {
+        position: absolute;
+
+        right: 25px;
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        color: #fff;
+
+        font-size: 25px;
+
+        transition:
+            transform 0.25s ease;
+    }
+
+    .menu-section:hover .menu-arrow {
+        transform:
+            translateY(-50%)
+            translateX(5px);
+    }
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 600px) {
+
+        .web-header {
+            height: 80px;
+        }
+
+        .web-header h1 {
+            font-size: 23px;
+            letter-spacing: 4px;
+
+            -webkit-text-stroke: 1.2px #fff;
+        }
+
+        .header-line {
+            width: 70px;
+        }
+
+        .web-content {
+            padding: 20px 16px;
+        }
+
+        .menu-container {
+            gap: 16px;
+        }
+
+        .menu-section {
+            padding: 22px 20px;
+        }
+
+        .menu-section h2 {
+            font-size: 21px;
+            letter-spacing: 2px;
+        }
+
+        .menu-section p {
+            font-size: 12px;
+            padding-right: 30px;
+        }
+
+        .menu-arrow {
+            right: 17px;
+            font-size: 21px;
+        }
+    }
+
+    /* =====================================================
+       SMALL PHONES
+    ===================================================== */
+
+    @media (max-height: 600px) {
+
+        .web-header {
+            height: 70px;
+        }
+
+        .web-content {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .menu-section {
+            padding: 18px 20px;
+        }
+
+        .menu-section h2 {
+            font-size: 20px;
+        }
+
+        .menu-container {
+            gap: 12px;
+        }
+    }
+  </style>
+</head>
+
+<body>
+
+<video id="liveWallpaper" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+  <source src="assets/live_wallpaper_home.mp4" type="video/mp4">
+</video>
+<div id="liveWallpaperOverlay" aria-hidden="true"></div>
+
+
+<!-- =====================================================
+     SELVA WEB HOME
+===================================================== -->
+
+<section id="selvaWebPage" class="screen">
+
+  <!-- HEADER -->
+
+  <header class="web-header">
+
+    <h1>SELVA WEB</h1>
+
+    <div class="header-line"></div>
+
+  </header>
+
+
+  <!-- MENU -->
+
+  <main class="web-content">
+
+    <div class="menu-container">
+
+
+      <!-- =================================================
+           GAME CENTER
+      ================================================== -->
+
+      <div
+              class="menu-section"
+              id="gameCenterButton"
+              onclick="goToGameCenter()">
+
+        <h2>
+          GO TO GAME CENTER
+        </h2>
+
+        <p>
+          Play games and explore the SELVA Game Center.
+        </p>
+
+        <span class="menu-arrow">
+                        →
+                    </span>
+
+      </div>
+
+
+      <!-- =================================================
+           APPS
+      ================================================== -->
+
+      <div
+              class="menu-section"
+              id="appsButton"
+              onclick="goToApps()">
+
+        <h2>
+          GO TO APPS
+        </h2>
+
+        <p>
+          Explore SELVA apps and projects.
+        </p>
+
+        <span class="menu-arrow">
+                        →
+                    </span>
+
+      </div>
+
+
+    </div>
+
+  </main>
+
+</section>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+function goToGameCenter(){window.location.href='game-center.html';}
+function goToApps(){window.location.href='apps.html';}
+</script>
+
+</body>
+</html>
