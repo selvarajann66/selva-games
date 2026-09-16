@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#050509">
+    <title>SELVA WEB — App Center</title>
+    <link rel="stylesheet" href="app-center.css">
+</head>
+<body>
+    <video class="page-live-wallpaper" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+        <source src="assets/live_wallpaper_appcenter.mp4" type="video/mp4">
+    </video>
+    <div class="background-fallback" aria-hidden="true"></div>
+    <div class="background-overlay" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="topbar">
+        <button class="nav-button" id="backButton" type="button" aria-label="Back to home">
+            <span class="nav-icon">←</span>
+            <span>BACK</span>
+        </button>
+
+        <div class="brand" aria-label="SELVA Web App Center">
+            <span class="brand-small">SELVA WEB</span>
+            <span class="brand-title">APP CENTER</span>
+        </div>
+
+        <button class="nav-button" id="gameCenterButton" type="button">
+            <span>GAME CENTER</span>
+            <span class="nav-icon">→</span>
+        </button>
+    </header>
+
+    <main class="page-shell">
+        <section class="hero">
+            <div class="hero-copy">
+                <div class="eyebrow"><span></span> SELVA DIGITAL HUB</div>
+                <h1>APP <strong>CENTER</strong></h1>
+                <p>Explore the apps available from SELVA WEB.</p>
+            </div>
+
+            <div class="hero-badge" aria-hidden="true">
+                <div class="badge-ring"></div>
+                <div class="badge-core">S</div>
+            </div>
+        </section>
+
+        <section class="section-heading">
+            <div>
+                <span class="section-kicker">APPLICATIONS</span>
+                <h2>YOUR APPS</h2>
+            </div>
+            <span class="app-count" id="appCount">01 APP</span>
+        </section>
+
+        <section class="app-grid" id="appGrid" aria-label="Applications">
+            <article class="app-card" data-app="music">
+                <div class="card-glow"></div>
+                <div class="app-number">01</div>
+
+                <div class="app-icon music-icon" aria-hidden="true">
+                    <span>♪</span>
+                </div>
+
+                <div class="app-content">
+                    <div class="app-status"><span class="status-dot"></span> AVAILABLE</div>
+                    <h3>MUSIC</h3>
+                    <p>Anime-focused music experience with a clean SELVA interface.</p>
+                    <div class="app-tags">
+                        <span>ANDROID</span>
+                        <span>MUSIC</span>
+                    </div>
+                </div>
+
+                <div class="app-action">
+                    <button class="open-app" type="button" data-action="music">
+                        <span>OPEN</span>
+                        <span>↗</span>
+                    </button>
+                </div>
+            </article>
+        </section>
+
+        <section class="coming-soon">
+            <div class="coming-line"></div>
+            <div>
+                <span class="section-kicker">MORE</span>
+                <h2>MORE APPS COMING SOON</h2>
+            </div>
+            <span class="coming-mark">+</span>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>SELVA WEB</span>
+        <span class="footer-separator">•</span>
+        <span>APP CENTER</span>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="app-center.js"></script>
+</body>
+</html>

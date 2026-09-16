@@ -1,0 +1,14 @@
+SELVA WEB — APP CENTER LIVE WALLPAPER
+
+Use these files:
+- app-center.html
+- app-center.css
+- app-center.js
+
+Add your separate App Center wallpaper as:
+assets/live_wallpaper_appcenter.mp4
+
+Final location:
+selva-games/assets/live_wallpaper_appcenter.mp4
+
+The App Center video is muted, autoplaying, looping, inline and displayed behind the App Center UI. anime_bg.png remains available as a fallback background.
