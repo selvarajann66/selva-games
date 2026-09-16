@@ -597,22 +597,28 @@
 
         #mobileControls {
             position: fixed;
-            inset: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: min(30dvh, 220px);
 
             pointer-events: none;
 
-            z-index: 5;
+            z-index: 30;
+            touch-action: none;
         }
 
         .control-zone {
             position: absolute;
-
             top: 0;
             bottom: 0;
-
             width: 50%;
 
             pointer-events: auto;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
         }
 
         #leftZone {
@@ -802,7 +808,12 @@
             }
 
             #mobileControls {
-                height: min(27dvh, 180px);
+                left: 0;
+                right: 0;
+                bottom: 0;
+                top: auto;
+                height: min(30dvh, 220px);
+                z-index: 30;
             }
 
             .control-zone {
@@ -5863,19 +5874,17 @@
         event,
         side
     ) {
-        if (event.pointerType !== "mouse" || event.isPrimary) {
-            try { event.currentTarget.setPointerCapture(event.pointerId); } catch (_) {}
-        }
-
-        if (
-            gameState !==
-            STATES.PLAYING
-        ) {
+        if (gameState !== STATES.PLAYING) {
             return;
         }
 
-
         event.preventDefault();
+
+        if (event.pointerId !== undefined) {
+            try {
+                event.currentTarget.setPointerCapture(event.pointerId);
+            } catch (_) {}
+        }
 
 
         if (
@@ -5903,6 +5912,12 @@
 
         leftPressed = false;
         rightPressed = false;
+
+        if (event.pointerId !== undefined) {
+            try {
+                event.currentTarget.releasePointerCapture(event.pointerId);
+            } catch (_) {}
+        }
 
     }
 
@@ -5969,6 +5984,18 @@
 
     rightZone.addEventListener(
         "pointercancel",
+        pointerEnd
+    );
+
+
+    leftZone.addEventListener(
+        "lostpointercapture",
+        pointerEnd
+    );
+
+
+    rightZone.addEventListener(
+        "lostpointercapture",
         pointerEnd
     );
 
