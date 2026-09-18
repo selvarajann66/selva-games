@@ -1,12 +1,5 @@
 /* =========================================================
-   SELVA WEB
-   APP CENTER
-   app-center.css
-   ========================================================= */
-
-
-/* =========================================================
-   RESET
+   SELVA WEB - APP CENTER
    ========================================================= */
 
 * {
@@ -15,37 +8,35 @@
     padding: 0;
 }
 
-
-html,
-body {
+html {
     width: 100%;
     min-height: 100%;
+    background: #000;
 }
-
-
-html {
-    background: #050509;
-}
-
 
 body {
+    width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
+
+    background: #000;
+
+    color: #fff;
 
     font-family:
-        Arial,
-        Helvetica,
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
         sans-serif;
-
-    color: #ffffff;
-
-    background: #050509;
 
     overflow-x: hidden;
 }
 
 
 /* =========================================================
-   BACKGROUND VIDEO
+   LIVE BACKGROUND
    ========================================================= */
 
 .app-center-background {
@@ -56,12 +47,17 @@ body {
 
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
 
     object-fit: cover;
 
-    z-index: -3;
+    display: block;
 
-    background: #050509;
+    background: #000;
+
+    z-index: 0;
+
+    pointer-events: none;
 }
 
 
@@ -72,31 +68,41 @@ body {
 .background-overlay {
     position: fixed;
 
-    inset: 0;
+    top: 0;
+    left: 0;
 
-    z-index: -2;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
 
     background:
         linear-gradient(
             180deg,
-            rgba(0, 0, 0, 0.45) 0%,
+            rgba(0, 0, 0, 0.55) 0%,
             rgba(0, 0, 0, 0.20) 35%,
-            rgba(0, 0, 0, 0.55) 100%
+            rgba(0, 0, 0, 0.58) 100%
         );
+
+    z-index: 1;
 
     pointer-events: none;
 }
 
 
 /* =========================================================
-   PAGE
+   MAIN PAGE
    ========================================================= */
 
 .app-page {
     position: relative;
 
-    min-height: 100vh;
+    z-index: 2;
 
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    padding-top: env(safe-area-inset-top);
     padding-bottom: 110px;
 }
 
@@ -106,227 +112,273 @@ body {
    ========================================================= */
 
 .top-bar {
-    position: sticky;
-
-    top: 0;
-
-    z-index: 50;
-
     width: 100%;
 
-    min-height: 74px;
-
-    padding:
-        14px
-        18px;
-
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
 
-    gap: 14px;
+    padding:
+        18px
+        18px
+        12px;
 
-    background:
-        rgba(5, 5, 9, 0.72);
-
-    border-bottom:
-        1px solid
-        rgba(255, 255, 255, 0.10);
-
-    backdrop-filter: blur(18px);
-
-    -webkit-backdrop-filter: blur(18px);
+    gap: 10px;
 }
 
 
-/* =========================================================
-   BACK BUTTON
-   ========================================================= */
+.top-button {
+    min-height: 40px;
 
-.back-button,
-.games-button {
-    display: inline-flex;
-
+    display: flex;
     align-items: center;
-
     justify-content: center;
 
-    min-height: 42px;
+    gap: 5px;
 
-    padding:
-        9px
-        14px;
+    padding: 0 13px;
 
-    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.20);
 
-    text-decoration: none;
+    border-radius: 14px;
 
-    font-size: 11px;
+    background:
+        rgba(10, 10, 16, 0.65);
 
+    color: rgba(255, 255, 255, 0.90);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    font-size: 10px;
     font-weight: 800;
 
     letter-spacing: 1.2px;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.15);
-
-    border-radius: 12px;
-
-    background:
-        rgba(255, 255, 255, 0.07);
+    cursor: pointer;
 
     transition:
         transform 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease;
+        background 0.2s ease;
 }
 
 
-.back-button:hover,
-.games-button:hover {
-    transform: translateY(-2px);
-
+.top-button:hover {
     background:
         rgba(255, 255, 255, 0.13);
 
-    border-color:
-        rgba(255, 255, 255, 0.30);
+    transform: translateY(-1px);
 }
 
 
-.back-icon {
-    margin-right: 6px;
-
-    font-size: 22px;
-
-    line-height: 10px;
+.top-button:active {
+    transform: scale(0.96);
 }
 
 
-/* =========================================================
-   PAGE TITLE
-   ========================================================= */
+.button-icon {
+    font-size: 20px;
+    line-height: 1;
+}
+
 
 .page-title {
     display: flex;
-
     flex-direction: column;
 
     align-items: center;
 
+    line-height: 1;
+}
+
+
+.title-main {
+    font-size: 16px;
+    font-weight: 900;
+
+    letter-spacing: 4px;
+}
+
+
+.title-sub {
+    margin-top: 5px;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+    opacity: 0.55;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero-section {
+    min-height: 245px;
+
+    display: flex;
+    align-items: center;
     justify-content: center;
+
+    padding:
+        35px
+        20px
+        30px;
 
     text-align: center;
 }
 
 
-.title-small {
-    font-size: 9px;
+.hero-content {
+    width: 100%;
+    max-width: 600px;
+}
 
-    font-weight: 700;
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 7px 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.22);
+
+    border-radius: 999px;
+
+    background:
+        rgba(0, 0, 0, 0.40);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    opacity: 0.85;
+}
+
+
+.hero-content h1 {
+    margin-top: 18px;
+
+    font-size: clamp(46px, 14vw, 90px);
+
+    line-height: 0.85;
+
+    font-weight: 1000;
+
+    letter-spacing: -3px;
+
+    text-shadow:
+        0 8px 35px rgba(0, 0, 0, 0.65);
+}
+
+
+.hero-content h1 span {
+    display: block;
+
+    margin-top: 9px;
+
+    font-size: 0.48em;
+
+    letter-spacing: 8px;
+
+    opacity: 0.82;
+}
+
+
+.hero-content p {
+    margin-top: 22px;
+
+    font-size: 12px;
 
     letter-spacing: 3px;
+
+    text-transform: uppercase;
 
     opacity: 0.65;
 }
 
 
-.title-main {
-    margin-top: 3px;
-
-    font-size: 17px;
-
-    font-weight: 900;
-
-    letter-spacing: 2px;
-}
-
-
 /* =========================================================
-   CONTENT
+   APPS SECTION
    ========================================================= */
 
-.app-content {
-    width: min(
-        100% - 30px,
-        850px
-    );
+.apps-section {
+    width: 100%;
 
-    margin:
-        0
-        auto;
+    max-width: 900px;
 
-    padding-top: 45px;
-}
-
-
-/* =========================================================
-   HEADING
-   ========================================================= */
-
-.center-heading {
-    text-align: center;
-
-    margin-bottom: 30px;
-}
-
-
-.heading-badge {
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
+    margin: 0 auto;
 
     padding:
-        7px
-        12px;
+        0
+        16px;
+}
+
+
+.section-heading {
+    display: flex;
+
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 14px;
+}
+
+
+.section-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    opacity: 0.50;
+}
+
+
+.section-heading h2 {
+    font-size: 21px;
+
+    line-height: 1.1;
+
+    font-weight: 850;
+}
+
+
+.version-label {
+    flex-shrink: 0;
+
+    padding: 6px 10px;
 
     border:
         1px solid
         rgba(255, 255, 255, 0.18);
 
-    border-radius: 999px;
+    border-radius: 10px;
 
     background:
-        rgba(255, 255, 255, 0.07);
+        rgba(0, 0, 0, 0.38);
 
     font-size: 9px;
 
-    font-weight: 900;
+    font-weight: 700;
 
-    letter-spacing: 2px;
-}
-
-
-.center-heading h1 {
-    margin-top: 14px;
-
-    font-size:
-        clamp(
-            30px,
-            7vw,
-            48px
-        );
-
-    line-height: 1;
-
-    font-weight: 950;
-
-    letter-spacing: 2px;
-}
-
-
-.center-heading p {
-    margin-top: 12px;
-
-    color:
-        rgba(255, 255, 255, 0.68);
-
-    font-size: 13px;
+    opacity: 0.70;
 }
 
 
@@ -335,57 +387,47 @@ body {
    ========================================================= */
 
 .app-card {
-    position: relative;
+    width: 100%;
 
-    display: flex;
+    display: grid;
+
+    grid-template-columns:
+        auto
+        minmax(0, 1fr)
+        auto;
 
     align-items: center;
 
-    gap: 25px;
+    gap: 15px;
 
-    width: 100%;
-
-    padding: 25px;
+    padding: 15px;
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.16);
+        rgba(255, 255, 255, 0.18);
 
-    border-radius: 25px;
+    border-radius: 23px;
 
     background:
-        rgba(12, 12, 20, 0.68);
+        rgba(12, 12, 19, 0.66);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 
     box-shadow:
-        0 25px 80px
-        rgba(0, 0, 0, 0.40);
+        0 15px 45px rgba(0, 0, 0, 0.30);
 
-    backdrop-filter: blur(22px);
-
-    -webkit-backdrop-filter: blur(22px);
-
-    overflow: hidden;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
 }
 
 
-.app-card::before {
-    content: "";
+.app-card:hover {
+    transform: translateY(-2px);
 
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.5),
-            transparent
-        );
+    border-color:
+        rgba(255, 255, 255, 0.28);
 }
 
 
@@ -393,70 +435,49 @@ body {
    APP ICON
    ========================================================= */
 
-.app-icon {
-    position: relative;
-
+.app-icon-area {
     flex-shrink: 0;
+}
 
-    width: 145px;
-    height: 145px;
+
+.app-icon {
+    width: 76px;
+    height: 76px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    border-radius: 32px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.15),
-            rgba(255, 255, 255, 0.04)
-        );
+    border-radius: 20px;
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.18);
-
-    box-shadow:
-        0 20px 55px
-        rgba(0, 0, 0, 0.45);
-
-    overflow: hidden;
-}
-
-
-.icon-glow {
-    position: absolute;
-
-    width: 90px;
-    height: 90px;
-
-    border-radius: 50%;
+        rgba(255, 255, 255, 0.22);
 
     background:
         radial-gradient(
-            circle,
+            circle at 35% 25%,
             rgba(255, 255, 255, 0.28),
-            transparent 70%
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.15),
+            rgba(0, 0, 0, 0.50)
         );
 
-    filter: blur(10px);
+    box-shadow:
+        inset 0 0 25px rgba(255, 255, 255, 0.08),
+        0 8px 25px rgba(0, 0, 0, 0.30);
 }
 
 
-.icon-content {
-    position: relative;
+.astro-symbol {
+    font-size: 38px;
 
-    font-size: 64px;
-
-    filter:
-        drop-shadow(
-            0 8px 15px
-            rgba(0, 0, 0, 0.45)
-        );
+    text-shadow:
+        0 0 20px rgba(255, 255, 255, 0.55);
 }
 
 
@@ -465,132 +486,88 @@ body {
    ========================================================= */
 
 .app-information {
-    flex: 1;
-
     min-width: 0;
 }
 
 
-.app-title-row {
+.app-name-row {
     display: flex;
 
-    align-items: flex-start;
+    align-items: center;
 
-    justify-content: space-between;
-
-    gap: 15px;
+    gap: 6px;
 }
 
 
-.app-title-row h2 {
-    font-size:
-        clamp(
-            22px,
-            4vw,
-            32px
-        );
+.app-name-row h3 {
+    min-width: 0;
 
-    line-height: 1.1;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    font-size: 17px;
+
+    font-weight: 850;
+}
+
+
+.verified {
+    flex-shrink: 0;
+
+    width: 17px;
+    height: 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, 0.85);
+
+    color: #000;
+
+    font-size: 10px;
 
     font-weight: 900;
 }
 
 
 .developer {
-    margin-top: 7px;
+    margin-top: 5px;
 
-    color:
-        rgba(255, 255, 255, 0.58);
-
-    font-size: 12px;
+    font-size: 11px;
 
     font-weight: 700;
 
-    letter-spacing: 1px;
+    opacity: 0.70;
 }
 
 
-.app-category {
-    display: inline-block;
-
-    margin-top: 14px;
-
-    padding:
-        6px
-        10px;
-
-    border-radius: 8px;
-
-    background:
-        rgba(255, 255, 255, 0.07);
-
-    color:
-        rgba(255, 255, 255, 0.78);
+.category {
+    margin-top: 5px;
 
     font-size: 10px;
 
-    font-weight: 800;
-
-    letter-spacing: 0.8px;
+    opacity: 0.52;
 }
 
-
-.app-description {
-    margin-top: 14px;
-
-    max-width: 600px;
-
-    color:
-        rgba(255, 255, 255, 0.68);
-
-    font-size: 13px;
-
-    line-height: 1.65;
-}
-
-
-/* =========================================================
-   APP META
-   ========================================================= */
 
 .app-meta {
     display: flex;
 
-    flex-wrap: wrap;
+    gap: 6px;
 
-    gap: 22px;
+    margin-top: 9px;
 
-    margin-top: 20px;
-}
+    font-size: 9px;
 
-
-.meta-item {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 4px;
-}
-
-
-.meta-label {
-    color:
-        rgba(255, 255, 255, 0.40);
-
-    font-size: 8px;
-
-    font-weight: 900;
-
-    letter-spacing: 1.4px;
-}
-
-
-.meta-value {
-    color: #ffffff;
-
-    font-size: 12px;
-
-    font-weight: 800;
+    opacity: 0.42;
 }
 
 
@@ -598,296 +575,294 @@ body {
    INSTALL BUTTON
    ========================================================= */
 
-.install-button,
-.download-install-button {
+.install-button {
+    flex-shrink: 0;
+
+    min-width: 91px;
+
+    min-height: 40px;
+
     border: 0;
 
-    cursor: pointer;
+    border-radius: 13px;
 
-    color: #ffffff;
+    background:
+        rgba(255, 255, 255, 0.92);
+
+    color: #080808;
+
+    font-size: 10px;
 
     font-weight: 900;
 
     letter-spacing: 1px;
 
-    background:
-        linear-gradient(
-            135deg,
-            #ffffff,
-            #d9d9df
-        );
-
-    color: #050509;
-
-    box-shadow:
-        0 12px 30px
-        rgba(0, 0, 0, 0.35);
+    cursor: pointer;
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        opacity 0.2s ease;
 }
 
 
-.install-button {
-    margin-top: 22px;
+.install-button:hover {
+    opacity: 0.85;
+}
 
-    min-width: 150px;
+
+.install-button:active {
+    transform: scale(0.95);
+}
+
+
+/* =========================================================
+   INFO
+   ========================================================= */
+
+.info-section {
+    width: 100%;
+
+    max-width: 900px;
+
+    margin: 18px auto 0;
 
     padding:
-        13px
-        22px;
-
-    border-radius: 12px;
-
-    font-size: 11px;
+        0
+        16px;
 }
 
 
-.install-button:hover,
-.download-install-button:hover {
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 18px 35px
-        rgba(0, 0, 0, 0.45);
-}
-
-
-.install-button:active,
-.download-install-button:active {
-    transform: scale(0.98);
-}
-
-
-.install-button:disabled,
-.download-install-button:disabled {
-    opacity: 0.55;
-
-    cursor: wait;
-
-    transform: none;
-}
-
-
-/* =========================================================
-   WHAT'S NEW
-   ========================================================= */
-
-.whats-new-card {
-    margin-top: 22px;
-
-    padding: 22px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.13);
-
-    border-radius: 20px;
-
-    background:
-        rgba(8, 8, 14, 0.62);
-
-    backdrop-filter: blur(18px);
-
-    -webkit-backdrop-filter: blur(18px);
-}
-
-
-.section-heading {
+.info-card {
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
-}
+    gap: 13px;
 
-
-.section-line {
-    width: 4px;
-
-    height: 20px;
-
-    border-radius: 10px;
-
-    background: #ffffff;
-}
-
-
-.section-heading h2 {
-    font-size: 13px;
-
-    font-weight: 900;
-
-    letter-spacing: 1.5px;
-}
-
-
-.whats-new-content {
-    margin-top: 14px;
-
-    color:
-        rgba(255, 255, 255, 0.68);
-
-    font-size: 13px;
-
-    line-height: 1.7;
-
-    white-space: pre-line;
-}
-
-
-/* =========================================================
-   DOWNLOAD INFO
-   ========================================================= */
-
-.download-info {
-    display: flex;
-
-    align-items: center;
-
-    gap: 14px;
-
-    margin-top: 18px;
-
-    padding: 17px;
+    padding: 14px 16px;
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.10);
+        rgba(255, 255, 255, 0.12);
 
-    border-radius: 16px;
+    border-radius: 17px;
 
     background:
-        rgba(0, 0, 0, 0.32);
+        rgba(0, 0, 0, 0.38);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 
 .info-icon {
-    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
 
-    width: 40px;
-    height: 40px;
+    flex-shrink: 0;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    border-radius: 12px;
+    border-radius: 10px;
 
     background:
-        rgba(255, 255, 255, 0.08);
+        rgba(255, 255, 255, 0.10);
 
-    font-size: 22px;
+    font-size: 18px;
 }
 
 
-.download-info strong {
-    font-size: 12px;
-
-    font-weight: 900;
-}
-
-
-.download-info p {
-    margin-top: 4px;
-
-    color:
-        rgba(255, 255, 255, 0.52);
+.info-card strong {
+    display: block;
 
     font-size: 11px;
+}
+
+
+.info-card p {
+    margin-top: 4px;
+
+    font-size: 9px;
 
     line-height: 1.5;
+
+    opacity: 0.52;
 }
 
 
 /* =========================================================
-   INSTALL MODAL
+   BOTTOM NAVIGATION
    ========================================================= */
 
-.install-modal {
+.bottom-navigation {
+    position: fixed;
+
+    left: 12px;
+    right: 12px;
+
+    bottom:
+        calc(12px + env(safe-area-inset-bottom));
+
+    z-index: 20;
+
+    height: 67px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 5px;
+
+    padding: 6px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+    border-radius: 22px;
+
+    background:
+        rgba(8, 8, 13, 0.76);
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.45);
+}
+
+
+.bottom-navigation button {
+    border: 0;
+
+    border-radius: 16px;
+
+    background: transparent;
+
+    color: rgba(255, 255, 255, 0.48);
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.bottom-navigation button.active {
+    background:
+        rgba(255, 255, 255, 0.10);
+
+    color: #fff;
+}
+
+
+.nav-icon {
+    font-size: 18px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.modal-container {
     position: fixed;
 
     inset: 0;
 
-    z-index: 200;
+    z-index: 100;
 
-    display: flex;
+    display: none;
 
     align-items: center;
-
     justify-content: center;
 
     padding: 20px;
+}
+
+
+.modal-container.show {
+    display: flex;
+}
+
+
+.modal-backdrop {
+    position: absolute;
+
+    inset: 0;
 
     background:
-        rgba(0, 0, 0, 0.72);
+        rgba(0, 0, 0, 0.78);
 
-    opacity: 0;
-
-    visibility: hidden;
-
-    pointer-events: none;
-
-    transition:
-        opacity 0.2s ease,
-        visibility 0.2s ease;
-
-    backdrop-filter: blur(12px);
-
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 
-.install-modal.show {
-    opacity: 1;
-
-    visibility: visible;
-
-    pointer-events: auto;
-}
-
-
-/* =========================================================
-   MODAL BOX
-   ========================================================= */
-
-.modal-box {
+.install-modal {
     position: relative;
 
-    width: min(
-        100%,
-        430px
-    );
+    z-index: 101;
 
-    padding: 30px 25px 25px;
+    width: min(420px, 100%);
 
-    text-align: center;
+    padding: 27px 22px 22px;
 
     border:
         1px solid
-        rgba(255, 255, 255, 0.16);
+        rgba(255, 255, 255, 0.18);
 
-    border-radius: 25px;
+    border-radius: 27px;
 
     background:
-        rgba(14, 14, 22, 0.92);
+        rgba(14, 14, 20, 0.96);
 
     box-shadow:
-        0 30px 100px
-        rgba(0, 0, 0, 0.65);
+        0 30px 80px rgba(0, 0, 0, 0.65);
 
-    backdrop-filter: blur(25px);
+    text-align: center;
 
-    -webkit-backdrop-filter: blur(25px);
+    animation:
+        modalIn 0.22s ease;
 }
 
 
-/* =========================================================
-   MODAL CLOSE
-   ========================================================= */
+@keyframes modalIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+}
+
 
 .modal-close {
     position: absolute;
@@ -895,8 +870,8 @@ body {
     top: 12px;
     right: 14px;
 
-    width: 35px;
-    height: 35px;
+    width: 34px;
+    height: 34px;
 
     border: 0;
 
@@ -905,85 +880,108 @@ body {
     background:
         rgba(255, 255, 255, 0.08);
 
-    color: #ffffff;
+    color: #fff;
 
-    font-size: 24px;
-
-    line-height: 1;
+    font-size: 23px;
 
     cursor: pointer;
 }
 
 
-/* =========================================================
-   MODAL ICON
-   ========================================================= */
+.modal-app-icon {
+    width: 76px;
+    height: 76px;
 
-.modal-icon {
-    width: 72px;
-    height: 72px;
-
-    margin:
-        0
-        auto
-        18px;
+    margin: 0 auto 15px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     border-radius: 20px;
 
     background:
-        rgba(255, 255, 255, 0.08);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.18),
+            rgba(0, 0, 0, 0.50)
+        );
 
-    font-size: 36px;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+    font-size: 38px;
 }
 
 
-.modal-box h2 {
-    font-size: 24px;
-
-    font-weight: 900;
+.install-modal h2 {
+    font-size: 21px;
 }
 
 
-.modal-subtitle {
-    margin-top: 9px;
+.modal-developer {
+    margin-top: 6px;
 
-    color:
-        rgba(255, 255, 255, 0.58);
+    font-size: 10px;
 
-    font-size: 12px;
-
-    line-height: 1.6;
+    opacity: 0.52;
 }
 
 
-/* =========================================================
-   DOWNLOAD PROGRESS
-   ========================================================= */
+.modal-divider {
+    height: 1px;
 
-.download-progress {
-    display: none;
-
-    margin-top: 25px;
-}
-
-
-.progress-track {
-    width: 100%;
-
-    height: 7px;
-
-    overflow: hidden;
-
-    border-radius: 99px;
+    margin:
+        20px
+        0
+        16px;
 
     background:
         rgba(255, 255, 255, 0.10);
+}
+
+
+.download-status {
+    min-height: 22px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+
+    opacity: 0.72;
+}
+
+
+.progress-container {
+    width: 100%;
+
+    height: 5px;
+
+    margin:
+        10px
+        0
+        18px;
+
+    overflow: hidden;
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+}
+
+
+.progress-container.show {
+    opacity: 1;
 }
 
 
@@ -992,410 +990,159 @@ body {
 
     height: 100%;
 
-    border-radius: 99px;
+    border-radius: inherit;
 
-    background: #ffffff;
+    background: #fff;
 
     transition:
-        width 0.3s ease;
+        width 0.18s linear;
 }
 
 
-.download-status {
-    margin-top: 10px;
-
-    color:
-        rgba(255, 255, 255, 0.60);
-
-    font-size: 10px;
-}
-
-
-/* =========================================================
-   DOWNLOAD BUTTON
-   ========================================================= */
-
-.download-install-button {
+.download-button {
     width: 100%;
-
-    margin-top: 22px;
-
-    padding: 15px;
-
-    border-radius: 13px;
-
-    font-size: 11px;
-}
-
-
-/* =========================================================
-   INSTALL NOTE
-   ========================================================= */
-
-.install-note {
-    margin-top: 14px;
-
-    color:
-        rgba(255, 255, 255, 0.38);
-
-    font-size: 9px;
-
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   BOTTOM NAVIGATION
-   ========================================================= */
-
-.bottom-nav {
-    position: fixed;
-
-    left: 50%;
-
-    bottom: 15px;
-
-    transform: translateX(-50%);
-
-    z-index: 100;
-
-    width: min(
-        calc(100% - 30px),
-        520px
-    );
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-around;
-
-    padding: 9px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.14);
-
-    border-radius: 20px;
-
-    background:
-        rgba(7, 7, 12, 0.80);
-
-    box-shadow:
-        0 18px 50px
-        rgba(0, 0, 0, 0.50);
-
-    backdrop-filter: blur(22px);
-
-    -webkit-backdrop-filter: blur(22px);
-}
-
-
-.nav-item {
-    flex: 1;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 4px;
 
     min-height: 48px;
 
-    color:
-        rgba(255, 255, 255, 0.50);
+    border: 0;
 
-    text-decoration: none;
+    border-radius: 15px;
 
-    border-radius: 13px;
+    background: #fff;
 
-    font-size: 8px;
+    color: #000;
+
+    font-size: 10px;
 
     font-weight: 900;
 
     letter-spacing: 1px;
 
-    transition:
-        color 0.2s ease,
-        background 0.2s ease;
+    cursor: pointer;
 }
 
 
-.nav-item:hover,
-.nav-item.active {
-    color: #ffffff;
+.download-button:disabled {
+    opacity: 0.55;
+
+    cursor: wait;
+}
+
+
+.cancel-button {
+    width: 100%;
+
+    margin-top: 9px;
+
+    min-height: 42px;
+
+    border: 0;
+
+    border-radius: 13px;
 
     background:
-        rgba(255, 255, 255, 0.09);
+        rgba(255, 255, 255, 0.07);
+
+    color:
+        rgba(255, 255, 255, 0.65);
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    cursor: pointer;
 }
 
 
-.nav-icon {
-    font-size: 18px;
+.android-note {
+    margin-top: 15px;
 
-    line-height: 18px;
+    font-size: 8px;
+
+    line-height: 1.5;
+
+    opacity: 0.38;
 }
 
 
 /* =========================================================
-   TABLET
+   MOBILE
    ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 600px) {
 
     .top-bar {
-        padding:
-            12px
-            12px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
-
-    .back-button,
-    .games-button {
-        min-height: 38px;
-
-        padding:
-            8px
-            10px;
-
-        font-size: 9px;
+    .top-button {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
+    .page-title {
+        flex: 1;
+    }
 
     .title-main {
-        font-size: 14px;
+        font-size: 13px;
     }
 
-
-    .title-small {
+    .title-sub {
         font-size: 7px;
     }
 
-
-    .app-content {
-        width: min(
-            calc(100% - 22px),
-            600px
-        );
-
-        padding-top: 30px;
+    .hero-section {
+        min-height: 220px;
     }
-
 
     .app-card {
-        align-items: flex-start;
-
-        gap: 18px;
-
-        padding: 18px;
-
-        border-radius: 20px;
+        grid-template-columns:
+            auto
+            minmax(0, 1fr);
     }
-
-
-    .app-icon {
-        width: 105px;
-        height: 105px;
-
-        border-radius: 24px;
-    }
-
-
-    .icon-content {
-        font-size: 46px;
-    }
-
-}
-
-
-/* =========================================================
-   PHONE
-   ========================================================= */
-
-@media (max-width: 520px) {
-
-    .top-bar {
-        min-height: 64px;
-
-        gap: 7px;
-    }
-
-
-    .back-button,
-    .games-button {
-        padding:
-            7px
-            8px;
-
-        border-radius: 10px;
-
-        font-size: 8px;
-
-        letter-spacing: 0.7px;
-    }
-
-
-    .back-icon {
-        font-size: 18px;
-
-        margin-right: 3px;
-    }
-
-
-    .title-main {
-        font-size: 12px;
-
-        letter-spacing: 1px;
-    }
-
-
-    .title-small {
-        font-size: 6px;
-
-        letter-spacing: 2px;
-    }
-
-
-    .app-content {
-        padding-top: 25px;
-    }
-
-
-    .center-heading {
-        margin-bottom: 22px;
-    }
-
-
-    .center-heading h1 {
-        font-size: 30px;
-    }
-
-
-    .center-heading p {
-        font-size: 11px;
-    }
-
-
-    .app-card {
-        flex-direction: column;
-
-        align-items: center;
-
-        text-align: center;
-
-        padding: 22px 17px;
-    }
-
-
-    .app-icon {
-        width: 125px;
-        height: 125px;
-
-        border-radius: 28px;
-    }
-
-
-    .icon-content {
-        font-size: 54px;
-    }
-
-
-    .app-information {
-        width: 100%;
-    }
-
-
-    .app-title-row {
-        justify-content: center;
-    }
-
-
-    .app-title-row h2 {
-        font-size: 24px;
-    }
-
-
-    .app-category {
-        margin-top: 12px;
-    }
-
-
-    .app-description {
-        font-size: 12px;
-
-        line-height: 1.6;
-    }
-
-
-    .app-meta {
-        justify-content: center;
-
-        gap: 18px;
-    }
-
 
     .install-button {
+        grid-column: 1 / -1;
+
         width: 100%;
-
-        min-height: 48px;
     }
 
-
-    .whats-new-card {
-        padding: 18px;
+    .app-icon {
+        width: 68px;
+        height: 68px;
     }
 
-
-    .download-info {
-        align-items: flex-start;
-    }
-
-
-    .bottom-nav {
-        bottom: 10px;
-
-        width:
-            calc(100% - 20px);
+    .app-name-row h3 {
+        font-size: 15px;
     }
 
 }
 
 
 /* =========================================================
-   SMALL PHONE
+   VERY SMALL PHONES
    ========================================================= */
 
 @media (max-width: 360px) {
 
-    .app-content {
-        width:
-            calc(100% - 16px);
+    .hero-content h1 {
+        font-size: 42px;
     }
 
-
-    .back-button span:last-child,
-    .games-button {
-        font-size: 7px;
+    .app-card {
+        gap: 11px;
+        padding: 12px;
     }
-
 
     .app-icon {
-        width: 110px;
-        height: 110px;
+        width: 60px;
+        height: 60px;
     }
 
-
-    .app-title-row h2 {
-        font-size: 21px;
-    }
-
-
-    .meta-item {
-        min-width: 65px;
+    .astro-symbol {
+        font-size: 30px;
     }
 
 }
