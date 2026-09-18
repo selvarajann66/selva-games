@@ -1,8 +1,3 @@
-/* =========================================
-   SELVA WEB — APP CENTER
-   Doodle Jump Astro
-   ========================================= */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================
@@ -12,11 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const backgroundVideo =
         document.getElementById("appCenterBackground");
 
+    const appListScreen =
+        document.getElementById("appListScreen");
+
+    const appDetailsScreen =
+        document.getElementById("appDetailsScreen");
+
     const backButton =
         document.getElementById("backButton");
 
     const gameCenterButton =
         document.getElementById("gameCenterButton");
+
+    const doodleJumpApp =
+        document.getElementById("doodleJumpApp");
+
+    const detailsBackButton =
+        document.getElementById("detailsBackButton");
 
     const installButton =
         document.getElementById("installButton");
@@ -60,59 +67,129 @@ document.addEventListener("DOMContentLoaded", () => {
         backgroundVideo.muted = true;
 
         backgroundVideo.play().catch(() => {
-            /*
-             * Some browsers block autoplay temporarily.
-             * The video remains available and can start
-             * after browser interaction.
-             */
+            console.log(
+                "Background autoplay waiting for browser permission."
+            );
         });
 
-        backgroundVideo.addEventListener(
-            "error",
-            () => {
-                console.warn(
-                    "SELVA App Center background video could not be loaded."
-                );
-            }
-        );
     }
 
 
     /* =====================================
-       NAVIGATION
+       SHOW APP LIST
+       ===================================== */
+
+    function showAppList() {
+
+        appDetailsScreen.classList.remove("active");
+
+        appListScreen.classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "auto"
+        });
+
+    }
+
+
+    /* =====================================
+       SHOW APP DETAILS
+       ===================================== */
+
+    function showAppDetails() {
+
+        appListScreen.classList.remove("active");
+
+        appDetailsScreen.classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "auto"
+        });
+
+        loadDownloadCount();
+
+    }
+
+
+    /* =====================================
+       APP CARD CLICK
+       ===================================== */
+
+    if (doodleJumpApp) {
+
+        doodleJumpApp.addEventListener(
+            "click",
+            showAppDetails
+        );
+
+    }
+
+
+    /* =====================================
+       BACK TO APP CENTER
+       ===================================== */
+
+    if (detailsBackButton) {
+
+        detailsBackButton.addEventListener(
+            "click",
+            showAppList
+        );
+
+    }
+
+
+    /* =====================================
+       MAIN BACK
        ===================================== */
 
     if (backButton) {
 
-        backButton.addEventListener("click", () => {
-            window.location.href = "home.html";
-        });
-
-    }
-
-
-    if (gameCenterButton) {
-
-        gameCenterButton.addEventListener("click", () => {
-            window.location.href = "game-center.html";
-        });
+        backButton.addEventListener(
+            "click",
+            () => {
+                window.location.href = "home.html";
+            }
+        );
 
     }
 
 
     /* =====================================
-       OPEN INSTALL MODAL
+       GAME CENTER
+       ===================================== */
+
+    if (gameCenterButton) {
+
+        gameCenterButton.addEventListener(
+            "click",
+            () => {
+                window.location.href = "game-center.html";
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       INSTALL MODAL
        ===================================== */
 
     if (installButton) {
 
-        installButton.addEventListener("click", () => {
+        installButton.addEventListener(
+            "click",
+            () => {
 
-            installModal.classList.remove("hidden");
+                installModal.classList.remove("hidden");
 
-            document.body.style.overflow = "hidden";
+                document.body.style.overflow =
+                    "hidden";
 
-        });
+            }
+        );
 
     }
 
@@ -150,7 +227,9 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             (event) => {
 
-                if (event.target === installModal) {
+                if (
+                    event.target === installModal
+                ) {
                     closeModal();
                 }
 
@@ -161,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================
-       ESCAPE KEY
+       ESCAPE
        ===================================== */
 
     document.addEventListener(
@@ -172,7 +251,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 event.key === "Escape" &&
                 !installModal.classList.contains("hidden")
             ) {
+
                 closeModal();
+
             }
 
         }
@@ -190,7 +271,8 @@ document.addEventListener("DOMContentLoaded", () => {
             () => {
 
                 downloadMessage.textContent =
-                    "Starting official APK download...";
+                    "Starting APK download...";
+
 
                 const link =
                     document.createElement("a");
@@ -204,14 +286,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 link.rel = "noopener";
 
+
                 document.body.appendChild(link);
 
                 link.click();
 
                 link.remove();
 
+
                 downloadMessage.textContent =
-                    "APK download started. Android may ask for permission before installation.";
+                    "Download started. Android will handle the installation step.";
 
             }
         );
@@ -220,32 +304,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================
-       GET GITHUB DOWNLOAD COUNT
+       GITHUB DOWNLOAD COUNT
        ===================================== */
 
     async function loadDownloadCount() {
 
+        if (!downloadCount) {
+            return;
+        }
+
+        downloadCount.textContent = "—";
+
+        downloadStatus.textContent =
+            "Checking GitHub Releases...";
+
+
         try {
 
-            downloadStatus.textContent =
-                "Checking GitHub Releases...";
-
             const response =
-                await fetch(RELEASE_API, {
-                    headers: {
-                        "Accept":
-                            "application/vnd.github+json"
+                await fetch(
+                    RELEASE_API,
+                    {
+                        headers: {
+                            "Accept":
+                                "application/vnd.github+json"
+                        }
                     }
-                });
+                );
+
 
             if (!response.ok) {
+
                 throw new Error(
-                    "GitHub release unavailable"
+                    "GitHub API request failed"
                 );
+
             }
+
 
             const release =
                 await response.json();
+
 
             const asset =
                 release.assets.find(
@@ -254,33 +353,41 @@ document.addEventListener("DOMContentLoaded", () => {
                         "doodle-jump-astro.apk"
                 );
 
+
             if (!asset) {
 
                 downloadCount.textContent = "0";
 
                 downloadStatus.textContent =
-                    "APK release asset not found.";
+                    "APK asset not found.";
 
                 return;
+
             }
 
+
             downloadCount.textContent =
-                Number(asset.download_count).toLocaleString();
+                Number(
+                    asset.download_count
+                ).toLocaleString();
+
 
             downloadStatus.textContent =
                 "Downloads from GitHub Releases";
 
+
         } catch (error) {
 
             console.warn(
-                "Could not load GitHub download count:",
+                "Download count error:",
                 error
             );
+
 
             downloadCount.textContent = "—";
 
             downloadStatus.textContent =
-                "Download count temporarily unavailable.";
+                "Download count unavailable.";
 
         }
 
@@ -288,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================
-       LOAD DOWNLOAD COUNT
+       INITIAL LOAD
        ===================================== */
 
     loadDownloadCount();
