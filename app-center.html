@@ -1,84 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#050509">
-  <title>SELVA WEB — App Center</title>
+
+  <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <title>SELVA WEB • App Center</title>
+
   <link rel="stylesheet" href="app-center.css">
 </head>
-<body>
-  <video class="page-live-wallpaper" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="assets/live_wallpaper_appcenter.mp4" type="video/mp4">
-  </video>
-  <div class="wallpaper-overlay" aria-hidden="true"></div>
-  <div class="scanlines" aria-hidden="true"></div>
 
-  <header class="topbar">
-    <button class="nav-button" id="backButton" type="button">
-      <span class="nav-icon">←</span><span>BACK</span>
+<body>
+
+<!-- =====================================================
+     BACKGROUND VIDEO
+     ===================================================== -->
+
+<div class="background">
+  <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="auto"
+  >
+    <source
+            src="assets/live_wallpaper_appcenter.mp4"
+            type="video/mp4"
+    >
+  </video>
+
+  <div class="background-overlay"></div>
+</div>
+
+
+<!-- =====================================================
+     MAIN APP
+     ===================================================== -->
+
+<main class="app-shell">
+
+  <!-- =================================================
+       TOP HEADER
+       ================================================= -->
+
+  <header class="top-bar">
+
+    <button
+            class="top-button"
+            onclick="window.location.href='home.html'"
+    >
+      ← BACK
     </button>
+
     <div class="brand">
-      <span class="brand-small">SELVA WEB</span>
-      <span class="brand-title">APP CENTER</span>
+      <div class="brand-title">
+        SELVA WEB
+      </div>
+
+      <div class="brand-subtitle">
+        APP CENTER
+      </div>
     </div>
-    <button class="nav-button" id="gameCenterButton" type="button">
-      <span>GAME CENTER</span><span class="nav-icon">→</span>
+
+    <button
+            class="top-button"
+            onclick="window.location.href='game-center.html'"
+    >
+      GAMES
     </button>
+
   </header>
 
-  <main class="page-shell">
-    <section class="hero">
-      <div class="hero-copy">
-        <div class="eyebrow"><span></span> SELVA DIGITAL HUB</div>
-        <h1>APP <strong>CENTER</strong></h1>
-        <p>Explore the apps available from SELVA WEB.</p>
-      </div>
-      <div class="hero-badge" aria-hidden="true">
-        <div class="badge-ring"></div>
-        <div class="badge-core">S</div>
-      </div>
-    </section>
 
-    <section class="section-heading">
-      <div>
-        <span class="section-kicker">APPLICATIONS</span>
-        <h2>YOUR APPS</h2>
-      </div>
-      <span class="app-count">01 APP</span>
-    </section>
+  <!-- =================================================
+       PAGE TITLE
+       ================================================= -->
 
-    <section class="app-grid">
-      <article class="app-card">
-        <div class="card-glow"></div>
-        <div class="app-number">01</div>
-        <div class="app-icon music-icon" aria-hidden="true"><span>♪</span></div>
-        <div class="app-content">
-          <div class="app-status"><span class="status-dot"></span> AVAILABLE</div>
-          <h3>MUSIC</h3>
-          <p>Anime-focused music experience with a clean SELVA interface.</p>
-          <div class="app-tags"><span>ANDROID</span><span>MUSIC</span></div>
+  <section class="page-heading">
+
+    <div class="heading-small">
+      SELVA DIGITAL STORE
+    </div>
+
+    <h1>
+      APP CENTER
+    </h1>
+
+    <p>
+      Discover apps from SELVA.
+    </p>
+
+  </section>
+
+
+  <!-- =================================================
+       APP CARD
+       ================================================= -->
+
+  <section class="apps-container">
+
+    <article class="app-card">
+
+      <!-- APP ICON -->
+
+      <div class="app-icon-wrapper">
+
+        <div class="app-icon">
+
+          <img
+                  src="assets/doodle_jump/environment/space_city.png"
+                  alt="Doodle Jump Astro"
+                  onerror="this.style.display='none';"
+          >
+
+          <span class="fallback-icon">
+                            🚀
+                        </span>
+
         </div>
-        <div class="app-action">
-          <button class="open-app" id="musicButton" type="button">
-            <span>OPEN</span><span>↗</span>
-          </button>
+
+      </div>
+
+
+      <!-- APP INFORMATION -->
+
+      <div class="app-information">
+
+        <div class="app-title-row">
+
+          <div>
+
+            <h2>
+              Doodle Jump Astro
+            </h2>
+
+            <p class="developer">
+              SELVA
+            </p>
+
+          </div>
+
+          <div class="verified">
+            ✓
+          </div>
+
         </div>
-      </article>
+
+
+        <div class="category">
+          Arcade • Adventure
+        </div>
+
+
+        <!-- VERSION -->
+
+        <div class="metadata-row">
+
+                        <span>
+                            VERSION
+                        </span>
+
+          <strong id="appVersion">
+            Loading...
+          </strong>
+
+        </div>
+
+
+        <!-- DOWNLOAD COUNT -->
+
+        <div class="metadata-row">
+
+                        <span>
+                            DOWNLOADS
+                        </span>
+
+          <strong id="appDownloads">
+            Loading...
+          </strong>
+
+        </div>
+
+
+        <!-- RELEASE DATE -->
+
+        <div class="metadata-row">
+
+                        <span>
+                            RELEASED
+                        </span>
+
+          <strong id="appDate">
+            Loading...
+          </strong>
+
+        </div>
+
+
+        <!-- INSTALL BUTTON -->
+
+        <button
+                id="installButton"
+                class="install-btn"
+                disabled
+        >
+          LOADING...
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <!-- =================================================
+         WHAT'S NEW
+         ================================================= -->
+
+    <section class="info-card">
+
+      <div class="section-title">
+        WHAT'S NEW
+      </div>
+
+      <p id="whatsNew">
+        Loading release information...
+      </p>
+
     </section>
 
-    <section class="coming-soon">
-      <div class="coming-line"></div>
-      <div><span class="section-kicker">MORE</span><h2>MORE APPS COMING SOON</h2></div>
-      <span class="coming-mark">+</span>
+
+    <!-- =================================================
+         APP DESCRIPTION
+         ================================================= -->
+
+    <section class="info-card">
+
+      <div class="section-title">
+        ABOUT THIS APP
+      </div>
+
+      <p>
+        Doodle Jump Astro is a mobile arcade adventure
+        from SELVA. Jump across platforms, collect
+        power-ups and try to beat your highest score.
+      </p>
+
+      <div class="feature-list">
+
+        <div class="feature">
+          <span>✓</span>
+          Mobile touch controls
+        </div>
+
+        <div class="feature">
+          <span>✓</span>
+          Multiple difficulty modes
+        </div>
+
+        <div class="feature">
+          <span>✓</span>
+          Power-ups
+        </div>
+
+        <div class="feature">
+          <span>✓</span>
+          High-score saving
+        </div>
+
+        <div class="feature">
+          <span>✓</span>
+          Phone optimized gameplay
+        </div>
+
+      </div>
+
     </section>
-  </main>
 
-  <footer class="footer">
-    <span>SELVA WEB</span><span class="footer-separator">•</span><span>APP CENTER</span>
-  </footer>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app-center.js"></script>
+    <!-- =================================================
+         INSTALL INFORMATION
+         ================================================= -->
+
+    <section class="info-card install-info">
+
+      <div class="section-title">
+        INSTALLATION
+      </div>
+
+      <p>
+        Tap <strong>DOWNLOAD &amp; INSTALL</strong> to
+        download the latest Android APK.
+      </p>
+
+      <p>
+        Android may ask you to confirm the installation
+        after the APK has been downloaded.
+      </p>
+
+    </section>
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     BOTTOM NAVIGATION
+     ===================================================== -->
+
+<nav class="bottom-nav">
+
+  <button
+          onclick="window.location.href='home.html'"
+  >
+    <span>⌂</span>
+    <small>HOME</small>
+  </button>
+
+  <button
+          onclick="window.location.href='game-center.html'"
+  >
+    <span>🎮</span>
+    <small>GAMES</small>
+  </button>
+
+  <button
+          class="active"
+          onclick="window.location.href='app-center.html'"
+  >
+    <span>▣</span>
+    <small>APPS</small>
+  </button>
+
+</nav>
+
+
+<!-- =====================================================
+     APP CENTER JAVASCRIPT
+     ===================================================== -->
+
+<script src="app-center.js"></script>
+
 </body>
+
 </html>
