@@ -1,6 +1,7 @@
 /* =========================================================
-   SELVA WEB — APP CENTER
-   Complete stylesheet
+   SELVA WEB
+   APP CENTER
+   app-center.css
    ========================================================= */
 
 
@@ -14,108 +15,89 @@
     padding: 0;
 }
 
-html {
-    width: 100%;
-    min-height: 100%;
-    background: #000;
-    scroll-behavior: smooth;
-}
 
+html,
 body {
     width: 100%;
+    min-height: 100%;
+}
+
+
+html {
+    background: #050509;
+}
+
+
+body {
     min-height: 100vh;
 
     font-family:
-        Inter,
-        "Segoe UI",
-        Roboto,
         Arial,
+        Helvetica,
         sans-serif;
 
-    background: #000;
-    color: #fff;
+    color: #ffffff;
+
+    background: #050509;
 
     overflow-x: hidden;
-
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
 }
 
 
 /* =========================================================
-   BACKGROUND
+   BACKGROUND VIDEO
    ========================================================= */
 
-.background {
+.app-center-background {
     position: fixed;
-    inset: 0;
 
-    width: 100%;
-    height: 100%;
+    top: 0;
+    left: 0;
 
-    z-index: -10;
-
-    overflow: hidden;
-
-    background: #000;
-}
-
-.background video {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    width: 100%;
-    height: 100%;
-
-    min-width: 100%;
-    min-height: 100%;
-
-    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
 
     object-fit: cover;
 
-    opacity: 0.72;
+    z-index: -3;
 
-    pointer-events: none;
+    background: #050509;
 }
 
+
+/* =========================================================
+   BACKGROUND OVERLAY
+   ========================================================= */
+
 .background-overlay {
-    position: absolute;
+    position: fixed;
+
     inset: 0;
+
+    z-index: -2;
 
     background:
         linear-gradient(
             180deg,
-            rgba(0, 0, 0, 0.72) 0%,
-            rgba(0, 0, 0, 0.34) 35%,
-            rgba(0, 0, 0, 0.62) 72%,
-            rgba(0, 0, 0, 0.94) 100%
+            rgba(0, 0, 0, 0.45) 0%,
+            rgba(0, 0, 0, 0.20) 35%,
+            rgba(0, 0, 0, 0.55) 100%
         );
-
-    backdrop-filter: blur(1px);
 
     pointer-events: none;
 }
 
 
 /* =========================================================
-   MAIN SHELL
+   PAGE
    ========================================================= */
 
-.app-shell {
-    width: 100%;
-    max-width: 900px;
-
-    margin: 0 auto;
+.app-page {
+    position: relative;
 
     min-height: 100vh;
 
-    padding:
-        16px
-        16px
-        110px;
+    padding-bottom: 110px;
 }
 
 
@@ -132,163 +114,219 @@ body {
 
     width: 100%;
 
-    min-height: 58px;
+    min-height: 74px;
+
+    padding:
+        14px
+        18px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    gap: 10px;
-
-    padding: 8px 0 12px;
+    gap: 14px;
 
     background:
-        linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.76),
-            rgba(0, 0, 0, 0)
-        );
+        rgba(5, 5, 9, 0.72);
 
-    backdrop-filter: blur(8px);
+    border-bottom:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    backdrop-filter: blur(18px);
+
+    -webkit-backdrop-filter: blur(18px);
 }
 
-.top-button {
-    border: 1px solid rgba(255, 255, 255, 0.22);
 
-    background:
-        rgba(255, 255, 255, 0.08);
+/* =========================================================
+   BACK BUTTON
+   ========================================================= */
 
-    color: #fff;
+.back-button,
+.games-button {
+    display: inline-flex;
 
-    min-height: 38px;
+    align-items: center;
 
-    padding: 0 13px;
+    justify-content: center;
+
+    min-height: 42px;
+
+    padding:
+        9px
+        14px;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
 
     border-radius: 12px;
 
-    font-size: 11px;
-    font-weight: 800;
-
-    letter-spacing: 0.8px;
-
-    cursor: pointer;
+    background:
+        rgba(255, 255, 255, 0.07);
 
     transition:
-        transform 0.18s ease,
-        background 0.18s ease,
-        border-color 0.18s ease;
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.top-button:hover {
+
+.back-button:hover,
+.games-button:hover {
+    transform: translateY(-2px);
+
     background:
-        rgba(255, 255, 255, 0.15);
+        rgba(255, 255, 255, 0.13);
 
     border-color:
-        rgba(255, 255, 255, 0.42);
-
-    transform: translateY(-1px);
+        rgba(255, 255, 255, 0.30);
 }
 
-.top-button:active {
-    transform: scale(0.96);
-}
 
-.brand {
-    flex: 1;
+.back-icon {
+    margin-right: 6px;
 
-    text-align: center;
+    font-size: 22px;
 
-    min-width: 0;
-}
-
-.brand-title {
-    font-size: clamp(16px, 4vw, 21px);
-
-    font-weight: 950;
-
-    letter-spacing: 2px;
-
-    white-space: nowrap;
-
-    text-shadow:
-        0 0 18px rgba(255, 255, 255, 0.2);
-}
-
-.brand-subtitle {
-    margin-top: 2px;
-
-    font-size: 8px;
-
-    font-weight: 800;
-
-    letter-spacing: 2.2px;
-
-    opacity: 0.55;
+    line-height: 10px;
 }
 
 
 /* =========================================================
-   PAGE HEADING
+   PAGE TITLE
    ========================================================= */
 
-.page-heading {
-    text-align: center;
-
-    padding:
-        30px
-        4px
-        28px;
-}
-
-.heading-small {
-    font-size: 9px;
-
-    font-weight: 900;
-
-    letter-spacing: 3px;
-
-    opacity: 0.58;
-
-    margin-bottom: 9px;
-}
-
-.page-heading h1 {
-    font-size: clamp(30px, 8vw, 48px);
-
-    line-height: 1;
-
-    font-weight: 1000;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-
-    text-shadow:
-        0 0 24px rgba(255, 255, 255, 0.18);
-}
-
-.page-heading p {
-    margin-top: 12px;
-
-    font-size: 13px;
-
-    line-height: 1.5;
-
-    color:
-        rgba(255, 255, 255, 0.68);
-}
-
-
-/* =========================================================
-   APP CONTAINER
-   ========================================================= */
-
-.apps-container {
+.page-title {
     display: flex;
 
     flex-direction: column;
 
-    gap: 16px;
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+}
+
+
+.title-small {
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    opacity: 0.65;
+}
+
+
+.title-main {
+    margin-top: 3px;
+
+    font-size: 17px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.app-content {
+    width: min(
+        100% - 30px,
+        850px
+    );
+
+    margin:
+        0
+        auto;
+
+    padding-top: 45px;
+}
+
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.center-heading {
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+
+.heading-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        7px
+        12px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.07);
+
+    font-size: 9px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+
+.center-heading h1 {
+    margin-top: 14px;
+
+    font-size:
+        clamp(
+            30px,
+            7vw,
+            48px
+        );
+
+    line-height: 1;
+
+    font-weight: 950;
+
+    letter-spacing: 2px;
+}
+
+
+.center-heading p {
+    margin-top: 12px;
+
+    color:
+        rgba(255, 255, 255, 0.68);
+
+    font-size: 13px;
 }
 
 
@@ -299,73 +337,55 @@ body {
 .app-card {
     position: relative;
 
-    width: 100%;
-
     display: flex;
 
-    align-items: flex-start;
+    align-items: center;
 
-    gap: 16px;
+    gap: 25px;
 
-    padding: 18px;
+    width: 100%;
 
-    border-radius: 22px;
+    padding: 25px;
 
     border:
-        1px solid rgba(255, 255, 255, 0.16);
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    border-radius: 25px;
 
     background:
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.14),
-            rgba(255, 255, 255, 0.055)
-        );
+        rgba(12, 12, 20, 0.68);
 
     box-shadow:
-        0 18px 50px rgba(0, 0, 0, 0.42),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        0 25px 80px
+        rgba(0, 0, 0, 0.40);
 
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(22px);
+
+    -webkit-backdrop-filter: blur(22px);
 
     overflow: hidden;
-
-    transition:
-        transform 0.25s ease,
-        border-color 0.25s ease,
-        box-shadow 0.25s ease;
 }
+
 
 .app-card::before {
     content: "";
 
     position: absolute;
 
-    top: -100px;
-    right: -100px;
+    top: 0;
+    left: 0;
 
-    width: 220px;
-    height: 220px;
-
-    border-radius: 50%;
+    width: 100%;
+    height: 1px;
 
     background:
-        rgba(255, 255, 255, 0.06);
-
-    filter: blur(40px);
-
-    pointer-events: none;
-}
-
-.app-card:hover {
-    transform: translateY(-2px);
-
-    border-color:
-        rgba(255, 255, 255, 0.28);
-
-    box-shadow:
-        0 24px 60px rgba(0, 0, 0, 0.52),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.5),
+            transparent
+        );
 }
 
 
@@ -373,53 +393,70 @@ body {
    APP ICON
    ========================================================= */
 
-.app-icon-wrapper {
-    flex: 0 0 auto;
-}
-
 .app-icon {
     position: relative;
 
-    width: 82px;
-    height: 82px;
+    flex-shrink: 0;
 
-    border-radius: 20px;
-
-    overflow: hidden;
-
-    background:
-        rgba(0, 0, 0, 0.5);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.2);
-
-    box-shadow:
-        0 12px 28px rgba(0, 0, 0, 0.42);
+    width: 145px;
+    height: 145px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
+    border-radius: 32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.15),
+            rgba(255, 255, 255, 0.04)
+        );
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.18);
+
+    box-shadow:
+        0 20px 55px
+        rgba(0, 0, 0, 0.45);
+
+    overflow: hidden;
 }
 
-.app-icon img {
+
+.icon-glow {
     position: absolute;
 
-    inset: 0;
+    width: 90px;
+    height: 90px;
 
-    width: 100%;
-    height: 100%;
+    border-radius: 50%;
 
-    object-fit: cover;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.28),
+            transparent 70%
+        );
+
+    filter: blur(10px);
 }
 
-.fallback-icon {
+
+.icon-content {
     position: relative;
 
-    z-index: 1;
+    font-size: 64px;
 
-    font-size: 36px;
-
-    line-height: 1;
+    filter:
+        drop-shadow(
+            0 8px 15px
+            rgba(0, 0, 0, 0.45)
+        );
 }
 
 
@@ -433,6 +470,7 @@ body {
     min-width: 0;
 }
 
+
 .app-title-row {
     display: flex;
 
@@ -440,102 +478,119 @@ body {
 
     justify-content: space-between;
 
-    gap: 8px;
+    gap: 15px;
 }
+
 
 .app-title-row h2 {
-    font-size: clamp(18px, 5vw, 24px);
+    font-size:
+        clamp(
+            22px,
+            4vw,
+            32px
+        );
 
-    line-height: 1.15;
+    line-height: 1.1;
 
     font-weight: 900;
-
-    letter-spacing: 0.2px;
 }
 
-.developer {
-    margin-top: 5px;
 
-    font-size: 11px;
+.developer {
+    margin-top: 7px;
+
+    color:
+        rgba(255, 255, 255, 0.58);
+
+    font-size: 12px;
 
     font-weight: 700;
 
     letter-spacing: 1px;
-
-    opacity: 0.58;
 }
 
-.verified {
-    flex: 0 0 auto;
 
-    width: 21px;
-    height: 21px;
+.app-category {
+    display: inline-block;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 14px;
 
-    border-radius: 50%;
+    padding:
+        6px
+        10px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
 
     background:
-        rgba(255, 255, 255, 0.12);
+        rgba(255, 255, 255, 0.07);
 
-    font-size: 11px;
+    color:
+        rgba(255, 255, 255, 0.78);
 
-    font-weight: 900;
-}
-
-.category {
-    margin-top: 10px;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: 0.5px;
-
-    opacity: 0.64;
-}
-
-
-/* =========================================================
-   METADATA
-   ========================================================= */
-
-.metadata-row {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 10px;
-
-    margin-top: 9px;
-
-    font-size: 10px;
-}
-
-.metadata-row span {
-    font-weight: 700;
-
-    letter-spacing: 0.8px;
-
-    opacity: 0.46;
-}
-
-.metadata-row strong {
     font-size: 10px;
 
     font-weight: 800;
 
-    text-align: right;
+    letter-spacing: 0.8px;
+}
+
+
+.app-description {
+    margin-top: 14px;
+
+    max-width: 600px;
 
     color:
-        rgba(255, 255, 255, 0.9);
+        rgba(255, 255, 255, 0.68);
+
+    font-size: 13px;
+
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   APP META
+   ========================================================= */
+
+.app-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 22px;
+
+    margin-top: 20px;
+}
+
+
+.meta-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.meta-label {
+    color:
+        rgba(255, 255, 255, 0.40);
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.4px;
+}
+
+
+.meta-value {
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
 }
 
 
@@ -543,174 +598,449 @@ body {
    INSTALL BUTTON
    ========================================================= */
 
-.install-btn {
-    width: 100%;
-
-    min-height: 46px;
-
-    margin-top: 15px;
-
-    padding: 0 18px;
-
-    border: 1px solid
-        rgba(255, 255, 255, 0.32);
-
-    border-radius: 14px;
-
-    background:
-        rgba(255, 255, 255, 0.92);
-
-    color: #000;
-
-    font-size: 11px;
-
-    font-weight: 950;
-
-    letter-spacing: 1.2px;
+.install-button,
+.download-install-button {
+    border: 0;
 
     cursor: pointer;
 
-    box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.28);
+    color: #ffffff;
 
-    transition:
-        transform 0.18s ease,
-        background 0.18s ease,
-        box-shadow 0.18s ease,
-        opacity 0.18s ease;
-}
+    font-weight: 900;
 
-.install-btn:hover:not(:disabled) {
-    background: #fff;
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.38);
-}
-
-.install-btn:active:not(:disabled) {
-    transform: scale(0.97);
-}
-
-.install-btn:disabled {
-    cursor: wait;
-
-    opacity: 0.48;
+    letter-spacing: 1px;
 
     background:
-        rgba(255, 255, 255, 0.55);
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #d9d9df
+        );
+
+    color: #050509;
+
+    box-shadow:
+        0 12px 30px
+        rgba(0, 0, 0, 0.35);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.install-button {
+    margin-top: 22px;
+
+    min-width: 150px;
+
+    padding:
+        13px
+        22px;
+
+    border-radius: 12px;
+
+    font-size: 11px;
+}
+
+
+.install-button:hover,
+.download-install-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 18px 35px
+        rgba(0, 0, 0, 0.45);
+}
+
+
+.install-button:active,
+.download-install-button:active {
+    transform: scale(0.98);
+}
+
+
+.install-button:disabled,
+.download-install-button:disabled {
+    opacity: 0.55;
+
+    cursor: wait;
+
+    transform: none;
 }
 
 
 /* =========================================================
-   INFO CARDS
+   WHAT'S NEW
    ========================================================= */
 
-.info-card {
-    width: 100%;
+.whats-new-card {
+    margin-top: 22px;
 
-    padding: 20px;
+    padding: 22px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.13);
 
     border-radius: 20px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.13);
-
     background:
-        rgba(0, 0, 0, 0.42);
+        rgba(8, 8, 14, 0.62);
 
-    box-shadow:
-        0 12px 38px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(18px);
 
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(18px);
 }
 
-.section-title {
-    margin-bottom: 12px;
 
-    font-size: 11px;
+.section-heading {
+    display: flex;
 
-    font-weight: 950;
+    align-items: center;
 
-    letter-spacing: 1.8px;
+    gap: 10px;
 }
 
-.info-card p {
-    font-size: 12px;
 
-    line-height: 1.65;
+.section-line {
+    width: 4px;
+
+    height: 20px;
+
+    border-radius: 10px;
+
+    background: #ffffff;
+}
+
+
+.section-heading h2 {
+    font-size: 13px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.5px;
+}
+
+
+.whats-new-content {
+    margin-top: 14px;
 
     color:
         rgba(255, 255, 255, 0.68);
 
-    white-space: pre-line;
-}
+    font-size: 13px;
 
-.info-card strong {
-    color:
-        rgba(255, 255, 255, 0.95);
+    line-height: 1.7;
+
+    white-space: pre-line;
 }
 
 
 /* =========================================================
-   FEATURE LIST
+   DOWNLOAD INFO
    ========================================================= */
 
-.feature-list {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
-
-    margin-top: 17px;
-}
-
-.feature {
+.download-info {
     display: flex;
 
     align-items: center;
 
-    gap: 10px;
+    gap: 14px;
 
-    min-height: 30px;
+    margin-top: 18px;
+
+    padding: 17px;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.10);
+
+    border-radius: 16px;
+
+    background:
+        rgba(0, 0, 0, 0.32);
+}
+
+
+.info-icon {
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    font-size: 22px;
+}
+
+
+.download-info strong {
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+
+.download-info p {
+    margin-top: 4px;
+
+    color:
+        rgba(255, 255, 255, 0.52);
 
     font-size: 11px;
 
-    color:
-        rgba(255, 255, 255, 0.74);
+    line-height: 1.5;
 }
 
-.feature span {
-    width: 23px;
-    height: 23px;
 
-    flex: 0 0 auto;
+/* =========================================================
+   INSTALL MODAL
+   ========================================================= */
+
+.install-modal {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 200;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0, 0, 0, 0.72);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
+}
+
+
+.install-modal.show {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   MODAL BOX
+   ========================================================= */
+
+.modal-box {
+    position: relative;
+
+    width: min(
+        100%,
+        430px
+    );
+
+    padding: 30px 25px 25px;
+
+    text-align: center;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    border-radius: 25px;
+
+    background:
+        rgba(14, 14, 22, 0.92);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0, 0, 0, 0.65);
+
+    backdrop-filter: blur(25px);
+
+    -webkit-backdrop-filter: blur(25px);
+}
+
+
+/* =========================================================
+   MODAL CLOSE
+   ========================================================= */
+
+.modal-close {
+    position: absolute;
+
+    top: 12px;
+    right: 14px;
+
+    width: 35px;
+    height: 35px;
+
+    border: 0;
 
     border-radius: 50%;
 
     background:
-        rgba(255, 255, 255, 0.1);
+        rgba(255, 255, 255, 0.08);
 
-    border:
-        1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+
+    font-size: 24px;
+
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   MODAL ICON
+   ========================================================= */
+
+.modal-icon {
+    width: 72px;
+    height: 72px;
+
+    margin:
+        0
+        auto
+        18px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    font-size: 36px;
+}
+
+
+.modal-box h2 {
+    font-size: 24px;
+
+    font-weight: 900;
+}
+
+
+.modal-subtitle {
+    margin-top: 9px;
+
+    color:
+        rgba(255, 255, 255, 0.58);
+
+    font-size: 12px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   DOWNLOAD PROGRESS
+   ========================================================= */
+
+.download-progress {
+    display: none;
+
+    margin-top: 25px;
+}
+
+
+.progress-track {
+    width: 100%;
+
+    height: 7px;
+
+    overflow: hidden;
+
+    border-radius: 99px;
+
+    background:
+        rgba(255, 255, 255, 0.10);
+}
+
+
+.progress-bar {
+    width: 0%;
+
+    height: 100%;
+
+    border-radius: 99px;
+
+    background: #ffffff;
+
+    transition:
+        width 0.3s ease;
+}
+
+
+.download-status {
+    margin-top: 10px;
+
+    color:
+        rgba(255, 255, 255, 0.60);
 
     font-size: 10px;
 }
 
 
 /* =========================================================
-   INSTALL INFO
+   DOWNLOAD BUTTON
    ========================================================= */
 
-.install-info {
-    margin-bottom: 5px;
+.download-install-button {
+    width: 100%;
+
+    margin-top: 22px;
+
+    padding: 15px;
+
+    border-radius: 13px;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   INSTALL NOTE
+   ========================================================= */
+
+.install-note {
+    margin-top: 14px;
+
+    color:
+        rgba(255, 255, 255, 0.38);
+
+    font-size: 9px;
+
+    line-height: 1.5;
 }
 
 
@@ -722,56 +1052,47 @@ body {
     position: fixed;
 
     left: 50%;
-    bottom: 12px;
+
+    bottom: 15px;
 
     transform: translateX(-50%);
 
     z-index: 100;
 
-    width:
-        min(calc(100% - 24px), 460px);
+    width: min(
+        calc(100% - 30px),
+        520px
+    );
 
-    min-height: 62px;
+    display: flex;
 
-    display: grid;
+    align-items: center;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+    justify-content: space-around;
 
-    gap: 5px;
+    padding: 9px;
 
-    padding: 6px;
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.14);
 
     border-radius: 20px;
 
-    border:
-        1px solid rgba(255, 255, 255, 0.17);
-
     background:
-        rgba(8, 8, 8, 0.72);
+        rgba(7, 7, 12, 0.80);
 
     box-shadow:
-        0 16px 45px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        0 18px 50px
+        rgba(0, 0, 0, 0.50);
 
     backdrop-filter: blur(22px);
+
     -webkit-backdrop-filter: blur(22px);
 }
 
-.bottom-nav button {
-    min-height: 50px;
 
-    border: 0;
-
-    border-radius: 15px;
-
-    background:
-        transparent;
-
-    color:
-        rgba(255, 255, 255, 0.52);
-
-    cursor: pointer;
+.nav-item {
+    flex: 1;
 
     display: flex;
 
@@ -781,396 +1102,300 @@ body {
 
     justify-content: center;
 
-    gap: 3px;
+    gap: 4px;
 
-    transition:
-        background 0.18s ease,
-        color 0.18s ease,
-        transform 0.18s ease;
-}
+    min-height: 48px;
 
-.bottom-nav button span {
-    font-size: 19px;
+    color:
+        rgba(255, 255, 255, 0.50);
 
-    line-height: 1;
-}
+    text-decoration: none;
 
-.bottom-nav button small {
+    border-radius: 13px;
+
     font-size: 8px;
 
     font-weight: 900;
 
     letter-spacing: 1px;
-}
 
-.bottom-nav button:hover {
-    color: #fff;
-
-    background:
-        rgba(255, 255, 255, 0.07);
-}
-
-.bottom-nav button:active {
-    transform: scale(0.94);
-}
-
-.bottom-nav button.active {
-    color: #fff;
-
-    background:
-        rgba(255, 255, 255, 0.12);
-
-    box-shadow:
-        inset 0 1px 0
-        rgba(255, 255, 255, 0.08);
-}
-
-
-/* =========================================================
-   LOADING STATE
-   ========================================================= */
-
-#appVersion,
-#appDownloads,
-#appDate,
-#whatsNew {
     transition:
-        opacity 0.25s ease;
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.nav-item:hover,
+.nav-item.active {
+    color: #ffffff;
+
+    background:
+        rgba(255, 255, 255, 0.09);
+}
+
+
+.nav-icon {
+    font-size: 18px;
+
+    line-height: 18px;
 }
 
 
 /* =========================================================
-   SCROLLBAR
+   TABLET
    ========================================================= */
 
-::-webkit-scrollbar {
-    width: 5px;
-}
-
-::-webkit-scrollbar-track {
-    background: #000;
-}
-
-::-webkit-scrollbar-thumb {
-    background:
-        rgba(255, 255, 255, 0.25);
-
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background:
-        rgba(255, 255, 255, 0.42);
-}
-
-
-/* =========================================================
-   SELECTION
-   ========================================================= */
-
-::selection {
-    background:
-        rgba(255, 255, 255, 0.25);
-
-    color: #fff;
-}
-
-
-/* =========================================================
-   MOBILE — SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 430px) {
-
-    .app-shell {
-        padding:
-            10px
-            12px
-            105px;
-    }
+@media (max-width: 700px) {
 
     .top-bar {
-        min-height: 54px;
-
-        padding-top: 5px;
+        padding:
+            12px
+            12px;
     }
 
-    .top-button {
-        min-height: 36px;
 
-        padding: 0 10px;
+    .back-button,
+    .games-button {
+        min-height: 38px;
+
+        padding:
+            8px
+            10px;
 
         font-size: 9px;
-
-        letter-spacing: 0.6px;
     }
 
-    .brand-title {
-        font-size: 15px;
 
-        letter-spacing: 1.5px;
+    .title-main {
+        font-size: 14px;
     }
 
-    .brand-subtitle {
+
+    .title-small {
         font-size: 7px;
-
-        letter-spacing: 1.5px;
     }
 
-    .page-heading {
+
+    .app-content {
+        width: min(
+            calc(100% - 22px),
+            600px
+        );
+
+        padding-top: 30px;
+    }
+
+
+    .app-card {
+        align-items: flex-start;
+
+        gap: 18px;
+
+        padding: 18px;
+
+        border-radius: 20px;
+    }
+
+
+    .app-icon {
+        width: 105px;
+        height: 105px;
+
+        border-radius: 24px;
+    }
+
+
+    .icon-content {
+        font-size: 46px;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+    .top-bar {
+        min-height: 64px;
+
+        gap: 7px;
+    }
+
+
+    .back-button,
+    .games-button {
         padding:
-            24px
-            0
-            22px;
+            7px
+            8px;
+
+        border-radius: 10px;
+
+        font-size: 8px;
+
+        letter-spacing: 0.7px;
     }
 
-    .page-heading h1 {
-        font-size: 29px;
+
+    .back-icon {
+        font-size: 18px;
+
+        margin-right: 3px;
+    }
+
+
+    .title-main {
+        font-size: 12px;
+
+        letter-spacing: 1px;
+    }
+
+
+    .title-small {
+        font-size: 6px;
 
         letter-spacing: 2px;
     }
 
-    .page-heading p {
-        font-size: 12px;
+
+    .app-content {
+        padding-top: 25px;
     }
 
-    .app-card {
-        gap: 13px;
 
-        padding: 14px;
-
-        border-radius: 19px;
+    .center-heading {
+        margin-bottom: 22px;
     }
 
-    .app-icon {
-        width: 70px;
-        height: 70px;
 
-        border-radius: 17px;
-    }
-
-    .fallback-icon {
+    .center-heading h1 {
         font-size: 30px;
     }
 
-    .app-title-row h2 {
-        font-size: 17px;
-    }
 
-    .developer {
-        font-size: 10px;
-    }
-
-    .category {
-        margin-top: 8px;
-
-        font-size: 9px;
-    }
-
-    .metadata-row {
-        margin-top: 7px;
-
-        font-size: 9px;
-    }
-
-    .metadata-row strong {
-        font-size: 9px;
-    }
-
-    .install-btn {
-        min-height: 43px;
-
-        margin-top: 13px;
-
-        font-size: 10px;
-    }
-
-    .info-card {
-        padding: 17px;
-
-        border-radius: 18px;
-    }
-
-    .info-card p {
+    .center-heading p {
         font-size: 11px;
+    }
+
+
+    .app-card {
+        flex-direction: column;
+
+        align-items: center;
+
+        text-align: center;
+
+        padding: 22px 17px;
+    }
+
+
+    .app-icon {
+        width: 125px;
+        height: 125px;
+
+        border-radius: 28px;
+    }
+
+
+    .icon-content {
+        font-size: 54px;
+    }
+
+
+    .app-information {
+        width: 100%;
+    }
+
+
+    .app-title-row {
+        justify-content: center;
+    }
+
+
+    .app-title-row h2 {
+        font-size: 24px;
+    }
+
+
+    .app-category {
+        margin-top: 12px;
+    }
+
+
+    .app-description {
+        font-size: 12px;
 
         line-height: 1.6;
     }
 
-    .section-title {
-        font-size: 10px;
 
-        letter-spacing: 1.5px;
+    .app-meta {
+        justify-content: center;
+
+        gap: 18px;
     }
 
-    .feature {
-        font-size: 10px;
+
+    .install-button {
+        width: 100%;
+
+        min-height: 48px;
     }
+
+
+    .whats-new-card {
+        padding: 18px;
+    }
+
+
+    .download-info {
+        align-items: flex-start;
+    }
+
 
     .bottom-nav {
-        bottom: 8px;
+        bottom: 10px;
 
         width:
-            calc(100% - 18px);
-
-        min-height: 58px;
-
-        border-radius: 18px;
+            calc(100% - 20px);
     }
 
-    .bottom-nav button {
-        min-height: 46px;
+}
 
-        border-radius: 13px;
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 360px) {
+
+    .app-content {
+        width:
+            calc(100% - 16px);
     }
 
-    .bottom-nav button span {
-        font-size: 17px;
-    }
 
-    .bottom-nav button small {
+    .back-button span:last-child,
+    .games-button {
         font-size: 7px;
     }
-}
 
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 350px) {
-
-    .app-card {
-        gap: 10px;
-
-        padding: 12px;
-    }
 
     .app-icon {
-        width: 60px;
-        height: 60px;
-
-        border-radius: 15px;
+        width: 110px;
+        height: 110px;
     }
+
 
     .app-title-row h2 {
-        font-size: 15px;
+        font-size: 21px;
     }
 
-    .verified {
-        width: 18px;
-        height: 18px;
 
-        font-size: 9px;
+    .meta-item {
+        min-width: 65px;
     }
 
-    .metadata-row {
-        font-size: 8px;
-    }
-
-    .metadata-row strong {
-        font-size: 8px;
-    }
-
-    .install-btn {
-        min-height: 40px;
-
-        font-size: 9px;
-    }
-}
-
-
-/* =========================================================
-   TABLET / DESKTOP
-   ========================================================= */
-
-@media (min-width: 700px) {
-
-    .app-shell {
-        padding:
-            20px
-            24px
-            120px;
-    }
-
-    .top-bar {
-        min-height: 68px;
-    }
-
-    .page-heading {
-        padding-top: 45px;
-
-        padding-bottom: 36px;
-    }
-
-    .app-card {
-        padding: 24px;
-
-        gap: 22px;
-    }
-
-    .app-icon {
-        width: 112px;
-        height: 112px;
-
-        border-radius: 25px;
-    }
-
-    .app-title-row h2 {
-        font-size: 28px;
-    }
-
-    .developer {
-        font-size: 12px;
-    }
-
-    .category {
-        font-size: 11px;
-    }
-
-    .metadata-row {
-        font-size: 11px;
-    }
-
-    .metadata-row strong {
-        font-size: 11px;
-    }
-
-    .install-btn {
-        max-width: 300px;
-
-        min-height: 50px;
-    }
-
-    .info-card {
-        padding: 24px;
-    }
-
-    .info-card p {
-        font-size: 13px;
-    }
-
-    .feature {
-        font-size: 12px;
-    }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-    }
 }

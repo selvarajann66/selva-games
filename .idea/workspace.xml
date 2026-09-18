@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="073f3cfe-908d-4cbb-81a2-0639a9e89405" name="Changes" comment="Update style.css">
-      <change afterPath="$PROJECT_DIR$/downloads/doodle-jump-astro.apk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app-center.css" beforeDir="false" afterPath="$PROJECT_DIR$/app-center.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app-center.html" beforeDir="false" afterPath="$PROJECT_DIR$/app-center.html" afterDir="false" />
@@ -244,7 +241,15 @@
       <option name="project" value="LOCAL" />
       <updated>1789660074289</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Update style.css">
+      <option name="closed" value="true" />
+      <created>1789743700741</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1789743700742</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

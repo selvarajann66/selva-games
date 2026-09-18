@@ -1,184 +1,235 @@
 /* =========================================================
-   SELVA WEB — APP CENTER
-   Real GitHub Release Download Tracker
+   SELVA WEB
+   APP CENTER
+   app-center.js
+
+   App:
+   Doodle Jump Astro
+
+   APK:
+   doodle-jump-astro.apk
+
+   GitHub:
+   selvarajann66/selva-games
    ========================================================= */
-
-const GITHUB_OWNER = "selvarajann66";
-const GITHUB_REPO = "selva-games";
-
-/*
- * APK filename used in the GitHub Release.
- */
-const APK_NAME = "doodle-jump-astro.apk";
-
-/*
- * Latest GitHub Release API.
- */
-const RELEASE_API =
-    `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest`;
 
 
 /* =========================================================
-   ELEMENTS
+   CONFIGURATION
    ========================================================= */
+
+const GITHUB_API =
+    "https://api.github.com/repos/selvarajann66/selva-games/releases/latest";
+
+const APK_NAME =
+    "doodle-jump-astro.apk";
+
+const FALLBACK_DOWNLOAD_URL =
+    "https://github.com/selvarajann66/selva-games/releases/latest/download/doodle-jump-astro.apk";
+
+
+/* =========================================================
+   PAGE ELEMENTS
+   ========================================================= */
+
+const installModal =
+    document.getElementById("installModal");
+
+const closeInstall =
+    document.getElementById("closeInstall");
+
+const downloadInstall =
+    document.getElementById("downloadInstall");
+
+const downloadCount =
+    document.getElementById("downloadCount");
 
 const appVersion =
     document.getElementById("appVersion");
 
-const appDownloads =
-    document.getElementById("appDownloads");
-
-const appDate =
-    document.getElementById("appDate");
-
 const whatsNew =
     document.getElementById("whatsNew");
 
-const installButton =
-    document.getElementById("installButton");
+const downloadProgress =
+    document.getElementById("downloadProgress");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+const downloadStatus =
+    document.getElementById("downloadStatus");
+
+const appCenterBackground =
+    document.getElementById("appCenterBackground");
 
 
 /* =========================================================
-   VARIABLES
+   GLOBAL DOWNLOAD URL
    ========================================================= */
 
-let latestRelease = null;
-let apkAsset = null;
+let apkDownloadURL =
+    FALLBACK_DOWNLOAD_URL;
 
 
 /* =========================================================
-   FORMAT DOWNLOAD COUNT
+   OPEN INSTALL MODAL
    ========================================================= */
 
-function formatDownloads(number) {
+function openInstallModal() {
 
-    number = Number(number || 0);
-
-    if (number >= 1000000) {
-        return (
-            number / 1000000
-        ).toFixed(1) + "M";
+    if (!installModal) {
+        return;
     }
 
-    if (number >= 1000) {
-        return (
-            number / 1000
-        ).toFixed(1) + "K";
-    }
+    installModal.classList.add("show");
 
-    return number.toString();
+    installModal.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    resetDownloadUI();
 }
 
 
 /* =========================================================
-   FORMAT RELEASE DATE
+   CLOSE INSTALL MODAL
    ========================================================= */
 
-function formatDate(dateString) {
+function closeInstallModal() {
 
-    if (!dateString) {
-        return "Unknown";
+    if (!installModal) {
+        return;
     }
 
-    const date =
-        new Date(dateString);
+    installModal.classList.remove("show");
 
-    return date.toLocaleDateString(
-        undefined,
-        {
-            year: "numeric",
-            month: "short",
-            day: "numeric"
-        }
+    installModal.setAttribute(
+        "aria-hidden",
+        "true"
     );
 }
 
 
 /* =========================================================
-   SET LOADING STATE
+   CLOSE BUTTON
    ========================================================= */
 
-function setLoadingState() {
+if (closeInstall) {
 
-    if (appVersion) {
-        appVersion.textContent =
-            "Loading...";
-    }
+    closeInstall.addEventListener(
+        "click",
+        closeInstallModal
+    );
 
-    if (appDownloads) {
-        appDownloads.textContent =
-            "Loading...";
-    }
-
-    if (appDate) {
-        appDate.textContent =
-            "Loading...";
-    }
-
-    if (whatsNew) {
-        whatsNew.textContent =
-            "Loading release information...";
-    }
-
-    if (installButton) {
-
-        installButton.disabled = true;
-
-        installButton.textContent =
-            "LOADING...";
-    }
 }
 
 
 /* =========================================================
-   SET ERROR STATE
+   CLICK OUTSIDE MODAL
    ========================================================= */
 
-function setErrorState(message) {
+if (installModal) {
 
-    console.error(message);
+    installModal.addEventListener(
+        "click",
+        function (event) {
 
-    if (appVersion) {
-        appVersion.textContent =
-            "Unavailable";
-    }
+            if (
+                event.target === installModal
+            ) {
+                closeInstallModal();
+            }
 
-    if (appDownloads) {
-        appDownloads.textContent =
-            "Download count unavailable";
-    }
+        }
+    );
 
-    if (appDate) {
-        appDate.textContent =
-            "Unavailable";
-    }
-
-    if (whatsNew) {
-        whatsNew.textContent =
-            "Release information could not be loaded.";
-    }
-
-    if (installButton) {
-
-        installButton.disabled = true;
-
-        installButton.textContent =
-            "DOWNLOAD UNAVAILABLE";
-    }
 }
 
 
 /* =========================================================
-   LOAD GITHUB RELEASE
+   ESC KEY
    ========================================================= */
 
-async function loadLatestRelease() {
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key === "Escape") {
+            closeInstallModal();
+        }
+
+    }
+);
+
+
+/* =========================================================
+   RESET DOWNLOAD UI
+   ========================================================= */
+
+function resetDownloadUI() {
+
+    if (downloadProgress) {
+
+        downloadProgress.style.display =
+            "none";
+
+    }
+
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "0%";
+
+    }
+
+
+    if (downloadStatus) {
+
+        downloadStatus.textContent =
+            "Ready to download Doodle Jump Astro.";
+
+    }
+
+
+    if (downloadInstall) {
+
+        downloadInstall.disabled =
+            false;
+
+        downloadInstall.textContent =
+            "DOWNLOAD & INSTALL";
+
+    }
+
+}
+
+
+/* =========================================================
+   NUMBER FORMAT
+   ========================================================= */
+
+function formatNumber(number) {
+
+    return Number(
+        number || 0
+    ).toLocaleString("en-IN");
+
+}
+
+
+/* =========================================================
+   LOAD LATEST GITHUB RELEASE
+   ========================================================= */
+
+async function loadReleaseInfo() {
 
     try {
 
         const response =
             await fetch(
-                RELEASE_API,
+                GITHUB_API,
                 {
                     method: "GET",
 
@@ -195,130 +246,149 @@ async function loadLatestRelease() {
         if (!response.ok) {
 
             throw new Error(
-                `GitHub API error: ${response.status}`
+                "GitHub API error: " +
+                response.status
             );
+
         }
 
 
-        latestRelease =
+        const release =
             await response.json();
 
 
-        /* -------------------------------------------------
-           FIND APK
-           ------------------------------------------------- */
-
-        apkAsset =
-            latestRelease.assets.find(
-                asset =>
-                    asset.name.toLowerCase() ===
-                    APK_NAME.toLowerCase()
-            );
-
-
-        if (!apkAsset) {
-
-            throw new Error(
-                `APK "${APK_NAME}" was not found in the latest release.`
-            );
-        }
-
-
-        /* -------------------------------------------------
+        /* -----------------------------------------
            VERSION
-           ------------------------------------------------- */
+           ----------------------------------------- */
 
         if (appVersion) {
 
             appVersion.textContent =
-                latestRelease.tag_name ||
-                "Unknown";
+                release.tag_name ||
+                "v1.0.0";
+
         }
 
 
-        /* -------------------------------------------------
-           DOWNLOAD COUNT
-           ------------------------------------------------- */
+        /* -----------------------------------------
+           FIND DOODLE JUMP ASTRO APK
+           ----------------------------------------- */
 
-        if (appDownloads) {
+        const apkAsset =
+            Array.isArray(release.assets)
+                ? release.assets.find(
+                    function (asset) {
 
-            appDownloads.textContent =
-                `${formatDownloads(
-                    apkAsset.download_count
-                )} downloads`;
-        }
+                        return (
+                            asset.name ===
+                            APK_NAME
+                        );
 
-
-        /* -------------------------------------------------
-           RELEASE DATE
-           ------------------------------------------------- */
-
-        if (appDate) {
-
-            appDate.textContent =
-                formatDate(
-                    latestRelease.published_at
-                );
-        }
+                    }
+                )
+                : null;
 
 
-        /* -------------------------------------------------
-           WHAT'S NEW
-           ------------------------------------------------- */
+        /* -----------------------------------------
+           APK FOUND
+           ----------------------------------------- */
 
-        if (whatsNew) {
+        if (apkAsset) {
 
-            const releaseNotes =
-                latestRelease.body?.trim();
+            /* Real GitHub download count */
 
+            if (downloadCount) {
 
-            if (releaseNotes) {
+                downloadCount.textContent =
+                    formatNumber(
+                        apkAsset.download_count
+                    );
 
-                whatsNew.textContent =
-                    releaseNotes;
-
-            } else {
-
-                whatsNew.textContent =
-                    "Initial SELVA WEB release.";
             }
+
+
+            /* Real GitHub browser URL */
+
+            if (
+                apkAsset.browser_download_url
+            ) {
+
+                apkDownloadURL =
+                    apkAsset.browser_download_url;
+
+            }
+
+
+            /* Release notes */
+
+            if (
+                whatsNew &&
+                release.body
+            ) {
+
+                whatsNew.textContent =
+                    release.body;
+
+            }
+
         }
 
 
-        /* -------------------------------------------------
-           ENABLE DOWNLOAD BUTTON
-           ------------------------------------------------- */
+        /* -----------------------------------------
+           APK NOT FOUND
+           ----------------------------------------- */
 
-        if (installButton) {
+        else {
 
-            installButton.disabled = false;
+            if (downloadCount) {
 
-            installButton.textContent =
-                "DOWNLOAD & INSTALL";
+                downloadCount.textContent =
+                    "0";
+
+            }
+
+
+            apkDownloadURL =
+                FALLBACK_DOWNLOAD_URL;
+
         }
 
-
-        console.log(
-            "SELVA App Center release loaded:",
-            latestRelease.tag_name
-        );
-
-        console.log(
-            "APK:",
-            apkAsset.name
-        );
-
-        console.log(
-            "Downloads:",
-            apkAsset.download_count
-        );
-
-    } catch (error) {
-
-        setErrorState(
-            error.message
-        );
     }
+
+
+    /* ---------------------------------------------
+       ERROR
+       --------------------------------------------- */
+
+    catch (error) {
+
+        console.error(
+            "GitHub release loading failed:",
+            error
+        );
+
+
+        if (downloadCount) {
+
+            downloadCount.textContent =
+                "0";
+
+        }
+
+
+        if (appVersion) {
+
+            appVersion.textContent =
+                "v1.0.0";
+
+        }
+
+
+        apkDownloadURL =
+            FALLBACK_DOWNLOAD_URL;
+
+    }
+
 }
 
 
@@ -326,33 +396,178 @@ async function loadLatestRelease() {
    DOWNLOAD APK
    ========================================================= */
 
-function downloadAPK() {
+async function downloadAPK() {
 
-    if (!apkAsset) {
-
-        alert(
-            "Doodle Jump Astro APK is currently unavailable."
-        );
-
+    if (!downloadInstall) {
         return;
     }
 
 
+    /* ---------------------------------------------
+       DISABLE BUTTON
+       --------------------------------------------- */
+
+    downloadInstall.disabled =
+        true;
+
+    downloadInstall.textContent =
+        "STARTING...";
+
+
+    /* ---------------------------------------------
+       SHOW PROGRESS
+       --------------------------------------------- */
+
+    if (downloadProgress) {
+
+        downloadProgress.style.display =
+            "block";
+
+    }
+
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "5%";
+
+    }
+
+
+    if (downloadStatus) {
+
+        downloadStatus.textContent =
+            "Preparing Doodle Jump Astro...";
+
+    }
+
+
+    await wait(300);
+
+
+    /* ---------------------------------------------
+       STEP 1
+       --------------------------------------------- */
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "25%";
+
+    }
+
+
+    if (downloadStatus) {
+
+        downloadStatus.textContent =
+            "Connecting to GitHub...";
+
+    }
+
+
+    await wait(350);
+
+
+    /* ---------------------------------------------
+       STEP 2
+       --------------------------------------------- */
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "50%";
+
+    }
+
+
+    if (downloadStatus) {
+
+        downloadStatus.textContent =
+            "Preparing APK download...";
+
+    }
+
+
+    await wait(350);
+
+
+    /* ---------------------------------------------
+       STEP 3
+       --------------------------------------------- */
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "75%";
+
+    }
+
+
+    if (downloadStatus) {
+
+        downloadStatus.textContent =
+            "Starting Doodle Jump Astro download...";
+
+    }
+
+
+    await wait(300);
+
+
+    /* ---------------------------------------------
+       COMPLETE UI
+       --------------------------------------------- */
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            "100%";
+
+    }
+
+
+    if (downloadStatus) {
+
+        downloadStatus.textContent =
+            "Download started. Android will handle the APK.";
+
+    }
+
+
     /*
-     * GitHub's real release asset URL.
+     * IMPORTANT:
      *
-     * This is NOT a fake counter or simulated download.
-     * GitHub handles the actual APK download.
+     * We navigate directly to GitHub's
+     * browser_download_url.
+     *
+     * Do not fetch the APK through JavaScript.
      */
-    const downloadURL =
-        apkAsset.browser_download_url;
 
-
-    /*
-     * Send the user directly to the APK.
-     */
     window.location.href =
-        downloadURL;
+        apkDownloadURL;
+
+
+    /* ---------------------------------------------
+       RESTORE BUTTON
+       --------------------------------------------- */
+
+    setTimeout(
+        function () {
+
+            if (downloadInstall) {
+
+                downloadInstall.disabled =
+                    false;
+
+                downloadInstall.textContent =
+                    "DOWNLOAD AGAIN";
+
+            }
+
+        },
+        2500
+    );
+
 }
 
 
@@ -360,32 +575,133 @@ function downloadAPK() {
    INSTALL BUTTON
    ========================================================= */
 
-if (installButton) {
+if (downloadInstall) {
 
-    installButton.addEventListener(
+    downloadInstall.addEventListener(
         "click",
         downloadAPK
     );
+
 }
 
 
 /* =========================================================
-   INITIAL LOAD
+   WAIT HELPER
    ========================================================= */
 
-setLoadingState();
+function wait(milliseconds) {
 
-loadLatestRelease();
+    return new Promise(
+        function (resolve) {
+
+            setTimeout(
+                resolve,
+                milliseconds
+            );
+
+        }
+    );
+
+}
 
 
 /* =========================================================
-   AUTOMATIC REFRESH
-   =========================================================
-
-   Refresh the GitHub download count every 60 seconds.
+   APP CENTER BACKGROUND VIDEO
    ========================================================= */
 
-setInterval(
-    loadLatestRelease,
-    60000
-);
+function startAppCenterBackground() {
+
+    if (!appCenterBackground) {
+        return;
+    }
+
+
+    appCenterBackground.muted =
+        true;
+
+    appCenterBackground.loop =
+        true;
+
+    appCenterBackground.autoplay =
+        true;
+
+    appCenterBackground.playsInline =
+        true;
+
+
+    const playPromise =
+        appCenterBackground.play();
+
+
+    if (
+        playPromise &&
+        typeof playPromise.catch === "function"
+    ) {
+
+        playPromise.catch(
+            function () {
+
+                /*
+                 * Browser blocked autoplay.
+                 * Try again after first user interaction.
+                 */
+
+                document.addEventListener(
+                    "click",
+                    function () {
+
+                        appCenterBackground
+                            .play()
+                            .catch(
+                                function () {}
+                            );
+
+                    },
+                    {
+                        once: true
+                    }
+                );
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INITIALIZE PAGE
+   ========================================================= */
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            startAppCenterBackground();
+            loadReleaseInfo();
+
+        }
+    );
+
+}
+
+else {
+
+    startAppCenterBackground();
+    loadReleaseInfo();
+
+}
+
+
+/* =========================================================
+   GLOBAL FUNCTION
+   ========================================================= */
+
+window.openInstallModal =
+    openInstallModal;
