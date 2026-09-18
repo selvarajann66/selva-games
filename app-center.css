@@ -1,6 +1,6 @@
-/* =========================================================
-   SELVA WEB - APP CENTER
-   ========================================================= */
+/* =========================================
+   RESET
+   ========================================= */
 
 * {
     box-sizing: border-box;
@@ -11,1010 +11,845 @@
 html {
     width: 100%;
     min-height: 100%;
-    background: #000;
 }
 
 body {
     width: 100%;
     min-height: 100vh;
-    min-height: 100dvh;
 
     background: #000;
 
-    color: #fff;
-
     font-family:
-        Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
+        Arial,
+        Helvetica,
         sans-serif;
 
+    color: #ffffff;
+
     overflow-x: hidden;
+
+    /* Normal scrolling — no custom smooth-scroll system */
+    overflow-y: auto;
 }
 
 
-/* =========================================================
-   LIVE BACKGROUND
-   ========================================================= */
+/* =========================================
+   BACKGROUND VIDEO
+   ========================================= */
 
 .app-center-background {
     position: fixed;
 
-    top: 0;
-    left: 0;
+    inset: 0;
 
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
+    width: 100%;
+    height: 100%;
 
     object-fit: cover;
-
-    display: block;
-
-    background: #000;
 
     z-index: 0;
 
     pointer-events: none;
+
+    background: #000;
 }
 
 
-/* =========================================================
+/* =========================================
    BACKGROUND OVERLAY
-   ========================================================= */
+   ========================================= */
 
 .background-overlay {
     position: fixed;
 
-    top: 0;
-    left: 0;
+    inset: 0;
 
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(0, 0, 0, 0.55) 0%,
-            rgba(0, 0, 0, 0.20) 35%,
-            rgba(0, 0, 0, 0.58) 100%
-        );
+    width: 100%;
+    height: 100%;
 
     z-index: 1;
 
     pointer-events: none;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0, 0, 0, 0.58) 0%,
+            rgba(0, 0, 0, 0.28) 35%,
+            rgba(0, 0, 0, 0.52) 70%,
+            rgba(0, 0, 0, 0.82) 100%
+        );
 }
 
 
-/* =========================================================
+/* =========================================
    MAIN PAGE
-   ========================================================= */
+   ========================================= */
 
 .app-page {
     position: relative;
 
     z-index: 2;
 
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    width: min(100%, 1100px);
 
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: 110px;
+    margin: 0 auto;
+
+    padding:
+        35px
+        25px
+        80px;
 }
 
 
-/* =========================================================
+/* =========================================
    TOP BAR
-   ========================================================= */
+   ========================================= */
 
 .top-bar {
     width: 100%;
 
     display: flex;
-    align-items: center;
+
     justify-content: space-between;
 
-    padding:
-        18px
-        18px
-        12px;
+    align-items: center;
 
-    gap: 10px;
+    gap: 15px;
 }
 
 
 .top-button {
-    min-height: 40px;
+    min-width: 175px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 58px;
 
-    gap: 5px;
+    padding: 0 25px;
 
-    padding: 0 13px;
+    border-radius: 30px;
 
-    border: 1px solid rgba(255, 255, 255, 0.20);
-
-    border-radius: 14px;
+    border: 1px solid rgba(75, 165, 255, 0.9);
 
     background:
-        rgba(10, 10, 16, 0.65);
+        rgba(5, 10, 25, 0.72);
 
-    color: rgba(255, 255, 255, 0.90);
+    color: #ffffff;
 
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    font-size: 16px;
 
-    font-size: 10px;
     font-weight: 800;
 
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
 
     cursor: pointer;
 
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    backdrop-filter: blur(14px);
+
+    -webkit-backdrop-filter: blur(14px);
+
     transition:
         transform 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 
 .top-button:hover {
+    transform: translateY(-2px);
+
     background:
-        rgba(255, 255, 255, 0.13);
+        rgba(20, 40, 75, 0.85);
 
-    transform: translateY(-1px);
-}
-
-
-.top-button:active {
-    transform: scale(0.96);
+    box-shadow:
+        0 0 25px rgba(40, 150, 255, 0.25);
 }
 
 
 .button-icon {
-    font-size: 20px;
-    line-height: 1;
-}
-
-
-.page-title {
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
+    font-size: 25px;
 
     line-height: 1;
 }
 
 
-.title-main {
-    font-size: 16px;
-    font-weight: 900;
-
-    letter-spacing: 4px;
+.game-button {
+    min-width: 195px;
 }
 
 
-.title-sub {
-    margin-top: 5px;
+/* =========================================
+   HEADER
+   ========================================= */
 
-    font-size: 8px;
-    font-weight: 700;
-
-    letter-spacing: 2px;
-
-    opacity: 0.55;
-}
-
-
-/* =========================================================
-   HERO
-   ========================================================= */
-
-.hero-section {
-    min-height: 245px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.app-header {
+    text-align: center;
 
     padding:
-        35px
-        20px
-        30px;
-
-    text-align: center;
+        65px
+        10px
+        55px;
 }
 
 
-.hero-content {
-    width: 100%;
-    max-width: 600px;
-}
+.selva-label {
+    font-size: 17px;
 
-
-.hero-badge {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 7px 14px;
-
-    border: 1px solid rgba(255, 255, 255, 0.22);
-
-    border-radius: 999px;
-
-    background:
-        rgba(0, 0, 0, 0.40);
-
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    font-size: 9px;
     font-weight: 800;
 
-    letter-spacing: 2px;
+    letter-spacing: 7px;
 
-    opacity: 0.85;
+    margin-bottom: 12px;
+
+    text-shadow:
+        0 0 15px rgba(100, 180, 255, 0.7);
 }
 
 
-.hero-content h1 {
-    margin-top: 18px;
+.app-header h1 {
+    font-size:
+        clamp(48px, 8vw, 90px);
 
-    font-size: clamp(46px, 14vw, 90px);
+    line-height: 0.95;
 
-    line-height: 0.85;
-
-    font-weight: 1000;
+    font-weight: 950;
 
     letter-spacing: -3px;
 
     text-shadow:
-        0 8px 35px rgba(0, 0, 0, 0.65);
+        0 5px 25px rgba(0, 0, 0, 0.8),
+        0 0 25px rgba(80, 150, 255, 0.25);
 }
 
 
-.hero-content h1 span {
-    display: block;
+.header-line {
+    width: 220px;
 
-    margin-top: 9px;
+    height: 2px;
 
-    font-size: 0.48em;
+    margin:
+        20px
+        auto;
 
-    letter-spacing: 8px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #369cff,
+            transparent
+        );
 
-    opacity: 0.82;
+    box-shadow:
+        0 0 15px rgba(50, 150, 255, 0.7);
 }
 
 
-.hero-content p {
-    margin-top: 22px;
+.app-header p {
+    font-size: 17px;
 
-    font-size: 12px;
+    letter-spacing: 7px;
 
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-
-    opacity: 0.65;
+    color:
+        rgba(255, 255, 255, 0.72);
 }
 
 
-/* =========================================================
-   APPS SECTION
-   ========================================================= */
+/* =========================================
+   AVAILABLE SECTION
+   ========================================= */
 
-.apps-section {
+.available-section {
     width: 100%;
-
-    max-width: 900px;
-
-    margin: 0 auto;
-
-    padding:
-        0
-        16px;
-}
-
-
-.section-heading {
-    display: flex;
-
-    align-items: flex-end;
-    justify-content: space-between;
-
-    gap: 15px;
-
-    margin-bottom: 14px;
 }
 
 
 .section-label {
-    display: block;
+    display: inline-block;
 
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 
-    font-size: 8px;
+    padding: 8px 18px;
 
-    font-weight: 800;
+    border: 1px solid #277fff;
 
-    letter-spacing: 2px;
+    border-radius: 30px;
 
-    opacity: 0.50;
-}
+    color: #6ea8ff;
 
+    font-size: 13px;
 
-.section-heading h2 {
-    font-size: 21px;
+    font-weight: 900;
 
-    line-height: 1.1;
-
-    font-weight: 850;
-}
-
-
-.version-label {
-    flex-shrink: 0;
-
-    padding: 6px 10px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
-
-    border-radius: 10px;
+    letter-spacing: 1px;
 
     background:
-        rgba(0, 0, 0, 0.38);
-
-    font-size: 9px;
-
-    font-weight: 700;
-
-    opacity: 0.70;
+        rgba(0, 20, 60, 0.35);
 }
 
 
-/* =========================================================
-   APP CARD
-   ========================================================= */
+.app-title-row {
+    display: flex;
 
-.app-card {
-    width: 100%;
-
-    display: grid;
-
-    grid-template-columns:
-        auto
-        minmax(0, 1fr)
-        auto;
+    justify-content: space-between;
 
     align-items: center;
 
     gap: 15px;
 
-    padding: 15px;
+    margin-bottom: 28px;
+}
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
 
-    border-radius: 23px;
+.app-title-row h2 {
+    font-size:
+        clamp(30px, 5vw, 52px);
+
+    font-weight: 950;
+
+    letter-spacing: -1px;
+
+    text-shadow:
+        0 4px 18px rgba(0, 0, 0, 0.8);
+}
+
+
+.version-badge {
+    flex-shrink: 0;
+
+    padding: 10px 17px;
+
+    border: 1px solid #418dff;
+
+    border-radius: 25px;
 
     background:
-        rgba(12, 12, 19, 0.66);
+        rgba(0, 0, 0, 0.55);
+
+    font-weight: 800;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   APP CARD
+   ========================================= */
+
+.app-card {
+    width: 100%;
+
+    padding: 35px;
+
+    border-radius: 35px;
+
+    border: 1px solid rgba(65, 140, 255, 0.9);
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(5, 12, 28, 0.88),
+            rgba(16, 12, 22, 0.83)
+        );
 
     backdrop-filter: blur(18px);
+
     -webkit-backdrop-filter: blur(18px);
 
     box-shadow:
-        0 15px 45px rgba(0, 0, 0, 0.30);
-
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease;
+        0 15px 50px rgba(0, 0, 0, 0.45),
+        0 0 30px rgba(30, 120, 255, 0.08);
 }
 
 
-.app-card:hover {
-    transform: translateY(-2px);
+.app-main-info {
+    display: flex;
 
-    border-color:
-        rgba(255, 255, 255, 0.28);
+    align-items: center;
+
+    gap: 28px;
 }
 
 
-/* =========================================================
+/* =========================================
    APP ICON
-   ========================================================= */
-
-.app-icon-area {
-    flex-shrink: 0;
-}
-
+   ========================================= */
 
 .app-icon {
-    width: 76px;
-    height: 76px;
+    width: 145px;
+    height: 145px;
+
+    flex-shrink: 0;
+
+    border-radius: 30px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
-
-    border-radius: 20px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.22);
 
     background:
         radial-gradient(
-            circle at 35% 25%,
-            rgba(255, 255, 255, 0.28),
-            transparent 30%
-        ),
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.15),
-            rgba(0, 0, 0, 0.50)
+            circle at 35% 30%,
+            #6e78a5,
+            #202333 48%,
+            #0b0d15 100%
         );
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
 
     box-shadow:
         inset 0 0 25px rgba(255, 255, 255, 0.08),
-        0 8px 25px rgba(0, 0, 0, 0.30);
+        0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 
-.astro-symbol {
-    font-size: 38px;
+.app-icon span {
+    font-size: 72px;
+
+    color: white;
 
     text-shadow:
-        0 0 20px rgba(255, 255, 255, 0.55);
+        0 4px 15px rgba(255, 255, 255, 0.35);
 }
 
 
-/* =========================================================
-   APP INFORMATION
-   ========================================================= */
+/* =========================================
+   APP DETAILS
+   ========================================= */
 
-.app-information {
+.app-details {
     min-width: 0;
 }
 
 
-.app-name-row {
-    display: flex;
+.app-details h3 {
+    font-size:
+        clamp(24px, 4vw, 35px);
 
-    align-items: center;
+    line-height: 1.15;
 
-    gap: 6px;
-}
+    font-weight: 950;
 
-
-.app-name-row h3 {
-    min-width: 0;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-    white-space: nowrap;
-
-    font-size: 17px;
-
-    font-weight: 850;
+    margin-bottom: 10px;
 }
 
 
 .verified {
-    flex-shrink: 0;
-
-    width: 17px;
-    height: 17px;
-
     display: inline-flex;
 
     align-items: center;
+
     justify-content: center;
+
+    width: 25px;
+    height: 25px;
+
+    margin-left: 5px;
 
     border-radius: 50%;
 
-    background:
-        rgba(255, 255, 255, 0.85);
+    background: #ffffff;
 
-    color: #000;
+    color: #111111;
 
-    font-size: 10px;
+    font-size: 15px;
 
-    font-weight: 900;
+    vertical-align: middle;
 }
 
 
-.developer {
-    margin-top: 5px;
+.app-details strong {
+    display: block;
 
-    font-size: 11px;
+    font-size: 17px;
 
-    font-weight: 700;
-
-    opacity: 0.70;
+    margin-bottom: 15px;
 }
 
 
-.category {
-    margin-top: 5px;
+.category,
+.platform {
+    color:
+        rgba(255, 255, 255, 0.67);
 
-    font-size: 10px;
+    font-size: 15px;
 
-    opacity: 0.52;
+    margin-bottom: 12px;
 }
 
 
-.app-meta {
-    display: flex;
-
-    gap: 6px;
-
-    margin-top: 9px;
-
-    font-size: 9px;
-
-    opacity: 0.42;
-}
-
-
-/* =========================================================
+/* =========================================
    INSTALL BUTTON
-   ========================================================= */
+   ========================================= */
 
 .install-button {
-    flex-shrink: 0;
+    width: 100%;
 
-    min-width: 91px;
+    height: 70px;
 
-    min-height: 40px;
+    margin-top: 32px;
 
-    border: 0;
+    border: none;
 
-    border-radius: 13px;
+    border-radius: 22px;
 
-    background:
-        rgba(255, 255, 255, 0.92);
+    background: #f4f4f4;
 
-    color: #080808;
+    color: #111111;
 
-    font-size: 10px;
+    font-size: 18px;
 
-    font-weight: 900;
+    font-weight: 950;
 
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 
     cursor: pointer;
 
     transition:
         transform 0.2s ease,
-        opacity 0.2s ease;
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 
 .install-button:hover {
-    opacity: 0.85;
+    transform: translateY(-2px);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 10px 30px rgba(255, 255, 255, 0.18);
 }
 
 
-.install-button:active {
-    transform: scale(0.95);
+.install-icon {
+    font-size: 25px;
+
+    margin-right: 8px;
 }
 
 
-/* =========================================================
-   INFO
-   ========================================================= */
-
-.info-section {
-    width: 100%;
-
-    max-width: 900px;
-
-    margin: 18px auto 0;
-
-    padding:
-        0
-        16px;
-}
-
+/* =========================================
+   INFO CARDS
+   ========================================= */
 
 .info-card {
+    width: 100%;
+
+    min-height: 125px;
+
+    margin-top: 30px;
+
+    padding: 27px 35px;
+
+    border-radius: 28px;
+
+    border: 1px solid rgba(80, 140, 255, 0.7);
+
+    background:
+        rgba(5, 8, 18, 0.78);
+
+    backdrop-filter: blur(16px);
+
+    -webkit-backdrop-filter: blur(16px);
+
     display: flex;
 
     align-items: center;
 
-    gap: 13px;
-
-    padding: 14px 16px;
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.12);
-
-    border-radius: 17px;
-
-    background:
-        rgba(0, 0, 0, 0.38);
-
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    gap: 25px;
 }
 
 
 .info-icon {
-    width: 34px;
-    height: 34px;
+    width: 62px;
+    height: 62px;
 
     flex-shrink: 0;
 
+    border-radius: 20px;
+
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    border-radius: 10px;
+    font-size: 35px;
 
     background:
-        rgba(255, 255, 255, 0.10);
+        rgba(55, 75, 145, 0.45);
 
-    font-size: 18px;
+    border: 1px solid rgba(100, 150, 255, 0.45);
 }
 
 
-.info-card strong {
-    display: block;
+.info-content h3 {
+    font-size: 20px;
 
-    font-size: 11px;
+    margin-bottom: 7px;
 }
 
 
-.info-card p {
-    margin-top: 4px;
-
-    font-size: 9px;
+.info-content p {
+    color:
+        rgba(255, 255, 255, 0.7);
 
     line-height: 1.5;
 
-    opacity: 0.52;
+    font-size: 15px;
 }
 
 
-/* =========================================================
-   BOTTOM NAVIGATION
-   ========================================================= */
+/* =========================================
+   DOWNLOAD COUNT
+   ========================================= */
 
-.bottom-navigation {
-    position: fixed;
+.download-card {
+    border-color:
+        rgba(90, 145, 255, 0.8);
+}
 
-    left: 12px;
-    right: 12px;
 
-    bottom:
-        calc(12px + env(safe-area-inset-bottom));
+.download-content {
+    flex: 1;
+}
 
-    z-index: 20;
 
-    height: 67px;
+#downloadCount {
+    display: block;
 
-    display: grid;
+    font-size: 35px;
 
-    grid-template-columns:
-        repeat(3, 1fr);
+    margin-top: 3px;
+}
 
-    gap: 5px;
 
-    padding: 6px;
+#downloadStatus {
+    font-size: 13px;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.15);
+    margin-top: 3px;
+}
 
-    border-radius: 22px;
+
+/* =========================================
+   SAFE DOWNLOAD
+   ========================================= */
+
+.safe-card {
+    border-color:
+        rgba(0, 220, 170, 0.7);
+}
+
+
+.safe-icon {
+    background:
+        rgba(0, 180, 145, 0.18);
+
+    border-color:
+        rgba(0, 220, 170, 0.5);
+
+    color:
+        #27e0b0;
+}
+
+
+/* =========================================
+   WHAT'S NEW
+   ========================================= */
+
+.whats-new-card {
+    position: relative;
+
+    padding-left: 50px;
+
+    margin-bottom: 40px;
+}
+
+
+.new-line {
+    position: absolute;
+
+    left: 25px;
+
+    top: 25px;
+
+    bottom: 25px;
+
+    width: 5px;
+
+    border-radius: 5px;
 
     background:
-        rgba(8, 8, 13, 0.76);
-
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+        linear-gradient(
+            180deg,
+            #65a4ff,
+            #7655ff
+        );
 
     box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.45);
+        0 0 15px rgba(80, 130, 255, 0.55);
 }
 
 
-.bottom-navigation button {
-    border: 0;
+.whats-new-card h3 {
+    letter-spacing: 3px;
 
-    border-radius: 16px;
-
-    background: transparent;
-
-    color: rgba(255, 255, 255, 0.48);
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 3px;
-
-    font-size: 8px;
-
-    font-weight: 800;
-
-    letter-spacing: 1px;
-
-    cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease;
+    font-size: 15px;
 }
 
 
-.bottom-navigation button.active {
-    background:
-        rgba(255, 255, 255, 0.10);
-
-    color: #fff;
-}
-
-
-.nav-icon {
-    font-size: 18px;
-
-    line-height: 1;
-}
-
-
-/* =========================================================
+/* =========================================
    MODAL
-   ========================================================= */
+   ========================================= */
 
-.modal-container {
+.modal {
     position: fixed;
 
     inset: 0;
 
     z-index: 100;
 
-    display: none;
+    display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     padding: 20px;
-}
-
-
-.modal-container.show {
-    display: flex;
-}
-
-
-.modal-backdrop {
-    position: absolute;
-
-    inset: 0;
 
     background:
-        rgba(0, 0, 0, 0.78);
+        rgba(0, 0, 0, 0.75);
 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(12px);
+
+    -webkit-backdrop-filter: blur(12px);
 }
 
 
-.install-modal {
+.modal.hidden {
+    display: none;
+}
+
+
+.modal-box {
     position: relative;
 
-    z-index: 101;
+    width: min(100%, 500px);
 
-    width: min(420px, 100%);
+    padding: 38px;
 
-    padding: 27px 22px 22px;
+    border-radius: 30px;
 
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
-
-    border-radius: 27px;
+    border: 1px solid rgba(80, 150, 255, 0.8);
 
     background:
-        rgba(14, 14, 20, 0.96);
+        linear-gradient(
+            145deg,
+            rgba(15, 20, 38, 0.97),
+            rgba(12, 10, 18, 0.97)
+        );
 
     box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.65);
-
-    text-align: center;
-
-    animation:
-        modalIn 0.22s ease;
-}
-
-
-@keyframes modalIn {
-
-    from {
-        opacity: 0;
-        transform: translateY(15px) scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-
+        0 25px 80px rgba(0, 0, 0, 0.7);
 }
 
 
 .modal-close {
     position: absolute;
 
-    top: 12px;
-    right: 14px;
+    top: 15px;
 
-    width: 34px;
-    height: 34px;
+    right: 18px;
 
-    border: 0;
+    width: 40px;
+    height: 40px;
+
+    border: none;
 
     border-radius: 50%;
 
     background:
         rgba(255, 255, 255, 0.08);
 
-    color: #fff;
+    color: #ffffff;
 
-    font-size: 23px;
+    font-size: 25px;
 
     cursor: pointer;
 }
 
 
-.modal-app-icon {
-    width: 76px;
-    height: 76px;
+.modal-icon {
+    width: 75px;
+    height: 75px;
 
-    margin: 0 auto 15px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.18),
-            rgba(0, 0, 0, 0.50)
-        );
-
-    border:
-        1px solid
-        rgba(255, 255, 255, 0.18);
-
-    font-size: 38px;
-}
-
-
-.install-modal h2 {
-    font-size: 21px;
-}
-
-
-.modal-developer {
-    margin-top: 6px;
-
-    font-size: 10px;
-
-    opacity: 0.52;
-}
-
-
-.modal-divider {
-    height: 1px;
-
-    margin:
-        20px
-        0
-        16px;
-
-    background:
-        rgba(255, 255, 255, 0.10);
-}
-
-
-.download-status {
-    min-height: 22px;
+    border-radius: 22px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    font-size: 11px;
-
-    opacity: 0.72;
-}
-
-
-.progress-container {
-    width: 100%;
-
-    height: 5px;
-
-    margin:
-        10px
-        0
-        18px;
-
-    overflow: hidden;
-
-    border-radius: 999px;
-
     background:
-        rgba(255, 255, 255, 0.10);
+        #1c2030;
 
-    opacity: 0;
+    font-size: 40px;
 
-    transition: opacity 0.2s ease;
+    margin-bottom: 20px;
 }
 
 
-.progress-container.show {
-    opacity: 1;
+.modal-box h2 {
+    font-size: 28px;
+
+    margin-bottom: 8px;
 }
 
 
-.progress-bar {
-    width: 0%;
+.modal-version {
+    color:
+        rgba(255, 255, 255, 0.6);
 
-    height: 100%;
+    margin-bottom: 20px;
+}
 
-    border-radius: inherit;
 
-    background: #fff;
+.modal-description {
+    color:
+        rgba(255, 255, 255, 0.75);
 
-    transition:
-        width 0.18s linear;
+    line-height: 1.6;
+
+    margin-bottom: 25px;
 }
 
 
 .download-button {
     width: 100%;
 
-    min-height: 48px;
+    height: 60px;
 
-    border: 0;
+    border: none;
 
-    border-radius: 15px;
+    border-radius: 18px;
 
-    background: #fff;
+    background: #ffffff;
 
-    color: #000;
+    color: #111111;
 
-    font-size: 10px;
+    font-weight: 950;
 
-    font-weight: 900;
+    font-size: 16px;
 
     letter-spacing: 1px;
 
@@ -1022,127 +857,214 @@ body {
 }
 
 
-.download-button:disabled {
-    opacity: 0.55;
-
-    cursor: wait;
-}
-
-
-.cancel-button {
-    width: 100%;
-
-    margin-top: 9px;
-
-    min-height: 42px;
-
-    border: 0;
-
-    border-radius: 13px;
-
-    background:
-        rgba(255, 255, 255, 0.07);
+.download-message {
+    text-align: center;
 
     color:
-        rgba(255, 255, 255, 0.65);
+        rgba(255, 255, 255, 0.55);
 
-    font-size: 10px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-
-.android-note {
-    margin-top: 15px;
-
-    font-size: 8px;
+    font-size: 12px;
 
     line-height: 1.5;
 
-    opacity: 0.38;
+    margin-top: 15px;
 }
 
 
-/* =========================================================
+/* =========================================
    MOBILE
-   ========================================================= */
+   ========================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
 
-    .top-bar {
-        padding-left: 12px;
-        padding-right: 12px;
+    .app-page {
+        padding:
+            20px
+            15px
+            55px;
     }
 
     .top-button {
-        padding-left: 10px;
-        padding-right: 10px;
+        min-width: 0;
+
+        height: 48px;
+
+        padding: 0 16px;
+
+        font-size: 12px;
     }
 
-    .page-title {
-        flex: 1;
+    .game-button {
+        min-width: 0;
     }
 
-    .title-main {
+    .button-icon {
+        font-size: 20px;
+    }
+
+    .app-header {
+        padding:
+            55px
+            5px
+            40px;
+    }
+
+    .selva-label {
+        font-size: 13px;
+
+        letter-spacing: 5px;
+    }
+
+    .app-header h1 {
+        letter-spacing: -2px;
+    }
+
+    .app-header p {
+        font-size: 11px;
+
+        letter-spacing: 4px;
+    }
+
+    .app-title-row {
+        align-items: flex-start;
+    }
+
+    .app-title-row h2 {
+        font-size: 29px;
+    }
+
+    .version-badge {
+        font-size: 12px;
+
+        padding: 8px 12px;
+    }
+
+    .app-card {
+        padding: 25px 20px;
+
+        border-radius: 27px;
+    }
+
+    .app-main-info {
+        align-items: flex-start;
+
+        gap: 18px;
+    }
+
+    .app-icon {
+        width: 90px;
+        height: 90px;
+
+        border-radius: 22px;
+    }
+
+    .app-icon span {
+        font-size: 48px;
+    }
+
+    .app-details h3 {
+        font-size: 21px;
+    }
+
+    .verified {
+        width: 20px;
+        height: 20px;
+
+        font-size: 12px;
+    }
+
+    .app-details strong {
+        font-size: 14px;
+    }
+
+    .category,
+    .platform {
         font-size: 13px;
     }
 
-    .title-sub {
-        font-size: 7px;
-    }
-
-    .hero-section {
-        min-height: 220px;
-    }
-
-    .app-card {
-        grid-template-columns:
-            auto
-            minmax(0, 1fr);
-    }
-
     .install-button {
-        grid-column: 1 / -1;
+        height: 62px;
 
-        width: 100%;
+        margin-top: 25px;
+
+        border-radius: 18px;
     }
 
-    .app-icon {
-        width: 68px;
-        height: 68px;
+    .info-card {
+        padding: 22px;
+
+        min-height: 110px;
+
+        gap: 17px;
+
+        border-radius: 23px;
     }
 
-    .app-name-row h3 {
-        font-size: 15px;
+    .info-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 17px;
+
+        font-size: 28px;
     }
 
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 360px) {
-
-    .hero-content h1 {
-        font-size: 42px;
+    .info-content h3 {
+        font-size: 17px;
     }
 
-    .app-card {
-        gap: 11px;
-        padding: 12px;
+    .info-content p {
+        font-size: 13px;
     }
 
-    .app-icon {
-        width: 60px;
-        height: 60px;
-    }
-
-    .astro-symbol {
+    #downloadCount {
         font-size: 30px;
     }
 
+    .whats-new-card {
+        padding-left: 42px;
+    }
+
+    .new-line {
+        left: 21px;
+    }
+
+    .modal-box {
+        padding: 30px 23px;
+    }
+}
+
+
+/* =========================================
+   VERY SMALL PHONES
+   ========================================= */
+
+@media (max-width: 380px) {
+
+    .top-bar {
+        gap: 8px;
+    }
+
+    .top-button {
+        padding: 0 11px;
+
+        font-size: 10px;
+    }
+
+    .app-main-info {
+        gap: 13px;
+    }
+
+    .app-icon {
+        width: 78px;
+        height: 78px;
+    }
+
+    .app-icon span {
+        font-size: 40px;
+    }
+
+    .app-details h3 {
+        font-size: 18px;
+    }
 }

@@ -2,28 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-  <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
-
-  <meta name="theme-color" content="#000000">
-
-  <title>SELVA WEB • App Center</title>
+  <title>SELVA WEB — App Center</title>
 
   <link rel="stylesheet" href="app-center.css">
 </head>
 
 <body>
 
-<!-- =========================================================
-     LIVE WALLPAPER
-     IMPORTANT:
-     Keep this path exactly as:
-     assets/live_wallpaper_appcenter.mp4
-     ========================================================= -->
-
+<!-- =========================
+     BACKGROUND VIDEO
+     ========================= -->
 <video
         id="appCenterBackground"
         class="app-center-background"
@@ -31,9 +22,7 @@
         muted
         loop
         playsinline
-        webkit-playsinline
         preload="auto"
-        aria-hidden="true"
 >
   <source
           src="assets/live_wallpaper_appcenter.mp4"
@@ -41,317 +30,257 @@
   >
 </video>
 
-<!-- Dark cinematic overlay -->
 <div class="background-overlay"></div>
 
-<!-- =========================================================
-     MAIN APP CENTER
-     ========================================================= -->
 
+<!-- =========================
+     MAIN PAGE
+     ========================= -->
 <main class="app-page">
 
-  <!-- TOP BAR -->
+  <!-- TOP NAVIGATION -->
   <header class="top-bar">
 
     <button
             class="top-button"
+            id="backButton"
             type="button"
-            onclick="goHome()"
     >
-      <span class="button-icon">‹</span>
+      <span class="button-icon">←</span>
       <span>BACK</span>
     </button>
 
-    <div class="page-title">
-      <span class="title-main">SELVA</span>
-      <span class="title-sub">APP CENTER</span>
-    </div>
-
     <button
             class="top-button game-button"
+            id="gameCenterButton"
             type="button"
-            onclick="goGameCenter()"
     >
-      <span>GAMES</span>
-      <span class="button-icon">›</span>
+      <span class="button-icon">🎮</span>
+      <span>GAME CENTER</span>
     </button>
 
   </header>
 
 
-  <!-- =====================================================
-       HERO
-       ===================================================== -->
+  <!-- =========================
+       HEADER
+       ========================= -->
+  <section class="app-header">
 
-  <section class="hero-section">
-
-    <div class="hero-content">
-
-      <div class="hero-badge">
-        SELVA WEB
-      </div>
-
-      <h1>
-        APP
-        <span>CENTER</span>
-      </h1>
-
-      <p>
-        Discover SELVA apps
-      </p>
-
+    <div class="selva-label">
+      SELVA WEB
     </div>
+
+    <h1>
+      APP CENTER
+    </h1>
+
+    <div class="header-line"></div>
+
+    <p>
+      DISCOVER SELVA APPS
+    </p>
 
   </section>
 
 
-  <!-- =====================================================
-       APPS
-       ===================================================== -->
+  <!-- =========================
+       AVAILABLE APP
+       ========================= -->
+  <section class="available-section">
 
-  <section class="apps-section">
+    <div class="section-label">
+      AVAILABLE APP
+    </div>
 
-    <div class="section-heading">
+    <div class="app-title-row">
 
-      <div>
-        <span class="section-label">AVAILABLE APP</span>
+      <h2>
+        Doodle Jump Astro
+      </h2>
 
-        <h2>
-          Doodle Jump Astro
-        </h2>
-      </div>
-
-      <span class="version-label">
-                v1.0.0
-            </span>
+      <span class="version-badge">
+                    v1.0.0
+                </span>
 
     </div>
 
 
-    <!-- =================================================
-         DOODLE JUMP ASTRO CARD
-         ================================================= -->
-
+    <!-- APP CARD -->
     <article class="app-card">
 
-      <div class="app-icon-area">
+      <div class="app-main-info">
 
         <div class="app-icon">
-          <span class="astro-symbol">★</span>
+          <span>★</span>
         </div>
 
-      </div>
-
-
-      <div class="app-information">
-
-        <div class="app-name-row">
+        <div class="app-details">
 
           <h3>
             Doodle Jump Astro
+            <span class="verified">✓</span>
           </h3>
 
-          <span class="verified">
-                        ✓
-                    </span>
+          <strong>
+            SELVA
+          </strong>
 
-        </div>
+          <p class="category">
+            Arcade • Adventure
+          </p>
 
-        <p class="developer">
-          SELVA
-        </p>
-
-        <p class="category">
-          Arcade • Adventure
-        </p>
-
-        <div class="app-meta">
-
-                    <span>
-                        Android
-                    </span>
-
-          <span>
-                        •
-                    </span>
-
-          <span>
-                        v1.0.0
-                    </span>
+          <p class="platform">
+            🤖 Android&nbsp;&nbsp;•&nbsp;&nbsp;v1.0.0
+          </p>
 
         </div>
 
       </div>
 
 
+      <!-- INSTALL -->
       <button
               class="install-button"
+              id="installButton"
               type="button"
-              onclick="openInstallModal()"
       >
+        <span class="install-icon">↓</span>
         INSTALL
       </button>
 
     </article>
 
-  </section>
 
+    <!-- =========================
+         DOWNLOAD COUNT
+         ========================= -->
+    <section class="info-card download-card">
 
-  <!-- =====================================================
-       INFORMATION
-       ===================================================== -->
-
-  <section class="info-section">
-
-    <div class="info-card">
-
-      <span class="info-icon">↓</span>
-
-      <div>
-        <strong>
-          Safe APK Download
-        </strong>
-
-        <p>
-          Download the official SELVA release directly
-          from GitHub Releases.
-        </p>
+      <div class="info-icon download-icon">
+        ↓
       </div>
 
-    </div>
+      <div class="info-content">
+
+        <h3>
+          Download Count
+        </h3>
+
+        <strong id="downloadCount">
+          —
+        </strong>
+
+        <p id="downloadStatus">
+          Checking GitHub Releases...
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         SAFE DOWNLOAD
+         ========================= -->
+    <section class="info-card safe-card">
+
+      <div class="info-icon safe-icon">
+        ✓
+      </div>
+
+      <div class="info-content">
+
+        <h3>
+          Safe APK Download
+        </h3>
+
+        <p>
+          Download the official SELVA release
+          directly from GitHub Releases.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         WHAT'S NEW
+         ========================= -->
+    <section class="info-card whats-new-card">
+
+      <div class="new-line"></div>
+
+      <div class="info-content">
+
+        <h3>
+          WHAT'S NEW
+        </h3>
+
+        <p>
+          Initial release of Doodle Jump Astro.
+        </p>
+
+      </div>
+
+    </section>
 
   </section>
 
 </main>
 
 
-<!-- =========================================================
-     BOTTOM NAVIGATION
-     ========================================================= -->
-
-<nav class="bottom-navigation">
-
-  <button
-          type="button"
-          onclick="goHome()"
-  >
-    <span class="nav-icon">⌂</span>
-    <span>HOME</span>
-  </button>
-
-  <button
-          type="button"
-          onclick="goGameCenter()"
-  >
-    <span class="nav-icon">🎮</span>
-    <span>GAMES</span>
-  </button>
-
-  <button
-          class="active"
-          type="button"
-  >
-    <span class="nav-icon">▦</span>
-    <span>APPS</span>
-  </button>
-
-</nav>
-
-
-<!-- =========================================================
+<!-- =========================
      INSTALL MODAL
-     ========================================================= -->
-
+     ========================= -->
 <div
+        class="modal hidden"
         id="installModal"
-        class="modal-container"
-        aria-hidden="true"
 >
 
-  <div
-          class="modal-backdrop"
-          onclick="closeInstallModal()"
-  ></div>
-
-
-  <div
-          class="install-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="installTitle"
-  >
+  <div class="modal-box">
 
     <button
             class="modal-close"
+            id="modalClose"
             type="button"
-            onclick="closeInstallModal()"
             aria-label="Close"
     >
       ×
     </button>
 
-
-    <div class="modal-app-icon">
+    <div class="modal-icon">
       ★
     </div>
 
-
-    <h2 id="installTitle">
+    <h2>
       Doodle Jump Astro
     </h2>
 
-    <p class="modal-developer">
-      SELVA • Version 1.0.0
+    <p class="modal-version">
+      SELVA • Android • v1.0.0
     </p>
 
-
-    <div class="modal-divider"></div>
-
-
-    <div class="download-status">
-
-            <span id="downloadStatus">
-                Ready to download
-            </span>
-
-    </div>
-
-
-    <div
-            id="progressContainer"
-            class="progress-container"
-    >
-
-      <div
-              id="progressBar"
-              class="progress-bar"
-      ></div>
-
-    </div>
-
+    <p class="modal-description">
+      You are downloading the official APK
+      from the SELVA GitHub Release.
+    </p>
 
     <button
-            id="downloadButton"
             class="download-button"
+            id="downloadButton"
             type="button"
-            onclick="startDownload()"
     >
-      DOWNLOAD & INSTALL
+      ↓ &nbsp; DOWNLOAD APK
     </button>
 
-
-    <button
-            class="cancel-button"
-            type="button"
-            onclick="closeInstallModal()"
+    <p
+            class="download-message"
+            id="downloadMessage"
     >
-      CANCEL
-    </button>
-
-
-    <p class="android-note">
-      Android may ask you to confirm the APK installation
-      after the download.
+      Android will ask for confirmation
+      when the APK is opened.
     </p>
 
   </div>

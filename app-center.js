@@ -1,577 +1,296 @@
-/* =========================================================
-   SELVA WEB - APP CENTER
-   ========================================================= */
+/* =========================================
+   SELVA WEB — APP CENTER
+   Doodle Jump Astro
+   ========================================= */
 
-"use strict";
+document.addEventListener("DOMContentLoaded", () => {
+
+    /* =====================================
+       ELEMENTS
+       ===================================== */
+
+    const backgroundVideo =
+        document.getElementById("appCenterBackground");
+
+    const backButton =
+        document.getElementById("backButton");
+
+    const gameCenterButton =
+        document.getElementById("gameCenterButton");
+
+    const installButton =
+        document.getElementById("installButton");
+
+    const installModal =
+        document.getElementById("installModal");
+
+    const modalClose =
+        document.getElementById("modalClose");
+
+    const downloadButton =
+        document.getElementById("downloadButton");
+
+    const downloadMessage =
+        document.getElementById("downloadMessage");
+
+    const downloadCount =
+        document.getElementById("downloadCount");
+
+    const downloadStatus =
+        document.getElementById("downloadStatus");
 
 
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
+    /* =====================================
+       GITHUB RELEASE
+       ===================================== */
 
-const APK_URL =
-    "https://github.com/selvarajann66/selva-games/releases/latest/download/doodle-jump-astro.apk";
+    const RELEASE_API =
+        "https://api.github.com/repos/selvarajann66/selva-games/releases/tags/v1.0.0";
 
-const APK_FILE_NAME =
-    "doodle-jump-astro.apk";
-
-
-/* =========================================================
-   DOM
-   ========================================================= */
-
-const backgroundVideo =
-    document.getElementById("appCenterBackground");
-
-const installModal =
-    document.getElementById("installModal");
-
-const downloadStatus =
-    document.getElementById("downloadStatus");
-
-const progressContainer =
-    document.getElementById("progressContainer");
-
-const progressBar =
-    document.getElementById("progressBar");
-
-const downloadButton =
-    document.getElementById("downloadButton");
+    const APK_URL =
+        "https://github.com/selvarajann66/selva-games/releases/download/v1.0.0/doodle-jump-astro.apk";
 
 
-/* =========================================================
-   BACKGROUND VIDEO
-   ========================================================= */
+    /* =====================================
+       BACKGROUND VIDEO
+       ===================================== */
 
-function startBackgroundVideo() {
+    if (backgroundVideo) {
 
-    if (!backgroundVideo) {
-        return;
+        backgroundVideo.muted = true;
+
+        backgroundVideo.play().catch(() => {
+            /*
+             * Some browsers block autoplay temporarily.
+             * The video remains available and can start
+             * after browser interaction.
+             */
+        });
+
+        backgroundVideo.addEventListener(
+            "error",
+            () => {
+                console.warn(
+                    "SELVA App Center background video could not be loaded."
+                );
+            }
+        );
     }
 
-    backgroundVideo.muted = true;
-    backgroundVideo.loop = true;
-    backgroundVideo.playsInline = true;
 
-    const playPromise =
-        backgroundVideo.play();
+    /* =====================================
+       NAVIGATION
+       ===================================== */
 
-    if (playPromise !== undefined) {
+    if (backButton) {
 
-        playPromise.catch(() => {
+        backButton.addEventListener("click", () => {
+            window.location.href = "home.html";
+        });
 
-            /*
-             * Some browsers block autoplay.
-             * The video remains available and can
-             * start after the first user interaction.
-             */
+    }
+
+
+    if (gameCenterButton) {
+
+        gameCenterButton.addEventListener("click", () => {
+            window.location.href = "game-center.html";
+        });
+
+    }
+
+
+    /* =====================================
+       OPEN INSTALL MODAL
+       ===================================== */
+
+    if (installButton) {
+
+        installButton.addEventListener("click", () => {
+
+            installModal.classList.remove("hidden");
+
+            document.body.style.overflow = "hidden";
 
         });
 
     }
 
-}
 
+    /* =====================================
+       CLOSE MODAL
+       ===================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    startBackgroundVideo
-);
+    function closeModal() {
 
+        installModal.classList.add("hidden");
 
-document.addEventListener(
-    "pointerdown",
-    () => {
-
-        if (
-            backgroundVideo &&
-            backgroundVideo.paused
-        ) {
-
-            backgroundVideo.muted = true;
-
-            backgroundVideo.play().catch(() => {});
-
-        }
-
-    },
-    {
-        once: true,
-        passive: true
-    }
-);
-
-
-/* =========================================================
-   NAVIGATION
-   ========================================================= */
-
-function goHome() {
-
-    window.location.href =
-        "home.html";
-
-}
-
-
-function goGameCenter() {
-
-    window.location.href =
-        "game-center.html";
-
-}
-
-
-/*
- * Make functions available to inline HTML buttons.
- */
-
-window.goHome =
-    goHome;
-
-window.goGameCenter =
-    goGameCenter;
-
-
-/* =========================================================
-   INSTALL MODAL
-   ========================================================= */
-
-function openInstallModal() {
-
-    if (!installModal) {
-        return;
-    }
-
-    installModal.classList.add("show");
-
-    installModal.setAttribute(
-        "aria-hidden",
-        "false"
-    );
-
-    document.body.style.overflow =
-        "hidden";
-
-    resetDownloadState();
-
-}
-
-
-function closeInstallModal() {
-
-    if (!installModal) {
-        return;
-    }
-
-    installModal.classList.remove("show");
-
-    installModal.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
-    document.body.style.overflow =
-        "";
-
-}
-
-
-window.openInstallModal =
-    openInstallModal;
-
-
-window.closeInstallModal =
-    closeInstallModal;
-
-
-/* =========================================================
-   RESET DOWNLOAD UI
-   ========================================================= */
-
-function resetDownloadState() {
-
-    if (downloadStatus) {
-
-        downloadStatus.textContent =
-            "Ready to download";
+        document.body.style.overflow = "";
 
     }
 
-    if (progressContainer) {
 
-        progressContainer.classList.remove(
-            "show"
+    if (modalClose) {
+
+        modalClose.addEventListener(
+            "click",
+            closeModal
         );
 
     }
 
-    if (progressBar) {
 
-        progressBar.style.width =
-            "0%";
+    /* =====================================
+       CLICK OUTSIDE MODAL
+       ===================================== */
+
+    if (installModal) {
+
+        installModal.addEventListener(
+            "click",
+            (event) => {
+
+                if (event.target === installModal) {
+                    closeModal();
+                }
+
+            }
+        );
 
     }
+
+
+    /* =====================================
+       ESCAPE KEY
+       ===================================== */
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (
+                event.key === "Escape" &&
+                !installModal.classList.contains("hidden")
+            ) {
+                closeModal();
+            }
+
+        }
+    );
+
+
+    /* =====================================
+       DOWNLOAD APK
+       ===================================== */
 
     if (downloadButton) {
 
-        downloadButton.disabled =
-            false;
+        downloadButton.addEventListener(
+            "click",
+            () => {
 
-        downloadButton.textContent =
-            "DOWNLOAD & INSTALL";
+                downloadMessage.textContent =
+                    "Starting official APK download...";
 
-    }
+                const link =
+                    document.createElement("a");
 
-}
+                link.href = APK_URL;
 
+                link.download =
+                    "doodle-jump-astro.apk";
 
-/* =========================================================
-   START DOWNLOAD
-   ========================================================= */
+                link.target = "_blank";
 
-async function startDownload() {
+                link.rel = "noopener";
 
-    if (!downloadButton) {
-        return;
-    }
+                document.body.appendChild(link);
 
-    downloadButton.disabled =
-        true;
+                link.click();
 
-    downloadButton.textContent =
-        "CHECKING...";
+                link.remove();
 
+                downloadMessage.textContent =
+                    "APK download started. Android may ask for permission before installation.";
 
-    if (downloadStatus) {
-
-        downloadStatus.textContent =
-            "Checking latest release...";
-
-    }
-
-
-    if (progressContainer) {
-
-        progressContainer.classList.add(
-            "show"
+            }
         );
 
     }
 
 
-    try {
+    /* =====================================
+       GET GITHUB DOWNLOAD COUNT
+       ===================================== */
 
-        /*
-         * Check whether GitHub's latest-release
-         * URL responds.
-         *
-         * HEAD is only a validation request.
-         */
-
-        let available = false;
+    async function loadDownloadCount() {
 
         try {
 
+            downloadStatus.textContent =
+                "Checking GitHub Releases...";
+
             const response =
-                await fetch(
-                    APK_URL,
-                    {
-                        method: "HEAD",
-                        cache: "no-store",
-                        redirect: "follow"
+                await fetch(RELEASE_API, {
+                    headers: {
+                        "Accept":
+                            "application/vnd.github+json"
                     }
+                });
+
+            if (!response.ok) {
+                throw new Error(
+                    "GitHub release unavailable"
+                );
+            }
+
+            const release =
+                await response.json();
+
+            const asset =
+                release.assets.find(
+                    item =>
+                        item.name ===
+                        "doodle-jump-astro.apk"
                 );
 
-            available =
-                response.ok;
+            if (!asset) {
+
+                downloadCount.textContent = "0";
+
+                downloadStatus.textContent =
+                    "APK release asset not found.";
+
+                return;
+            }
+
+            downloadCount.textContent =
+                Number(asset.download_count).toLocaleString();
+
+            downloadStatus.textContent =
+                "Downloads from GitHub Releases";
 
         } catch (error) {
 
-            /*
-             * Some browsers block cross-origin HEAD.
-             * The actual download URL can still work,
-             * so continue instead of treating it as
-             * a failed APK.
-             */
-
-            available = true;
-
-        }
-
-
-        if (!available) {
-
-            throw new Error(
-                "APK is not available"
+            console.warn(
+                "Could not load GitHub download count:",
+                error
             );
 
-        }
-
-
-        /*
-         * Show a short UI progress animation.
-         * This is NOT the real network percentage.
-         */
-
-        await animateDownloadProgress();
-
-
-        if (downloadStatus) {
+            downloadCount.textContent = "—";
 
             downloadStatus.textContent =
-                "Opening APK download...";
-
-        }
-
-
-        /*
-         * Use an invisible anchor so the browser
-         * handles the APK download normally.
-         */
-
-        const link =
-            document.createElement("a");
-
-        link.href =
-            APK_URL;
-
-        link.download =
-            APK_FILE_NAME;
-
-        link.target =
-            "_blank";
-
-        link.rel =
-            "noopener";
-
-        document.body.appendChild(link);
-
-        link.click();
-
-        link.remove();
-
-
-        if (downloadStatus) {
-
-            downloadStatus.textContent =
-                "Download started. Android will handle installation.";
-
-        }
-
-
-        downloadButton.textContent =
-            "DOWNLOAD STARTED";
-
-
-        /*
-         * Keep the modal open briefly so the
-         * user can read the message.
-         */
-
-        setTimeout(
-            () => {
-
-                downloadButton.disabled =
-                    false;
-
-                downloadButton.textContent =
-                    "DOWNLOAD AGAIN";
-
-            },
-            2500
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "APK download error:",
-            error
-        );
-
-
-        if (downloadStatus) {
-
-            downloadStatus.textContent =
-                "Download could not be started.";
-
-        }
-
-
-        if (progressBar) {
-
-            progressBar.style.width =
-                "0%";
-
-        }
-
-
-        downloadButton.disabled =
-            false;
-
-        downloadButton.textContent =
-            "TRY AGAIN";
-
-    }
-
-}
-
-
-window.startDownload =
-    startDownload;
-
-
-/* =========================================================
-   DOWNLOAD PROGRESS ANIMATION
-   ========================================================= */
-
-function animateDownloadProgress() {
-
-    return new Promise(
-        (resolve) => {
-
-            let progress =
-                0;
-
-
-            const timer =
-                setInterval(
-                    () => {
-
-                        /*
-                         * Slow down near the end.
-                         */
-
-                        if (progress < 55) {
-
-                            progress += 8;
-
-                        } else if (progress < 82) {
-
-                            progress += 4;
-
-                        } else if (progress < 95) {
-
-                            progress += 2;
-
-                        } else {
-
-                            progress += 1;
-
-                        }
-
-
-                        if (progress > 96) {
-
-                            progress =
-                                96;
-
-                        }
-
-
-                        if (progressBar) {
-
-                            progressBar.style.width =
-                                progress + "%";
-
-                        }
-
-
-                        if (downloadStatus) {
-
-                            downloadStatus.textContent =
-                                "Preparing APK... " +
-                                Math.round(progress) +
-                                "%";
-
-                        }
-
-
-                        if (progress >= 96) {
-
-                            clearInterval(
-                                timer
-                            );
-
-                            setTimeout(
-                                () => {
-
-                                    if (progressBar) {
-
-                                        progressBar.style.width =
-                                            "100%";
-
-                                    }
-
-                                    resolve();
-
-                                },
-                                180
-                            );
-
-                        }
-
-                    },
-                    90
-                );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   MODAL KEYBOARD SUPPORT
-   ========================================================= */
-
-document.addEventListener(
-    "keydown",
-    (event) => {
-
-        if (
-            event.key === "Escape" &&
-            installModal &&
-            installModal.classList.contains("show")
-        ) {
-
-            closeInstallModal();
+                "Download count temporarily unavailable.";
 
         }
 
     }
-);
 
 
-/* =========================================================
-   VIDEO ERROR DEBUGGING
-   ========================================================= */
+    /* =====================================
+       LOAD DOWNLOAD COUNT
+       ===================================== */
 
-if (backgroundVideo) {
+    loadDownloadCount();
 
-    backgroundVideo.addEventListener(
-        "error",
-        () => {
-
-            console.error(
-                "SELVA App Center background video failed to load:",
-                "assets/live_wallpaper_appcenter.mp4"
-            );
-
-        }
-    );
-
-
-    backgroundVideo.addEventListener(
-        "loadeddata",
-        () => {
-
-            console.log(
-                "SELVA App Center background video loaded."
-            );
-
-        }
-    );
-
-}
+});
