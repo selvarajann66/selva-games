@@ -3,23 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WELCOME - SELVA WEB</title>
+<title>SELVA // BOOT</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden;background:#000;color:#fff}
 body{display:flex;align-items:center;justify-content:center;text-align:center;font-family:Arial,Helvetica,sans-serif}
-.welcome h1{font-family:Impact,Haettenschweiler,"Arial Black",sans-serif;font-size:clamp(60px,12vw,150px);font-weight:900;letter-spacing:12px;color:#000;-webkit-text-stroke:3px #fff;text-shadow:0 0 10px rgba(255,255,255,.8),0 0 30px rgba(255,255,255,.4)}
-.welcome p{margin-top:15px;color:#fff;font-size:15px;font-weight:bold;letter-spacing:8px}
-@media(max-width:600px){.welcome h1{font-size:clamp(48px,15vw,90px);letter-spacing:7px;-webkit-text-stroke:2px #fff}.welcome p{font-size:12px;letter-spacing:5px}}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at center,rgba(0,234,255,.09),transparent 35%),linear-gradient(120deg,transparent 49.8%,rgba(184,255,0,.12) 50%,transparent 50.2%);pointer-events:none}
+.welcome{position:relative;padding:35px 25px}
+.boot{font:900 10px/1 Arial;letter-spacing:5px;color:#b8ff00;margin-bottom:18px}
+.welcome h1{font-family:Impact,Haettenschweiler,"Arial Black",sans-serif;font-size:clamp(58px,13vw,155px);letter-spacing:10px;color:#000;-webkit-text-stroke:3px #fff;text-shadow:0 0 14px rgba(255,255,255,.7),0 0 35px rgba(0,234,255,.3)}
+.welcome p{margin-top:16px;color:#00eaff;font-size:13px;font-weight:900;letter-spacing:7px}
+.line{width:min(380px,70vw);height:2px;margin:22px auto 0;background:linear-gradient(90deg,transparent,#ff2bd6,#b8ff00,#00eaff,transparent);box-shadow:0 0 15px rgba(0,234,255,.6)}
+@media(max-width:600px){.welcome h1{font-size:clamp(46px,16vw,92px);letter-spacing:6px;-webkit-text-stroke:2px #fff}.welcome p{font-size:10px;letter-spacing:4px}.boot{font-size:8px}}
 </style>
 </head>
-<body>
-<div class="welcome">
-<h1>WELCOME</h1>
-<p>TO SELVA WEB</p>
-</div>
-<script>
-setTimeout(()=>window.location.replace('home.html'),2000);
-</script>
+<body><div class="welcome"><div class="boot">// SYSTEM BOOT 001</div><h1>WELCOME</h1><p>ENTER THE SELVA DIGITAL ZONE</p><div class="line"></div></div>
+<script>setTimeout(()=>window.location.replace('home.html'),2400);</script>
 </body>
 </html>
