@@ -2,49 +2,93 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SELVA // DIGITAL HQ</title>
 <style>
-:root{--acid:#b8ff00;--cyan:#00eaff;--pink:#ff2bd6;--white:#f5f7ff;--muted:#9ba3ad}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Permanent+Marker&family=Pirata+One&display=swap');
+
+:root{--red:#e10600;--red2:#ff2424;--white:#f5f5f2;--gray:#a8a8a8;--black:#030303}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;background:#000;color:var(--white);font-family:Arial,Helvetica,sans-serif}
-#liveWallpaper{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:#000;pointer-events:none;filter:saturate(1.15) contrast(1.08)}
-#liveWallpaperOverlay{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.78),rgba(0,0,0,.34) 42%,rgba(0,0,0,.9)),radial-gradient(circle at 50% 35%,rgba(0,234,255,.10),transparent 42%)}
-#selvaWebPage{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column}
-.web-header{height:108px;display:flex;align-items:center;justify-content:center;flex-direction:column;border-bottom:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.25);flex-shrink:0}
-.kicker{font:800 10px/1 Arial;letter-spacing:5px;color:var(--acid);margin-bottom:8px}
-.web-header h1{font-family:Impact,Haettenschweiler,"Arial Black",sans-serif;font-size:clamp(28px,5vw,44px);letter-spacing:7px;color:#000;-webkit-text-stroke:1.5px var(--white);text-shadow:0 0 12px rgba(255,255,255,.55),0 0 28px rgba(0,234,255,.28)}
-.header-line{width:170px;height:2px;margin-top:9px;background:linear-gradient(90deg,transparent,var(--cyan),var(--acid),transparent);box-shadow:0 0 14px rgba(0,234,255,.75)}
-.web-content{flex:1;display:flex;align-items:center;justify-content:center;padding:28px 18px;overflow:auto}
-.menu-container{width:min(720px,100%);display:grid;gap:18px}
-.menu-section{position:relative;min-height:150px;padding:28px 64px 25px 28px;border:1px solid rgba(255,255,255,.3);border-left:4px solid var(--acid);background:linear-gradient(110deg,rgba(0,0,0,.86),rgba(9,17,25,.58));clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px));cursor:pointer;transition:.25s ease;box-shadow:inset 0 0 30px rgba(184,255,0,.025),0 12px 35px rgba(0,0,0,.35)}
-.menu-section:before{content:"";position:absolute;left:0;top:0;width:100%;height:1px;background:linear-gradient(90deg,var(--acid),transparent 55%);opacity:.8}
-.menu-section:hover{transform:translateX(7px);border-color:var(--cyan);border-left-color:var(--cyan);box-shadow:0 0 24px rgba(0,234,255,.16),inset 0 0 28px rgba(0,234,255,.04)}
-.menu-section:active{transform:scale(.985)}
-.menu-index{font:900 10px/1 Arial;letter-spacing:3px;color:var(--pink);margin-bottom:10px}
-.menu-section h2{font-family:Impact,Haettenschweiler,"Arial Black",sans-serif;font-size:clamp(25px,5vw,38px);letter-spacing:3px;color:#000;-webkit-text-stroke:1px #fff;text-shadow:0 0 10px rgba(255,255,255,.3)}
-.menu-section p{margin-top:9px;color:#aeb5bf;font-size:12px;line-height:1.55;letter-spacing:1.2px;text-transform:uppercase}
-.menu-arrow{position:absolute;right:25px;top:50%;transform:translateY(-50%);font:900 34px/1 Arial;color:var(--acid);text-shadow:0 0 12px rgba(184,255,0,.55);transition:.25s}
-.menu-section:hover .menu-arrow{transform:translate(6px,-50%);color:var(--cyan)}
-.status{position:fixed;left:18px;bottom:16px;font:800 9px/1 Arial;letter-spacing:3px;color:rgba(255,255,255,.5);z-index:4}
-.status b{color:var(--acid)}
-@media(max-width:600px){.web-header{height:92px}.kicker{font-size:8px;letter-spacing:4px}.web-header h1{font-size:25px;letter-spacing:4px}.header-line{width:100px}.web-content{padding:20px 14px;align-items:center}.menu-container{gap:14px}.menu-section{min-height:135px;padding:24px 55px 22px 22px}.menu-section h2{font-size:24px}.menu-section p{font-size:10px}.menu-arrow{right:18px;font-size:28px}.status{bottom:10px;left:12px}}
+html,body{min-height:100%;background:#000}
+body{min-height:100vh;overflow-x:hidden;color:var(--white);font-family:'Oswald',Arial,sans-serif}
+.page-wallpaper{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.45) saturate(.85) contrast(1.15)}
+.page-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.30) 42%,rgba(0,0,0,.94)),radial-gradient(circle at 50% 25%,rgba(225,6,0,.20),transparent 38%),linear-gradient(115deg,transparent 48%,rgba(225,6,0,.08) 49%,transparent 51%)}
+.wrap{position:relative;z-index:2;width:min(100%,1050px);min-height:100vh;margin:auto;padding:24px 24px 80px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.topbtn{min-height:44px;padding:0 17px;border:1px solid rgba(255,255,255,.4);border-left:3px solid var(--red);background:rgba(0,0,0,.78);color:#fff;font:600 12px/1 'Oswald';letter-spacing:2px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);transition:.22s}
+.topbtn:hover{transform:translateY(-2px);border-color:var(--red2);color:var(--red2);box-shadow:0 0 22px rgba(225,6,0,.25)}
+.hero{text-align:center;padding:66px 10px 46px}
+.hero span{display:block;color:var(--red2);font:400 16px/1 'Permanent Marker';letter-spacing:3px;transform:rotate(-2deg);text-shadow:0 0 10px rgba(225,6,0,.55)}
+.hero h1{margin-top:10px;font:400 clamp(58px,9vw,100px)/.86 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:2px;color:#f3f3ef;text-transform:uppercase;-webkit-text-stroke:1px #fff;text-shadow:3px 3px 0 #050505,6px 6px 0 rgba(225,6,0,.72),0 0 12px rgba(255,255,255,.32),0 0 34px rgba(225,6,0,.68)}
+.line{width:min(280px,70vw);height:3px;margin:18px auto;background:linear-gradient(90deg,transparent,var(--red),#fff,var(--red),transparent);box-shadow:0 0 14px rgba(225,6,0,.7)}
+.hero p{font:600 11px/1 'Oswald';letter-spacing:5px;color:#c8c8c8}
+.label{display:inline-block;margin-bottom:18px;padding:5px 12px;border-left:3px solid var(--red);background:rgba(225,6,0,.08);font:600 11px/1 'Oswald';letter-spacing:3px}
+.grid{display:grid;gap:30px}
+.card{position:relative;min-height:164px;display:flex;align-items:center;gap:24px;padding:24px;border:1px solid rgba(255,255,255,.25);border-left:5px solid var(--red);background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.38) 45%,rgba(0,0,0,.62)),linear-gradient(0deg,rgba(120,0,0,.18),rgba(0,0,0,.08)),url('assets/onepiece_style_reference.png') center/cover no-repeat;color:#fff;text-decoration:none;text-align:left;overflow:hidden;clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%);box-shadow:0 18px 50px rgba(0,0,0,.6),inset 0 0 30px rgba(225,6,0,.08);transition:.25s;isolation:isolate}
+.card:before{content:'';position:absolute;top:0;left:-35%;width:45%;height:2px;background:var(--red2);box-shadow:0 0 18px var(--red);transform:skewX(-35deg);transition:.4s}
+.card:after{content:'';position:absolute;right:18px;top:16px;width:8px;height:8px;background:var(--red);box-shadow:0 0 12px var(--red);transform:rotate(45deg);animation:pulse 1.5s infinite}
+.card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.55);border-left-color:var(--red2);box-shadow:0 0 30px rgba(225,6,0,.22),0 22px 55px rgba(0,0,0,.72)}
+.card:hover:before{left:90%}
+.icon{width:100px;height:100px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,#3b3b3b,#101010 50%,#020202);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 0 1px rgba(225,6,0,.2),0 12px 35px rgba(0,0,0,.65),0 0 25px rgba(225,6,0,.15);font-size:46px;position:relative}
+.icon:after{content:'';position:absolute;inset:7px;border:1px solid rgba(225,6,0,.35);box-shadow:inset 0 0 15px rgba(225,6,0,.12)}
+.info{flex:1;min-width:0}
+.info h2{font:400 clamp(30px,4vw,48px)/.92 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:1px;color:#fff;text-shadow:2px 2px 0 #000,4px 4px 0 rgba(225,6,0,.55),0 0 16px rgba(225,6,0,.5)}
+.info .sub{margin:7px 0 8px;color:var(--red2);font:600 11px/1 'Oswald';letter-spacing:3px}
+.info p{margin-top:4px;color:#aaa;font:500 11px/1.4 'Oswald';letter-spacing:1.5px}
+.arrow{flex-shrink:0;color:#fff;font:400 44px/1 'Bebas Neue';text-shadow:0 0 12px rgba(225,6,0,.7);transition:.25s}
+.card:hover .arrow{color:var(--red2);transform:translateX(7px)}
+.back-row{margin-top:28px;text-align:center}
+@keyframes pulse{0%,100%{opacity:.5;box-shadow:0 0 7px var(--red)}50%{opacity:1;box-shadow:0 0 20px var(--red)}}
+@media(max-width:650px){
+.wrap{padding:15px 13px 70px}.topbtn{padding:0 11px;font-size:10px}.hero{padding:46px 5px 34px}.hero span{font-size:13px}.hero h1{font-size:62px;letter-spacing:3px}.hero p{font-size:9px;letter-spacing:3px}.grid{gap:30px}.card{min-height:132px;padding:17px;gap:15px}.icon{width:72px;height:72px;font-size:34px}.info h2{font-size:28px}.info p{font-size:9px}.arrow{font-size:32px}
+}
 </style>
 </head>
 <body>
-<video id="liveWallpaper" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="assets/live_wallpaper_home.mp4" type="video/mp4"></video>
-<div id="liveWallpaperOverlay" aria-hidden="true"></div>
-<section id="selvaWebPage">
-<header class="web-header"><div class="kicker">// SYSTEM ONLINE</div><h1>SELVA // DIGITAL HQ</h1><div class="header-line"></div></header>
-<main class="web-content"><div class="menu-container">
-<div class="menu-section" id="gameCenterButton" onclick="goToGameCenter()"><div class="menu-index">01 // PLAY</div><h2>ENTER GAME CENTER</h2><p>TACTICAL PLAY // DOODLE JUMP + DINO RUNNER</p><span class="menu-arrow">↗</span></div>
-<div class="menu-section" id="appsButton" onclick="goToApps()"><div class="menu-index">02 // BUILD</div><h2>ENTER APP CENTER</h2><p>SELVA BUILDS // APPS, TOOLS &amp; PROJECTS</p><span class="menu-arrow">↗</span></div>
-</div></main></section>
-<div class="status">// SELVA WEB <b>●</b> READY</div>
-<script>
-function goToGameCenter(){window.location.href='game-center.html';}
-function goToApps(){window.location.href='app-center.html';}
-const v=document.getElementById('liveWallpaper'); if(v){v.play().catch(()=>{});}
-</script>
+<video class="page-wallpaper" autoplay muted loop playsinline preload="auto">
+<source src="assets/live_wallpaper_home.mp4" type="video/mp4">
+</video>
+<div class="page-overlay"></div>
+
+<main class="wrap">
+<header class="topbar">
+<button class="topbtn" onclick="location.href='home.html'">SELVA HQ</button>
+<button class="topbtn" onclick="location.href='app-center.html'">APP CENTER ↗</button>
+</header>
+
+<section class="hero">
+<span>SELVA // DIGITAL HQ</span>
+<h1>DREAMS NEVER END</h1>
+<div class="line"></div>
+<p>// ENTER THE WORLD OF SELVA</p>
+</section>
+
+<section>
+<div class="label">SELECT DESTINATION</div>
+<div class="grid">
+<a class="card" href="game-center.html">
+<div class="icon">🎮</div>
+<div class="info">
+<h2>GAME CENTER</h2>
+<div class="sub">SELVA</div>
+<p>ARCADE // GAMES // PLAY</p>
+<p>DOODLE JUMP • DINO RUNNER</p>
+</div>
+<div class="arrow">→</div>
+</a>
+
+<a class="card" href="app-center.html">
+<div class="icon">◆</div>
+<div class="info">
+<h2>APP CENTER</h2>
+<div class="sub">SELVA</div>
+<p>APPS // TOOLS // PROJECTS</p>
+<p>ANDROID // DOWNLOADS</p>
+</div>
+<div class="arrow">→</div>
+</a>
+</div>
+</section>
+</main>
 </body>
 </html>
