@@ -25,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const doodleJumpApp =
         document.getElementById("doodleJumpApp");
 
+    const musicApp =
+        document.getElementById("musicApp");
+
     const detailsBackButton =
         document.getElementById("detailsBackButton");
 
@@ -148,6 +151,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
             apkName:
                 "doodle-jump-astro.apk"
+
+        },
+
+
+        music: {
+
+            name: "Music",
+
+            icon: "🎵",
+
+            version: "1",
+
+            category: [
+                "MUSIC",
+                "ENTERTAINMENT",
+                "ANDROID"
+            ],
+
+            description:
+                "Music is an offline-first Android music player designed for anime music lovers, with library, playlists, albums, artists, folders, history, lyrics, favorites and Game Center integration.",
+
+            whatsNew:
+                "Music v1 — initial release.",
+
+            releaseTag:
+                "v1",
+
+            apkName:
+                "music.apk"
 
         }
 
@@ -369,6 +401,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 showAppDetails(
                     APPS.doodleJump
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================
+       MUSIC CARD
+       ===================================== */
+
+    if (musicApp) {
+
+        musicApp.addEventListener(
+            "click",
+            () => {
+
+                showAppDetails(
+                    APPS.music
                 );
 
             }

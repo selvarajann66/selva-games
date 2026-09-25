@@ -1,94 +1,491 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>SELVA // DIGITAL HQ</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Permanent+Marker&family=Pirata+One&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>SELVA // DIGITAL HQ</title>
 
-:root{--red:#e10600;--red2:#ff2424;--white:#f5f5f2;--gray:#a8a8a8;--black:#030303}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{min-height:100%;background:#000}
-body{min-height:100vh;overflow-x:hidden;color:var(--white);font-family:'Oswald',Arial,sans-serif}
-.page-wallpaper{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(.45) saturate(.85) contrast(1.15)}
-.page-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.30) 42%,rgba(0,0,0,.94)),radial-gradient(circle at 50% 25%,rgba(225,6,0,.20),transparent 38%),linear-gradient(115deg,transparent 48%,rgba(225,6,0,.08) 49%,transparent 51%)}
-.wrap{position:relative;z-index:2;width:min(100%,1050px);min-height:100vh;margin:auto;padding:24px 24px 80px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:14px}
-.topbtn{min-height:44px;padding:0 17px;border:1px solid rgba(255,255,255,.4);border-left:3px solid var(--red);background:rgba(0,0,0,.78);color:#fff;font:600 12px/1 'Oswald';letter-spacing:2px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);transition:.22s}
-.topbtn:hover{transform:translateY(-2px);border-color:var(--red2);color:var(--red2);box-shadow:0 0 22px rgba(225,6,0,.25)}
-.hero{text-align:center;padding:66px 10px 46px}
-.hero span{display:block;color:var(--red2);font:400 16px/1 'Permanent Marker';letter-spacing:3px;transform:rotate(-2deg);text-shadow:0 0 10px rgba(225,6,0,.55)}
-.hero h1{margin-top:10px;font:400 clamp(58px,9vw,100px)/.86 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:2px;color:#f3f3ef;text-transform:uppercase;-webkit-text-stroke:1px #fff;text-shadow:3px 3px 0 #050505,6px 6px 0 rgba(225,6,0,.72),0 0 12px rgba(255,255,255,.32),0 0 34px rgba(225,6,0,.68)}
-.line{width:min(280px,70vw);height:3px;margin:18px auto;background:linear-gradient(90deg,transparent,var(--red),#fff,var(--red),transparent);box-shadow:0 0 14px rgba(225,6,0,.7)}
-.hero p{font:600 11px/1 'Oswald';letter-spacing:5px;color:#c8c8c8}
-.label{display:inline-block;margin-bottom:18px;padding:5px 12px;border-left:3px solid var(--red);background:rgba(225,6,0,.08);font:600 11px/1 'Oswald';letter-spacing:3px}
-.grid{display:grid;gap:30px}
-.card{position:relative;min-height:164px;display:flex;align-items:center;gap:24px;padding:24px;border:1px solid rgba(255,255,255,.25);border-left:5px solid var(--red);background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.38) 45%,rgba(0,0,0,.62)),linear-gradient(0deg,rgba(120,0,0,.18),rgba(0,0,0,.08)),url('assets/onepiece_style_reference.png') center/cover no-repeat;color:#fff;text-decoration:none;text-align:left;overflow:hidden;clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%);box-shadow:0 18px 50px rgba(0,0,0,.6),inset 0 0 30px rgba(225,6,0,.08);transition:.25s;isolation:isolate}
-.card:before{content:'';position:absolute;top:0;left:-35%;width:45%;height:2px;background:var(--red2);box-shadow:0 0 18px var(--red);transform:skewX(-35deg);transition:.4s}
-.card:after{content:'';position:absolute;right:18px;top:16px;width:8px;height:8px;background:var(--red);box-shadow:0 0 12px var(--red);transform:rotate(45deg);animation:pulse 1.5s infinite}
-.card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.55);border-left-color:var(--red2);box-shadow:0 0 30px rgba(225,6,0,.22),0 22px 55px rgba(0,0,0,.72)}
-.card:hover:before{left:90%}
-.icon{width:100px;height:100px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 25%,#3b3b3b,#101010 50%,#020202);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 0 1px rgba(225,6,0,.2),0 12px 35px rgba(0,0,0,.65),0 0 25px rgba(225,6,0,.15);font-size:46px;position:relative}
-.icon:after{content:'';position:absolute;inset:7px;border:1px solid rgba(225,6,0,.35);box-shadow:inset 0 0 15px rgba(225,6,0,.12)}
-.info{flex:1;min-width:0}
-.info h2{font:400 clamp(30px,4vw,48px)/.92 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:1px;color:#fff;text-shadow:2px 2px 0 #000,4px 4px 0 rgba(225,6,0,.55),0 0 16px rgba(225,6,0,.5)}
-.info .sub{margin:7px 0 8px;color:var(--red2);font:600 11px/1 'Oswald';letter-spacing:3px}
-.info p{margin-top:4px;color:#aaa;font:500 11px/1.4 'Oswald';letter-spacing:1.5px}
-.arrow{flex-shrink:0;color:#fff;font:400 44px/1 'Bebas Neue';text-shadow:0 0 12px rgba(225,6,0,.7);transition:.25s}
-.card:hover .arrow{color:var(--red2);transform:translateX(7px)}
-.back-row{margin-top:28px;text-align:center}
-@keyframes pulse{0%,100%{opacity:.5;box-shadow:0 0 7px var(--red)}50%{opacity:1;box-shadow:0 0 20px var(--red)}}
-@media(max-width:650px){
-.wrap{padding:15px 13px 70px}.topbtn{padding:0 11px;font-size:10px}.hero{padding:46px 5px 34px}.hero span{font-size:13px}.hero h1{font-size:62px;letter-spacing:3px}.hero p{font-size:9px;letter-spacing:3px}.grid{gap:30px}.card{min-height:132px;padding:17px;gap:15px}.icon{width:72px;height:72px;font-size:34px}.info h2{font-size:28px}.info p{font-size:9px}.arrow{font-size:32px}
-}
-</style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Permanent+Marker&family=Pirata+One&display=swap');
+
+        :root{
+            --red:#e10600;
+            --red2:#ff2424;
+            --white:#f5f5f2;
+            --gray:#a8a8a8;
+            --black:#030303
+        }
+
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+            -webkit-tap-highlight-color:transparent
+        }
+
+        html,body{
+            min-height:100%;
+            background:#000
+        }
+
+        body{
+            min-height:100vh;
+            overflow-x:hidden;
+            color:var(--white);
+            font-family:'Oswald',Arial,sans-serif
+        }
+
+        /* FULL BRIGHT BACKGROUND */
+        .page-wallpaper{
+            position:fixed;
+            inset:0;
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            z-index:0;
+            filter:none
+        }
+
+        /* NO DARK OVERLAY */
+        .page-overlay{
+            position:fixed;
+            inset:0;
+            z-index:1;
+            pointer-events:none;
+            background:transparent
+        }
+
+        .wrap{
+            position:relative;
+            z-index:2;
+            width:min(100%,1050px);
+            min-height:100vh;
+            margin:auto;
+            padding:24px 24px 80px
+        }
+
+        .topbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:14px
+        }
+
+        .topbtn{
+            min-height:44px;
+            padding:0 17px;
+            border:1px solid rgba(255,255,255,.4);
+            border-left:3px solid var(--red);
+            background:rgba(0,0,0,.78);
+            color:#fff;
+            font:600 12px/1 'Oswald';
+            letter-spacing:2px;
+            cursor:pointer;
+            clip-path:polygon(
+                0 0,
+                calc(100% - 12px) 0,
+                100% 12px,
+                100% 100%,
+                0 100%
+            );
+            transition:.22s
+        }
+
+        .topbtn:hover{
+            transform:translateY(-2px);
+            border-color:var(--red2);
+            color:var(--red2);
+            box-shadow:0 0 22px rgba(225,6,0,.25)
+        }
+
+        .hero{
+            text-align:center;
+            padding:66px 10px 46px
+        }
+
+        .hero span{
+            display:block;
+            color:var(--red2);
+            font:400 16px/1 'Permanent Marker';
+            letter-spacing:3px;
+            transform:rotate(-2deg);
+            text-shadow:0 0 10px rgba(225,6,0,.55)
+        }
+
+        .hero h1{
+            margin-top:10px;
+            font:400 clamp(58px,9vw,100px)/.86 'Pirata One','Bebas Neue',Impact,sans-serif;
+            letter-spacing:2px;
+            color:#f3f3ef;
+            text-transform:uppercase;
+            -webkit-text-stroke:1px #fff;
+            text-shadow:
+                3px 3px 0 #050505,
+                6px 6px 0 rgba(225,6,0,.72),
+                0 0 12px rgba(255,255,255,.32),
+                0 0 34px rgba(225,6,0,.68)
+        }
+
+        .line{
+            width:min(280px,70vw);
+            height:3px;
+            margin:18px auto;
+            background:linear-gradient(
+                90deg,
+                transparent,
+                var(--red),
+                #fff,
+                var(--red),
+                transparent
+            );
+            box-shadow:0 0 14px rgba(225,6,0,.7)
+        }
+
+        .hero p{
+            font:600 11px/1 'Oswald';
+            letter-spacing:5px;
+            color:#c8c8c8
+        }
+
+        .label{
+            display:inline-block;
+            margin-bottom:18px;
+            padding:5px 12px;
+            border-left:3px solid var(--red);
+            background:rgba(225,6,0,.08);
+            font:600 11px/1 'Oswald';
+            letter-spacing:3px
+        }
+
+        .grid{
+            display:grid;
+            gap:30px
+        }
+
+        .card{
+            position:relative;
+            min-height:164px;
+            display:flex;
+            align-items:center;
+            gap:24px;
+            padding:24px;
+            border:1px solid rgba(255,255,255,.25);
+            border-left:5px solid var(--red);
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,.72),
+                    rgba(0,0,0,.38) 45%,
+                    rgba(0,0,0,.62)
+                ),
+                linear-gradient(
+                    0deg,
+                    rgba(120,0,0,.18),
+                    rgba(0,0,0,.08)
+                ),
+                url('assets/onepiece_style_reference.png') center/cover no-repeat;
+            color:#fff;
+            text-decoration:none;
+            text-align:left;
+            overflow:hidden;
+            clip-path:polygon(
+                0 0,
+                calc(100% - 24px) 0,
+                100% 24px,
+                100% 100%,
+                0 100%
+            );
+            box-shadow:
+                0 18px 50px rgba(0,0,0,.6),
+                inset 0 0 30px rgba(225,6,0,.08);
+            transition:.25s;
+            isolation:isolate
+        }
+
+        .card:before{
+            content:'';
+            position:absolute;
+            top:0;
+            left:-35%;
+            width:45%;
+            height:2px;
+            background:var(--red2);
+            box-shadow:0 0 18px var(--red);
+            transform:skewX(-35deg);
+            transition:.4s
+        }
+
+        .card:after{
+            content:'';
+            position:absolute;
+            right:18px;
+            top:16px;
+            width:8px;
+            height:8px;
+            background:var(--red);
+            box-shadow:0 0 12px var(--red);
+            transform:rotate(45deg);
+            animation:pulse 1.5s infinite
+        }
+
+        .card:hover{
+            transform:translateY(-6px);
+            border-color:rgba(255,255,255,.55);
+            border-left-color:var(--red2);
+            box-shadow:
+                0 0 30px rgba(225,6,0,.22),
+                0 22px 55px rgba(0,0,0,.72)
+        }
+
+        .card:hover:before{
+            left:90%
+        }
+
+        .icon{
+            width:100px;
+            height:100px;
+            flex-shrink:0;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:
+                radial-gradient(
+                    circle at 35% 25%,
+                    #3b3b3b,
+                    #101010 50%,
+                    #020202
+                );
+            border:1px solid rgba(255,255,255,.35);
+            box-shadow:
+                0 0 0 1px rgba(225,6,0,.2),
+                0 12px 35px rgba(0,0,0,.65),
+                0 0 25px rgba(225,6,0,.15);
+            font-size:46px;
+            position:relative
+        }
+
+        .icon:after{
+            content:'';
+            position:absolute;
+            inset:7px;
+            border:1px solid rgba(225,6,0,.35);
+            box-shadow:inset 0 0 15px rgba(225,6,0,.12)
+        }
+
+        .info{
+            flex:1;
+            min-width:0
+        }
+
+        .info h2{
+            font:400 clamp(30px,4vw,48px)/.92 'Pirata One','Bebas Neue',Impact,sans-serif;
+            letter-spacing:1px;
+            color:#fff;
+            text-shadow:
+                2px 2px 0 #000,
+                4px 4px 0 rgba(225,6,0,.55),
+                0 0 16px rgba(225,6,0,.5)
+        }
+
+        .info .sub{
+            margin:7px 0 8px;
+            color:var(--red2);
+            font:600 11px/1 'Oswald';
+            letter-spacing:3px
+        }
+
+        .info p{
+            margin-top:4px;
+            color:#aaa;
+            font:500 11px/1.4 'Oswald';
+            letter-spacing:1.5px
+        }
+
+        .arrow{
+            flex-shrink:0;
+            color:#fff;
+            font:400 44px/1 'Bebas Neue';
+            text-shadow:0 0 12px rgba(225,6,0,.7);
+            transition:.25s
+        }
+
+        .card:hover .arrow{
+            color:var(--red2);
+            transform:translateX(7px)
+        }
+
+        .back-row{
+            margin-top:28px;
+            text-align:center
+        }
+
+        @keyframes pulse{
+            0%,100%{
+                opacity:.5;
+                box-shadow:0 0 7px var(--red)
+            }
+
+            50%{
+                opacity:1;
+                box-shadow:0 0 20px var(--red)
+            }
+        }
+
+        @media(max-width:650px){
+
+            .wrap{
+                padding:15px 13px 70px
+            }
+
+            .topbtn{
+                padding:0 11px;
+                font-size:10px
+            }
+
+            .hero{
+                padding:46px 5px 34px
+            }
+
+            .hero span{
+                font-size:13px
+            }
+
+            .hero h1{
+                font-size:62px;
+                letter-spacing:3px
+            }
+
+            .hero p{
+                font-size:9px;
+                letter-spacing:3px
+            }
+
+            .grid{
+                gap:30px
+            }
+
+            .card{
+                min-height:132px;
+                padding:17px;
+                gap:15px
+            }
+
+            .icon{
+                width:72px;
+                height:72px;
+                font-size:34px
+            }
+
+            .info h2{
+                font-size:28px
+            }
+
+            .info p{
+                font-size:9px
+            }
+
+            .arrow{
+                font-size:32px
+            }
+        }
+    </style>
 </head>
+
 <body>
-<video class="page-wallpaper" autoplay muted loop playsinline preload="auto">
-<source src="assets/live_wallpaper_home.mp4" type="video/mp4">
+
+<video
+        class="page-wallpaper"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto">
+    <source src="assets/live_wallpaper_home.mp4" type="video/mp4">
 </video>
+
 <div class="page-overlay"></div>
 
 <main class="wrap">
-<header class="topbar">
-<button class="topbtn" onclick="location.href='home.html'">SELVA HQ</button>
-<button class="topbtn" onclick="location.href='app-center.html'">APP CENTER ↗</button>
-</header>
 
-<section class="hero">
-<span>SELVA // DIGITAL HQ</span>
-<h1>DREAMS NEVER END</h1>
-<div class="line"></div>
-<p>// ENTER THE WORLD OF SELVA</p>
-</section>
+    <header class="topbar">
+        <button
+                class="topbtn"
+                onclick="location.href='home.html'">
+            SELVA HQ
+        </button>
 
-<section>
-<div class="label">SELECT DESTINATION</div>
-<div class="grid">
-<a class="card" href="game-center.html">
-<div class="icon">🎮</div>
-<div class="info">
-<h2>GAME CENTER</h2>
-<div class="sub">SELVA</div>
-<p>ARCADE // GAMES // PLAY</p>
-<p>DOODLE JUMP • DINO RUNNER</p>
-</div>
-<div class="arrow">→</div>
-</a>
+        <button
+                class="topbtn"
+                onclick="location.href='app-center.html'">
+            APP CENTER ↗
+        </button>
+    </header>
 
-<a class="card" href="app-center.html">
-<div class="icon">◆</div>
-<div class="info">
-<h2>APP CENTER</h2>
-<div class="sub">SELVA</div>
-<p>APPS // TOOLS // PROJECTS</p>
-<p>ANDROID // DOWNLOADS</p>
-</div>
-<div class="arrow">→</div>
-</a>
-</div>
-</section>
+    <section class="hero">
+
+        <span>SELVA // DIGITAL HQ</span>
+
+        <h1>DREAMS NEVER END</h1>
+
+        <div class="line"></div>
+
+        <p>// ENTER THE WORLD OF SELVA</p>
+
+    </section>
+
+    <section>
+
+        <div class="label">
+            SELECT DESTINATION
+        </div>
+
+        <div class="grid">
+
+            <a class="card" href="game-center.html">
+
+                <div class="icon">🎮</div>
+
+                <div class="info">
+
+                    <h2>GAME CENTER</h2>
+
+                    <div class="sub">SELVA</div>
+
+                    <p>ARCADE // GAMES // PLAY</p>
+
+                    <p>DOODLE JUMP • DINO RUNNER</p>
+
+                </div>
+
+                <div class="arrow">→</div>
+
+            </a>
+
+            <a class="card" href="app-center.html">
+
+                <div class="icon">◆</div>
+
+                <div class="info">
+
+                    <h2>APP CENTER</h2>
+
+                    <div class="sub">SELVA</div>
+
+                    <p>APPS // TOOLS // PROJECTS</p>
+
+                    <p>ANDROID // DOWNLOADS</p>
+
+                </div>
+
+                <div class="arrow">→</div>
+
+            </a>
+
+        </div>
+
+    </section>
+
 </main>
+
 </body>
 </html>

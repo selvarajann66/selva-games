@@ -1,22 +1,685 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Permanent+Marker&family=Pirata+One&display=swap');
 
-:root{--red:#e10600;--red2:#ff2424;--white:#f5f5f2;--gray:#a8a8a8;--black:#030303;--panel:rgba(7,7,7,.82)}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{min-height:100%;background:#000}body{min-height:100vh;overflow-x:hidden;background:#000;color:var(--white);font-family:'Oswald',Arial,sans-serif}
-.app-center-background{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;pointer-events:none;filter:brightness(.48) saturate(.85) contrast(1.15)}
-.background-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.86),rgba(0,0,0,.35) 42%,rgba(0,0,0,.94)),radial-gradient(circle at 50% 25%,rgba(225,6,0,.20),transparent 38%),linear-gradient(115deg,transparent 48%,rgba(225,6,0,.08) 49%,transparent 51%)}
-.screen{position:relative;z-index:2;width:min(100%,1050px);min-height:100vh;margin:auto;padding:24px 24px 80px;display:none}.screen.active{display:block}
-.top-bar{display:flex;justify-content:space-between;align-items:center;gap:14px}.top-button{min-height:44px;padding:0 17px;border:1px solid rgba(255,255,255,.4);border-left:3px solid var(--red);border-radius:0;background:rgba(0,0,0,.78);color:#fff;font:600 12px/1 'Oswald',Arial;letter-spacing:2px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);box-shadow:0 0 18px rgba(225,6,0,.08);transition:.22s ease}.top-button:hover{transform:translateY(-2px);border-color:var(--red2);color:var(--red2);box-shadow:0 0 22px rgba(225,6,0,.25)}
-.page-header{text-align:center;padding:66px 10px 46px}.page-header>span{display:block;color:var(--red2);font:400 16px/1 'Permanent Marker',cursive;letter-spacing:3px;transform:rotate(-2deg);text-shadow:0 0 10px rgba(225,6,0,.55)}.page-header h1{margin-top:10px;font:400 clamp(58px,9vw,100px)/.86 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:2px;color:#f3f3ef;text-transform:uppercase;-webkit-text-stroke:1px #fff;text-shadow:3px 3px 0 #050505,6px 6px 0 rgba(225,6,0,.72),0 0 12px rgba(255,255,255,.32),0 0 34px rgba(225,6,0,.68)}.header-line{width:min(280px,70vw);height:3px;margin:18px auto;background:linear-gradient(90deg,transparent,var(--red),#fff,var(--red),transparent);box-shadow:0 0 14px rgba(225,6,0,.7)}.page-header p{font:600 11px/1 'Oswald',Arial;letter-spacing:5px;color:#c8c8c8}
-.app-list-section{width:100%}.section-label{display:inline-block;margin:0 0 18px;padding:5px 12px;border-left:3px solid var(--red);color:#fff;background:rgba(225,6,0,.08);font:600 11px/1 'Oswald',Arial;letter-spacing:3px}
-.app-list-section{display:grid;gap:24px}.app-list-card{position:relative;width:100%;min-height:164px;display:flex;align-items:center;gap:24px;padding:24px;border:1px solid rgba(255,255,255,.25);border-left:5px solid var(--red);border-radius:0;background:linear-gradient(110deg,rgba(3,3,3,.95),rgba(24,8,8,.72)),url('assets/onepiece_style_reference.png') center/cover;color:#fff;text-align:left;cursor:pointer;overflow:hidden;backdrop-filter:blur(12px);box-shadow:0 18px 50px rgba(0,0,0,.6),inset 0 0 30px rgba(225,6,0,.035);clip-path:polygon(0 0,calc(100% - 24px) 0,100% 24px,100% 100%,0 100%);transition:.25s ease}.app-list-card:before{content:'';position:absolute;top:0;left:-35%;width:45%;height:2px;background:var(--red2);box-shadow:0 0 18px var(--red);transform:skewX(-35deg);transition:.4s}.app-list-card:after{content:'';position:absolute;right:18px;top:16px;width:8px;height:8px;background:var(--red);box-shadow:0 0 12px var(--red);transform:rotate(45deg);animation:redPulse 1.8s infinite}.app-list-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.55);border-left-color:var(--red2);box-shadow:0 0 30px rgba(225,6,0,.18),0 22px 55px rgba(0,0,0,.65),inset 0 0 40px rgba(225,6,0,.06)}.app-list-card:hover:before{left:90%}
-.app-list-icon,.details-icon{flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:0;background:radial-gradient(circle at 35% 25%,#3b3b3b,#101010 50%,#020202);border:1px solid rgba(255,255,255,.35);box-shadow:0 0 0 1px rgba(225,6,0,.2),0 12px 35px rgba(0,0,0,.65),0 0 25px rgba(225,6,0,.15)}.app-list-icon{width:100px;height:100px;font-size:48px;position:relative}.app-list-icon:after,.details-icon:after{content:'';position:absolute;inset:7px;border:1px solid rgba(225,6,0,.35);box-shadow:inset 0 0 15px rgba(225,6,0,.12)}.app-list-info{flex:1;min-width:0}.app-list-info h2{font:400 clamp(30px,4vw,48px)/.92 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:1px;color:#fff;text-shadow:2px 2px 0 #000,4px 4px 0 rgba(225,6,0,.55),0 0 16px rgba(225,6,0,.5)}.verified{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font:700 11px/1 Arial;vertical-align:middle;box-shadow:0 0 12px rgba(225,6,0,.55)}.developer{margin:7px 0 8px;color:var(--red2);font:600 11px/1 'Oswald',Arial;letter-spacing:3px}.app-meta,.app-platform{margin-top:4px;color:#aaa;font:500 11px/1.4 'Oswald',Arial;letter-spacing:1.5px}.app-arrow{flex-shrink:0;color:#fff;font:400 44px/1 'Bebas Neue',Impact,sans-serif;text-shadow:0 0 12px rgba(225,6,0,.7);transition:.25s}.app-list-card:hover .app-arrow{color:var(--red2);transform:translateX(7px)}
-.details-container{width:min(100%,720px);margin:55px auto 0;text-align:center}.details-icon{width:150px;height:150px;margin:auto;position:relative;font-size:72px}.details-container h1{margin-top:28px;font:400 clamp(38px,6vw,64px)/.9 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:1px;text-shadow:2px 2px 0 #000,4px 4px 0 rgba(225,6,0,.55),0 0 18px rgba(225,6,0,.5)}.details-developer{margin-top:10px;color:var(--red2);font:600 12px/1 'Oswald',Arial;letter-spacing:4px}.details-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:22px}.details-tags span{padding:7px 12px;border:1px solid rgba(225,6,0,.55);border-radius:0;background:rgba(225,6,0,.07);color:#fff;font:600 10px/1 'Oswald',Arial;letter-spacing:2px}.details-version{margin-top:15px;color:#999;font-size:11px}
-.install-button{width:100%;height:62px;margin-top:28px;border:1px solid #fff;border-left:5px solid var(--red);border-radius:0;background:var(--red);color:#fff;font:600 15px/1 'Oswald',Arial;letter-spacing:4px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 17px) 0,100% 17px,100% 100%,0 100%);box-shadow:0 0 25px rgba(225,6,0,.28);transition:.2s}.install-button:hover{transform:translateY(-3px);background:var(--red2);box-shadow:0 0 35px rgba(225,6,0,.5)}
-.detail-card{display:flex;align-items:center;gap:20px;text-align:left;margin-top:22px;padding:22px;border:1px solid rgba(255,255,255,.2);border-left:3px solid var(--red);border-radius:0;background:rgba(5,5,5,.82);backdrop-filter:blur(12px)}.detail-card-icon{width:56px;height:56px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:0;background:rgba(225,6,0,.08);color:var(--red2);font-size:28px}.detail-card h3{font:600 11px/1 'Oswald',Arial;letter-spacing:2px;color:#fff}.detail-card strong{display:block;margin-top:4px;font:400 34px/1 'Bebas Neue',Impact,sans-serif}.detail-card p{color:#999;font-size:12px;line-height:1.5}.safe-card{border-left-color:#fff}
-.modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.88);backdrop-filter:blur(12px)}.modal.hidden{display:none}.modal-box{position:relative;width:min(100%,480px);padding:34px;border:1px solid rgba(255,255,255,.35);border-left:4px solid var(--red);border-radius:0;background:#070707;box-shadow:0 0 50px rgba(225,6,0,.18);clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);text-align:center}.modal-close{position:absolute;right:14px;top:14px;width:38px;height:38px;border:1px solid rgba(255,255,255,.3);border-radius:0;background:#111;color:#fff;font-size:23px;cursor:pointer}.modal-icon{width:80px;height:80px;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(225,6,0,.5);border-radius:0;background:#111;font-size:42px}.modal-box h2{font:400 34px/1 'Pirata One','Bebas Neue',Impact,sans-serif;letter-spacing:1px;text-shadow:3px 3px 0 #000,0 0 16px rgba(225,6,0,.45)}.modal-subtitle,.modal-text,.download-message{color:#aaa}.modal-subtitle{margin-top:8px}.modal-text{margin:22px 0;line-height:1.5}.download-button{width:100%;height:58px;border:1px solid #fff;border-left:4px solid var(--red);border-radius:0;background:var(--red);color:#fff;font:600 14px/1 'Oswald',Arial;letter-spacing:2px;cursor:pointer}
-@keyframes redPulse{0%,100%{opacity:.5;box-shadow:0 0 7px var(--red)}50%{opacity:1;box-shadow:0 0 20px var(--red)}}
-@media(max-width:650px){.screen{padding:15px 13px 70px}.top-button{padding:0 11px;font-size:10px}.page-header{padding:46px 5px 34px}.page-header>span{font-size:13px}.page-header h1{font-size:62px;letter-spacing:3px}.page-header p{font-size:9px;letter-spacing:3px}.app-list-section{gap:18px}.app-list-card{min-height:132px;padding:17px;gap:15px}.app-list-icon{width:72px;height:72px;font-size:34px}.app-list-info h2{font-size:28px}.app-meta,.app-platform{font-size:9px}.app-arrow{font-size:32px}.details-container{margin-top:35px}.details-icon{width:120px;height:120px;font-size:58px}.details-container h1{font-size:42px}.detail-card{padding:19px}.modal-box{padding:30px 20px}}
+:root{
+    --red:#e10600;
+    --red2:#ff2424;
+    --white:#f5f5f2;
+    --gray:#a8a8a8;
+    --black:#030303;
+    --panel:rgba(7,7,7,.82)
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent
+}
+
+html{
+    min-height:100%;
+    background:#000
+}
+
+body{
+    min-height:100vh;
+    overflow-x:hidden;
+    background:#000;
+    color:var(--white);
+    font-family:'Oswald',Arial,sans-serif
+}
+
+/* FULL BRIGHT APP CENTER BACKGROUND */
+.app-center-background{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:0;
+    pointer-events:none;
+    filter:none
+}
+
+/* NO DARK OVERLAY */
+.background-overlay{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:transparent
+}
+
+.screen{
+    position:relative;
+    z-index:2;
+    width:min(100%,1050px);
+    min-height:100vh;
+    margin:auto;
+    padding:24px 24px 80px;
+    display:none
+}
+
+.screen.active{
+    display:block
+}
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px
+}
+
+.top-button{
+    min-height:44px;
+    padding:0 17px;
+    border:1px solid rgba(255,255,255,.4);
+    border-left:3px solid var(--red);
+    border-radius:0;
+    background:rgba(0,0,0,.78);
+    color:#fff;
+    font:600 12px/1 'Oswald',Arial;
+    letter-spacing:2px;
+    cursor:pointer;
+    clip-path:polygon(
+        0 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% 100%,
+        0 100%
+    );
+    box-shadow:0 0 18px rgba(225,6,0,.08);
+    transition:.22s ease
+}
+
+.top-button:hover{
+    transform:translateY(-2px);
+    border-color:var(--red2);
+    color:var(--red2);
+    box-shadow:0 0 22px rgba(225,6,0,.25)
+}
+
+.page-header{
+    text-align:center;
+    padding:66px 10px 46px
+}
+
+.page-header>span{
+    display:block;
+    color:var(--red2);
+    font:400 16px/1 'Permanent Marker',cursive;
+    letter-spacing:3px;
+    transform:rotate(-2deg);
+    text-shadow:0 0 10px rgba(225,6,0,.55)
+}
+
+.page-header h1{
+    margin-top:10px;
+    font:400 clamp(58px,9vw,100px)/.86 'Pirata One','Bebas Neue',Impact,sans-serif;
+    letter-spacing:2px;
+    color:#f3f3ef;
+    text-transform:uppercase;
+    -webkit-text-stroke:1px #fff;
+    text-shadow:
+        3px 3px 0 #050505,
+        6px 6px 0 rgba(225,6,0,.72),
+        0 0 12px rgba(255,255,255,.32),
+        0 0 34px rgba(225,6,0,.68)
+}
+
+.header-line{
+    width:min(280px,70vw);
+    height:3px;
+    margin:18px auto;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        var(--red),
+        #fff,
+        var(--red),
+        transparent
+    );
+    box-shadow:0 0 14px rgba(225,6,0,.7)
+}
+
+.page-header p{
+    font:600 11px/1 'Oswald',Arial;
+    letter-spacing:5px;
+    color:#c8c8c8
+}
+
+.app-list-section{
+    width:100%
+}
+
+.section-label{
+    display:inline-block;
+    margin:0 0 18px;
+    padding:5px 12px;
+    border-left:3px solid var(--red);
+    color:#fff;
+    background:rgba(225,6,0,.08);
+    font:600 11px/1 'Oswald',Arial;
+    letter-spacing:3px
+}
+
+.app-list-section{
+    display:grid;
+    gap:24px
+}
+
+.app-list-card{
+    position:relative;
+    width:100%;
+    min-height:164px;
+    display:flex;
+    align-items:center;
+    gap:24px;
+    padding:24px;
+    border:1px solid rgba(255,255,255,.25);
+    border-left:5px solid var(--red);
+    border-radius:0;
+    background:
+        linear-gradient(
+            110deg,
+            rgba(3,3,3,.95),
+            rgba(24,8,8,.72)
+        ),
+        url('assets/onepiece_style_reference.png') center/cover;
+    color:#fff;
+    text-align:left;
+    cursor:pointer;
+    overflow:hidden;
+    backdrop-filter:blur(12px);
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.6),
+        inset 0 0 30px rgba(225,6,0,.035);
+    clip-path:polygon(
+        0 0,
+        calc(100% - 24px) 0,
+        100% 24px,
+        100% 100%,
+        0 100%
+    );
+    transition:.25s ease
+}
+
+.app-list-card:before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:-35%;
+    width:45%;
+    height:2px;
+    background:var(--red2);
+    box-shadow:0 0 18px var(--red);
+    transform:skewX(-35deg);
+    transition:.4s
+}
+
+.app-list-card:after{
+    content:'';
+    position:absolute;
+    right:18px;
+    top:16px;
+    width:8px;
+    height:8px;
+    background:var(--red);
+    box-shadow:0 0 12px var(--red);
+    transform:rotate(45deg);
+    animation:redPulse 1.8s infinite
+}
+
+.app-list-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(255,255,255,.55);
+    border-left-color:var(--red2);
+    box-shadow:
+        0 0 30px rgba(225,6,0,.18),
+        0 22px 55px rgba(0,0,0,.65),
+        inset 0 0 40px rgba(225,6,0,.06)
+}
+
+.app-list-card:hover:before{
+    left:90%
+}
+
+.app-list-icon,
+.details-icon{
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:0;
+    background:
+        radial-gradient(
+            circle at 35% 25%,
+            #3b3b3b,
+            #101010 50%,
+            #020202
+        );
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:
+        0 0 0 1px rgba(225,6,0,.2),
+        0 12px 35px rgba(0,0,0,.65),
+        0 0 25px rgba(225,6,0,.15)
+}
+
+.app-list-icon{
+    width:100px;
+    height:100px;
+    font-size:48px;
+    position:relative
+}
+
+.app-list-icon:after,
+.details-icon:after{
+    content:'';
+    position:absolute;
+    inset:7px;
+    border:1px solid rgba(225,6,0,.35);
+    box-shadow:inset 0 0 15px rgba(225,6,0,.12)
+}
+
+.app-list-info{
+    flex:1;
+    min-width:0
+}
+
+.app-list-info h2{
+    font:400 clamp(30px,4vw,48px)/.92 'Pirata One','Bebas Neue',Impact,sans-serif;
+    letter-spacing:1px;
+    color:#fff;
+    text-shadow:
+        2px 2px 0 #000,
+        4px 4px 0 rgba(225,6,0,.55),
+        0 0 16px rgba(225,6,0,.5)
+}
+
+.verified{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--red);
+    color:#fff;
+    font:700 11px/1 Arial;
+    vertical-align:middle;
+    box-shadow:0 0 12px rgba(225,6,0,.55)
+}
+
+.developer{
+    margin:7px 0 8px;
+    color:var(--red2);
+    font:600 11px/1 'Oswald',Arial;
+    letter-spacing:3px
+}
+
+.app-meta,
+.app-platform{
+    margin-top:4px;
+    color:#aaa;
+    font:500 11px/1.4 'Oswald',Arial;
+    letter-spacing:1.5px
+}
+
+.app-arrow{
+    flex-shrink:0;
+    color:#fff;
+    font:400 44px/1 'Bebas Neue',Impact,sans-serif;
+    text-shadow:0 0 12px rgba(225,6,0,.7);
+    transition:.25s
+}
+
+.app-list-card:hover .app-arrow{
+    color:var(--red2);
+    transform:translateX(7px)
+}
+
+.details-container{
+    width:min(100%,720px);
+    margin:55px auto 0;
+    text-align:center
+}
+
+.details-icon{
+    width:150px;
+    height:150px;
+    margin:auto;
+    position:relative;
+    font-size:72px
+}
+
+.details-container h1{
+    margin-top:28px;
+    font:400 clamp(38px,6vw,64px)/.9 'Pirata One','Bebas Neue',Impact,sans-serif;
+    letter-spacing:1px;
+    text-shadow:
+        2px 2px 0 #000,
+        4px 4px 0 rgba(225,6,0,.55),
+        0 0 18px rgba(225,6,0,.5)
+}
+
+.details-developer{
+    margin-top:10px;
+    color:var(--red2);
+    font:600 12px/1 'Oswald',Arial;
+    letter-spacing:4px
+}
+
+.details-tags{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:9px;
+    margin-top:22px
+}
+
+.details-tags span{
+    padding:7px 12px;
+    border:1px solid rgba(225,6,0,.55);
+    border-radius:0;
+    background:rgba(225,6,0,.07);
+    color:#fff;
+    font:600 10px/1 'Oswald',Arial;
+    letter-spacing:2px
+}
+
+.details-version{
+    margin-top:15px;
+    color:#999;
+    font-size:11px
+}
+
+.install-button{
+    width:100%;
+    height:62px;
+    margin-top:28px;
+    border:1px solid #fff;
+    border-left:5px solid var(--red);
+    border-radius:0;
+    background:var(--red);
+    color:#fff;
+    font:600 15px/1 'Oswald',Arial;
+    letter-spacing:4px;
+    cursor:pointer;
+    clip-path:polygon(
+        0 0,
+        calc(100% - 17px) 0,
+        100% 17px,
+        100% 100%,
+        0 100%
+    );
+    box-shadow:0 0 25px rgba(225,6,0,.28);
+    transition:.2s
+}
+
+.install-button:hover{
+    transform:translateY(-3px);
+    background:var(--red2);
+    box-shadow:0 0 35px rgba(225,6,0,.5)
+}
+
+.detail-card{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    text-align:left;
+    margin-top:22px;
+    padding:22px;
+    border:1px solid rgba(255,255,255,.2);
+    border-left:3px solid var(--red);
+    border-radius:0;
+    background:rgba(5,5,5,.82);
+    backdrop-filter:blur(12px)
+}
+
+.detail-card-icon{
+    width:56px;
+    height:56px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:0;
+    background:rgba(225,6,0,.08);
+    color:var(--red2);
+    font-size:28px
+}
+
+.detail-card h3{
+    font:600 11px/1 'Oswald',Arial;
+    letter-spacing:2px;
+    color:#fff
+}
+
+.detail-card strong{
+    display:block;
+    margin-top:4px;
+    font:400 34px/1 'Bebas Neue',Impact,sans-serif
+}
+
+.detail-card p{
+    color:#999;
+    font-size:12px;
+    line-height:1.5
+}
+
+.safe-card{
+    border-left-color:#fff
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(0,0,0,.88);
+    backdrop-filter:blur(12px)
+}
+
+.modal.hidden{
+    display:none
+}
+
+.modal-box{
+    position:relative;
+    width:min(100%,480px);
+    padding:34px;
+    border:1px solid rgba(255,255,255,.35);
+    border-left:4px solid var(--red);
+    border-radius:0;
+    background:#070707;
+    box-shadow:0 0 50px rgba(225,6,0,.18);
+    clip-path:polygon(
+        0 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% 100%,
+        0 100%
+    );
+    text-align:center
+}
+
+.modal-close{
+    position:absolute;
+    right:14px;
+    top:14px;
+    width:38px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.3);
+    border-radius:0;
+    background:#111;
+    color:#fff;
+    font-size:23px;
+    cursor:pointer
+}
+
+.modal-icon{
+    width:80px;
+    height:80px;
+    margin:0 auto 20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(225,6,0,.5);
+    border-radius:0;
+    background:#111;
+    font-size:42px
+}
+
+.modal-box h2{
+    font:400 34px/1 'Pirata One','Bebas Neue',Impact,sans-serif;
+    letter-spacing:1px;
+    text-shadow:
+        3px 3px 0 #000,
+        0 0 16px rgba(225,6,0,.45)
+}
+
+.modal-subtitle,
+.modal-text,
+.download-message{
+    color:#aaa
+}
+
+.modal-subtitle{
+    margin-top:8px
+}
+
+.modal-text{
+    margin:22px 0;
+    line-height:1.5
+}
+
+.download-button{
+    width:100%;
+    height:58px;
+    border:1px solid #fff;
+    border-left:4px solid var(--red);
+    border-radius:0;
+    background:var(--red);
+    color:#fff;
+    font:600 14px/1 'Oswald',Arial;
+    letter-spacing:2px;
+    cursor:pointer
+}
+
+@keyframes redPulse{
+
+    0%,100%{
+        opacity:.5;
+        box-shadow:0 0 7px var(--red)
+    }
+
+    50%{
+        opacity:1;
+        box-shadow:0 0 20px var(--red)
+    }
+}
 
 /* Anime poster atmosphere */
-.app-list-section{gap:30px}.app-list-card{isolation:isolate}.app-list-card:after{animation:redPulse 1.5s infinite}.app-list-card:hover{box-shadow:0 0 18px rgba(225,6,0,.28),0 0 55px rgba(225,6,0,.18),0 22px 55px rgba(0,0,0,.72)}
+.app-list-section{
+    gap:30px
+}
+
+.app-list-card{
+    isolation:isolate
+}
+
+.app-list-card:after{
+    animation:redPulse 1.5s infinite
+}
+
+.app-list-card:hover{
+    box-shadow:
+        0 0 18px rgba(225,6,0,.28),
+        0 0 55px rgba(225,6,0,.18),
+        0 22px 55px rgba(0,0,0,.72)
+}
+
+@media(max-width:650px){
+
+    .screen{
+        padding:15px 13px 70px
+    }
+
+    .top-button{
+        padding:0 11px;
+        font-size:10px
+    }
+
+    .page-header{
+        padding:46px 5px 34px
+    }
+
+    .page-header>span{
+        font-size:13px
+    }
+
+    .page-header h1{
+        font-size:62px;
+        letter-spacing:3px
+    }
+
+    .page-header p{
+        font-size:9px;
+        letter-spacing:3px
+    }
+
+    .app-list-section{
+        gap:18px
+    }
+
+    .app-list-card{
+        min-height:132px;
+        padding:17px;
+        gap:15px
+    }
+
+    .app-list-icon{
+        width:72px;
+        height:72px;
+        font-size:34px
+    }
+
+    .app-list-info h2{
+        font-size:28px
+    }
+
+    .app-meta,
+    .app-platform{
+        font-size:9px
+    }
+
+    .app-arrow{
+        font-size:32px
+    }
+
+    .details-container{
+        margin-top:35px
+    }
+
+    .details-icon{
+        width:120px;
+        height:120px;
+        font-size:58px
+    }
+
+    .details-container h1{
+        font-size:42px
+    }
+
+    .detail-card{
+        padding:19px
+    }
+
+    .modal-box{
+        padding:30px 20px
+    }
+}
